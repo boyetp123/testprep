@@ -276,21 +276,20 @@ var words = ["This", "is", "an", "example", "of", "text", "justification."] , L 
 // console.info( textJustification( words,L ) )
 
 if (!String.prototype.reverse){
-    // String.prototype.reverse = function(){
-    //     function reverse(str){
-    //         if (str.length > 1){
-    //             return reverse(str.substr(1)) +  str.substr(0,1) ;
-    //         } else return str;
-    //     }
-    //     return reverse(this);
-    // }
-
     String.prototype.reverse = function(){
         if (this.length > 1){
             // return String.prototype.reverse.call(this.substr(1)) +  this.substr(0,1) ;
             return this.substr(1).reverse() +  this.substr(0,1) ;
         } else return this;
     }
+}
+
+var generateArray = arraySize =>{
+    var out=[];
+    for(var i=0; i<arraySize; i++){
+        out.push( Math.random() * 1000 )
+    }
+    return out;
 }
 
 function palindrome(str){
@@ -449,7 +448,7 @@ var magicSquare = (input) =>{
 
 //  console.info('magicSquare',magicSquare('4 9 2\n3 5 7\n8 1 5'))
 
-var superReduceString = s=>{
+var superReduceString = (s)=>{
     var out = s;
     if (s && s.length > 1 ){
         var idx = 0;
@@ -616,10 +615,12 @@ var quickSortPartion = s =>{
 
     return quickSort(numbers,0,numbers.length - 1);
 }
+var iArr = generateArray(10000000);
 startTime = (new Date()).getTime();
-console.info('quickSortPartion', quickSortPartion([4, 3, 6, 2, 7, 8, 2, 5, 1,10,45,20,56,43,20,15]) )
+// console.info('quickSortPartion', quickSortPartion([4, 3, 6, 2, 7, 8, 2, 5, 1,10,45,20,56,43,20,15]) )
+quickSortPartion(iArr);
 endTime= (new Date()).getTime();
-console.info('quickSortPartion elapseTime', endTime - startTime);
+console.info('quickSortPartion elapseTime', endTime - startTime,' ms for ',iArr.length, ' rows');
 
 var mergeSortArray = n =>{
     var comparator = (a , b) =>{
@@ -657,10 +658,11 @@ var mergeSortArray = n =>{
 
     return mergeSort(n);
 }
-startTime = (new Date()).getTime();
-console.info('mergeSortArray', mergeSortArray([4, 3, 6, 2, 7, 8, 2, 5, 1,10,45,20,56,43,20,15]) )
-endTime= (new Date()).getTime();
-console.info('mergeSortArray elapseTime', endTime - startTime);
+// startTime = (new Date()).getTime();
+// // console.info('mergeSortArray', mergeSortArray([4, 3, 6, 2, 7, 8, 2, 5, 1,10,45,20,56,43,20,15]) )
+// mergeSortArray(iArr)
+// endTime= (new Date()).getTime();
+// console.info('mergeSortArray elapseTime', endTime - startTime,' ms for ',iArr.length, ' rows');
 
 
 var bubbleSort = (n) =>{
@@ -687,7 +689,95 @@ var bubbleSort = (n) =>{
     return doSort(n)
 }
 
+//startTime = (new Date()).getTime();
+// console.info('bubbleSort', bubbleSort([4, 3, 6, 2, 10,45,20,56,7, 8, 2, 5, 1,43,20,15]) )
+//bubbleSort(iArr)
+//endTime= (new Date()).getTime();
+//console.info('bubbleSort elapseTime', endTime - startTime);
+
+var heapSort = (arr) =>{
+
+    var arrayLength;
+
+    function buildHeap(input) {
+        arrayLength = input.length;
+
+        for (var i = Math.floor(arrayLength / 2); i >= 0; i -= 1) {
+            heapify(input, i);
+        }
+    }
+
+    function heapify(input, i) {
+        var left = 2 * i + 1;
+        var right = 2 * i + 2;
+        var largest = i;
+
+        if (left < arrayLength && input[left] > input[largest]) {
+            largest = left;
+        }
+
+        if (right < arrayLength && input[right] > input[largest]) {
+            largest = right;
+        }
+
+        if (largest != i) {
+            swap(input, i, largest);
+            heapify(input, largest);
+        }
+    }
+
+    function swap(input, index_A, index_B) {
+        var temp = input[index_A];
+
+        input[index_A] = input[index_B];
+        input[index_B] = temp;
+    }
+
+    function heapSort(input) {
+        buildHeap(input);
+
+        for (var i = input.length - 1; i > 0; i--) {
+            swap(input, 0, i);
+            arrayLength--;
+            heapify(input, 0);
+        }
+    }
+
+    return heapSort(arr);
+ 
+}
+
 startTime = (new Date()).getTime();
-console.info('bubbleSort', bubbleSort([4, 3, 6, 2, 10,45,20,56,7, 8, 2, 5, 1,43,20,15]) )
+// var example = [40, 10, 50, 24, 1, 2, 4, -10, 15, 7, 8, 5];
+heapSort(iArr)
 endTime= (new Date()).getTime();
-console.info('bubbleSort elapseTime', endTime - startTime);
+console.info('heapSort elapseTime', endTime - startTime,' ms for ',iArr.length, ' rows');
+
+
+var javascriptSort = arr =>{
+    return arr.sort((a,b)=>{
+        return a - b;
+    })
+}
+
+startTime = (new Date()).getTime();
+// console.info('javascriptSort', bubbleSort([4, 3, 6, 2, 10,45,20,56,7, 8, 2, 5, 1,43,20,15]) )
+javascriptSort(iArr)
+endTime= (new Date()).getTime();
+console.info('javascriptSort elapseTime', endTime - startTime,' ms for ',iArr.length, ' rows');
+
+
+
+
+var binaryTree = ()=>{
+
+    var Node = (value, left,right)=>{
+        this.value = value;
+        this.left = left;
+        this.right = right;
+    }
+
+
+
+
+}
