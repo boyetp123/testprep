@@ -6,7 +6,12 @@ var startTime, endTime;
 Trees (especially Binary Search Trees)
 Trees (especially Binary Search Trees) - again
 Big O Notation
+   is a way to measure algorithm scales as the amount of data involved increases
+   somethig like an array of 20 compare to when array element increases like 10,000 element array
+
+   is not only always a measure of speed but intead how well the algorithm scales 
     how the runtime scales to some input variable
+
 Hash Tables
 Object Oriented Design/System Design
 Algorithms: Breadth First Search/Depth First Search, Binary Search, Merge Sort and Quick Sort
@@ -54,20 +59,18 @@ function F(value, fn) {
 function getDuplicates(str){
     str = str.toLowerCase();
     var m = {};
-    for(var i =0;i<str.length;i++){
-        var s = str.charAt(i).trim();
-        m[ s ] = m[ s ] ? m[ s ] + 1 : 1;
-    }
+    var m = str.split('').reduce( (pv,v, idx)=>{
+        pv[ v ] = pv[ v ] ? pv[ v ] + 1 : 1;
+        return pv;
+    } ,{} );
     m = Object.keys(m).reduce(function(pv,cv,idx){
-        if (m[cv] > 1){
-            pv[cv] = m[cv];
-        }
+        if (m[cv] > 1) pv[cv] = m[cv];
         return pv; 
     },{});
-    console.info(m);
+    return m;
 } 
 
-// getDuplicates('Bay Area');
+console.info('getDuplicates',getDuplicates('Bay Area'));
 
 
 function reverse(s){
@@ -627,12 +630,12 @@ var quickSortPartion = s =>{
 
     return quickSort(numbers,0,numbers.length - 1);
 }
-var iArr = generateArray(10000000);
-startTime = (new Date()).getTime();
-// console.info('quickSortPartion', quickSortPartion([4, 3, 6, 2, 7, 8, 2, 5, 1,10,45,20,56,43,20,15]) )
-quickSortPartion(iArr);
-endTime= (new Date()).getTime();
-console.info('quickSortPartion elapseTime', endTime - startTime,' ms for ',iArr.length, ' rows');
+// var iArr = generateArray(10000000);
+// startTime = (new Date()).getTime();
+// // console.info('quickSortPartion', quickSortPartion([4, 3, 6, 2, 7, 8, 2, 5, 1,10,45,20,56,43,20,15]) )
+// quickSortPartion(iArr);
+// endTime= (new Date()).getTime();
+// console.info('quickSortPartion elapseTime', endTime - startTime,' ms for ',iArr.length, ' rows');
 
 var mergeSortArray = n =>{
     var comparator = (a , b) =>{
@@ -759,11 +762,11 @@ var heapSort = (arr) =>{
  
 }
 
-startTime = (new Date()).getTime();
-// var example = [40, 10, 50, 24, 1, 2, 4, -10, 15, 7, 8, 5];
-heapSort(iArr)
-endTime= (new Date()).getTime();
-console.info('heapSort elapseTime', endTime - startTime,' ms for ',iArr.length, ' rows');
+// startTime = (new Date()).getTime();
+// // var example = [40, 10, 50, 24, 1, 2, 4, -10, 15, 7, 8, 5];
+// heapSort(iArr)
+// endTime= (new Date()).getTime();
+// console.info('heapSort elapseTime', endTime - startTime,' ms for ',iArr.length, ' rows');
 
 
 var javascriptSort = arr =>{
@@ -772,11 +775,11 @@ var javascriptSort = arr =>{
     })
 }
 
-startTime = (new Date()).getTime();
-// console.info('javascriptSort', bubbleSort([4, 3, 6, 2, 10,45,20,56,7, 8, 2, 5, 1,43,20,15]) )
-javascriptSort(iArr)
-endTime= (new Date()).getTime();
-console.info('javascriptSort elapseTime', endTime - startTime,' ms for ',iArr.length, ' rows');
+// startTime = (new Date()).getTime();
+// // console.info('javascriptSort', bubbleSort([4, 3, 6, 2, 10,45,20,56,7, 8, 2, 5, 1,43,20,15]) )
+// javascriptSort(iArr)
+// endTime= (new Date()).getTime();
+// console.info('javascriptSort elapseTime', endTime - startTime,' ms for ',iArr.length, ' rows');
 
 
 var generateSeqArray = (start, end)=>{
@@ -813,12 +816,12 @@ var binarySeach = (arr, num)=>{
     return out;
 }
 
-var iArr =generateSeqArray(0,1000000)
-startTime = (new Date()).getTime();
-// var iArr = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
-var result = binarySeach(iArr,500000)
-endTime= (new Date()).getTime();
-console.info('binarySeach elapseTime', endTime - startTime,' ms for ',iArr.length, ' rows','result', result);
+// var iArr =generateSeqArray(0,1000000)
+// startTime = (new Date()).getTime();
+// // var iArr = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+// var result = binarySeach(iArr,500000)
+// endTime= (new Date()).getTime();
+// console.info('binarySeach elapseTime', endTime - startTime,' ms for ',iArr.length, ' rows','result', result);
 
 
 function decimalToBinary(num) {
@@ -834,9 +837,9 @@ var maxVal=0;
 iArr.forEach(v=>{
     maxVal = Math.max(maxVal,v);
 })
-endTime= (new Date()).getTime();
-console.info("getMax value of", iArr.length,'rows takes', endTime - startTime,'using loop');
-startTime = (new Date()).getTime();
-maxVal=Math.max.apply(null,iArr);
-endTime= (new Date()).getTime();
-console.info("getMax value of", iArr.length,'rows takes', endTime - startTime,'using max apply');
+// endTime= (new Date()).getTime();
+// console.info("getMax value of", iArr.length,'rows takes', endTime - startTime,'using loop');
+// startTime = (new Date()).getTime();
+// maxVal=Math.max.apply(null,iArr);
+// endTime= (new Date()).getTime();
+// console.info("getMax value of", iArr.length,'rows takes', endTime - startTime,'using max apply');
