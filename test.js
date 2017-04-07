@@ -6,11 +6,23 @@ var startTime, endTime;
 Trees (especially Binary Search Trees)
 Trees (especially Binary Search Trees) - again
 Big O Notation
+    how the runtime scales to some input variable
 Hash Tables
 Object Oriented Design/System Design
 Algorithms: Breadth First Search/Depth First Search, Binary Search, Merge Sort and Quick Sort
 
 */
+
+/*
+    Mortgage formula
+    M = P r(1 + r)pow(n)/ (( 1 + r )pow(n)) - 1
+M - > is your monthly payment.
+P - > is your principal.
+r - > is your monthly interest rate, calculated by dividing your annual interest rate by 12.
+n - > is your number of payments (the number of months you will be paying the loan)[6]
+
+*/
+
 
 // function test(){
 //     console.log('test')
@@ -767,17 +779,64 @@ endTime= (new Date()).getTime();
 console.info('javascriptSort elapseTime', endTime - startTime,' ms for ',iArr.length, ' rows');
 
 
-
-
-var binaryTree = ()=>{
-
-    var Node = (value, left,right)=>{
-        this.value = value;
-        this.left = left;
-        this.right = right;
+var generateSeqArray = (start, end)=>{
+    var out=[];
+    for(var i=start; i<= end; i++){
+        out.push(i);
     }
-
-
-
-
+    return out;
 }
+
+
+var binarySeach = (arr, num)=>{
+    num = num || 1;
+    var leftIdx = 0;
+    var rightIdx = arr.length - 1;
+    var midIdx = Math.floor( arr.length/2 );
+    var out=-1;
+    var loopCtr = 0;
+
+    while(leftIdx < rightIdx){
+        var val = arr[midIdx];
+        if ( val === num){
+            out = midIdx;
+            break;
+        } else if ( val > num ){
+            rightIdx = midIdx + 1
+        } else {
+            leftIdx = midIdx - 1;            
+        }
+        midIdx = Math.floor( (rightIdx + leftIdx) /2 );
+        loopCtr++;
+    }
+    console.info('binarySeach finish in ',loopCtr,'loops')
+    return out;
+}
+
+var iArr =generateSeqArray(0,1000000)
+startTime = (new Date()).getTime();
+// var iArr = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+var result = binarySeach(iArr,500000)
+endTime= (new Date()).getTime();
+console.info('binarySeach elapseTime', endTime - startTime,' ms for ',iArr.length, ' rows','result', result);
+
+
+function decimalToBinary(num) {
+  return (num >>> 0).toString(2);  
+}
+var dec=10;
+console.info("That decimal ",dec,"in binary is " + decimalToBinary(dec) );
+
+var iArr =generateArray(1000)
+
+startTime = (new Date()).getTime();
+var maxVal=0;
+iArr.forEach(v=>{
+    maxVal = Math.max(maxVal,v);
+})
+endTime= (new Date()).getTime();
+console.info("getMax value of", iArr.length,'rows takes', endTime - startTime,'using loop');
+startTime = (new Date()).getTime();
+maxVal=Math.max.apply(null,iArr);
+endTime= (new Date()).getTime();
+console.info("getMax value of", iArr.length,'rows takes', endTime - startTime,'using max apply');

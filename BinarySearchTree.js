@@ -271,10 +271,11 @@ binarySearchTree.printByLevel(); // => 5 \n 3 7 \n 2 4 6 8
 console.log('--- DFS inOrder');
 binarySearchTree.traverseDFS(function(node) { console.log(node.data); }, 'inOrder'); // => 2 3 4 5 6 7 8
 console.log('--- DFS preOrder');
+console.info('struct', binarySearchTree.root)
 binarySearchTree.traverseDFS(function(node) { console.log(node.data); }, 'preOrder'); // => 5 3 2 4 7 6 8
 console.log('--- DFS postOrder');
 binarySearchTree.traverseDFS(function(node) { console.log(node.data); }, 'postOrder'); // => 2 4 3 6 8 7 5
-console.info('struct', binarySearchTree.root)
+// console.info('struct', binarySearchTree.root)
 console.log('--- BFS');
 binarySearchTree.traverseBFS(function(node) { console.log(node.data); }); // => 5 3 7 2 4 6 8
 console.log('min is 2:', binarySearchTree.getMin()); // => 2
