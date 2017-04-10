@@ -655,8 +655,7 @@ var mergeSortArray = n =>{
         return merge(theArray1, theArray2);
     }
 
-    var merge = (theArray1, theArray2) =>{
-        
+    var merge = (theArray1, theArray2) =>{     
         var out = [];
         var max = Math.max(theArray1.length, theArray2.length);
         var ctr=0;
@@ -843,3 +842,138 @@ iArr.forEach(v=>{
 // maxVal=Math.max.apply(null,iArr);
 // endTime= (new Date()).getTime();
 // console.info("getMax value of", iArr.length,'rows takes', endTime - startTime,'using max apply');
+
+Array.prototype.reverseLoop = function(callBackfn){
+    var len = this.length -1;
+    // console.info('arguments',callBackfn)
+    var out=[];
+    for (var i=len; i > -1; i--){
+        out.push( callBackfn( this[i], i ) );
+    }
+    return out;
+}
+
+// setTimeout(function(){
+    var x=1;
+    var test = [1,2,3].reverseLoop(function(cv,idx,x){
+        return cv;
+    });
+    console.info('reverseLoop',test)
+// },100)
+
+function sparseArrays(input){
+    var inputs = input.split('\n');
+    
+    var noOfString = Number(inputs[0]);
+    var qPos = inputs.slice(1).reduce((pv,cv,idx)=>{
+        if ( isNaN(cv) ){
+            return pv + 0
+        } else {
+            return pv + idx + 3;
+        }
+    },-1);
+    var qStrings = inputs.slice(qPos);
+    var srcStrings = inputs.slice(1,qPos);
+
+    var out = qStrings.map((v,i)=>{
+        return srcStrings.filter((vv)=>{
+            return v === vv;
+        }).length;
+    });
+    return out.join('\n');
+    // return qPos + '; query=' + qStrings + ' ; src=' + srcStrings;
+}
+
+var ivar = '4\naba\nbaba\naba\nxzxb\n3\naba\nxzxb\nab'
+console.info('sparseArrays',sparseArrays(ivar))
+
+var pairs = (input) =>{
+    var inputs = input.split('\n');
+    var numbers = inputs[1].split(' ').map(Number);
+    // var numberMap=inputs[1].split(' ').reduce(function(pv,cv){
+    //     pv[cv] = cv;
+    //     return pv;
+    // },{})
+    var NK = inputs[0].split(' ').map(Number);
+    var N = NK[0];
+    var K = NK[1];
+    var numOfPairs = 0;
+    var prevNumbers={};
+    console.info('numbers',numbers)
+
+    numbers.forEach((cv,idx)=>{
+        var sum =  Math.abs(cv + K);
+        var diff =  Math.abs(cv - K);
+        
+        if ( (prevNumbers[ diff ])  ){
+            numOfPairs++
+        }
+        if (  ( prevNumbers[ sum ] ) ){
+            numOfPairs++
+        }
+        prevNumbers[cv] = cv;
+    });
+    return numOfPairs;
+}
+var iVar = '5 2\n1 5 3 4 2';
+console.info('pairs',pairs(iVar))
+
+
+var findValueInDeep = (arr,num) =>{
+    var out =false;
+    for(var i=0;i< arr.length; i++){
+        var v = arr[i];
+        if (Array.isArray(v) ){
+            out = findValueInDeep(v, num);
+            if (out) break;
+        } else if (v === num) {
+            out = true;
+            break;
+        }
+    }
+    return out;
+}
+console.info( 'findValueInDeep', findValueInDeep( [3,4,5,[11,14,15],6,10,[21,23,24],8,9], 10 ) );
+
+// get the diff of the hourhand and minute hand given a  time in string
+var clockAngle = (timeStr)=>{
+    var timeArr = timeStr.split(':').map(Number);
+    var hrDeg = ( timeArr[0] * 30 ) + timeArr[1] * ( 30 / 360)  ;
+    var minDeg = timeArr[1] * 6;
+    // console.info('hrdeg',hrDeg,'minDeg',minDeg,'timeArr',timeArr )
+    return Math.abs( hrDeg -  minDeg  )
+}
+
+console.info('clockAngle', clockAngle('07:15'))
+
+// return true if you can find of 2 numbers
+var findSum = (arr, num)=>{
+    var prevNums = {};
+    for(var i = 0; i < arr.length; i++){
+        if (prevNums[ Math.abs( arr[ i ] -  num )  + '' ] &&  arr[ i ] < num ) {
+            return true;
+        }
+        prevNums[ arr[ i ] ] = arr[ i ];
+    }
+    console.info(prevNums)
+    return false;
+}
+console.info( 'findSum', findSum([3,5,7,9,1,2,4,3], 10 ) )
+
+var findSums = (arr, num)=>{
+    var prevNums = {};
+    var numberOfSums=0;
+    // var numberMap = arr.reduce(function(pv,cv){
+    //     pv[cv +''] = cv;
+    //     return pv;
+    // },{})
+    for(var i = 0; i < arr.length; i++){
+        if (prevNums[ Math.abs( arr[ i ] -  num )  + '' ] && arr[ i ] < num) {
+            numberOfSums++;
+        }
+        prevNums[ arr[ i ] ] = arr[ i ];
+    }
+    console.info(prevNums)
+    return numberOfSums;
+}
+console.info( 'findSums', findSums([3,5,7,9,1,2,4,21], 6 ) )
