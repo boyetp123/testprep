@@ -581,6 +581,11 @@ var hackerLandRadioTransmitter = s =>{
 }
 
 // console.info( 'hackerLandRadioTransmitter',hackerLandRadioTransmitter('7 1\n1 2 3 4 5 6 7') );
+var swap = (theArray,idx1,idx2)=>{
+    var tmp = theArray[idx1];
+    theArray[idx1] = theArray[idx2];
+    theArray[idx2] = tmp;
+}
 
 var quickSortPartion = s =>{
     var numbers = s;
@@ -593,11 +598,6 @@ var quickSortPartion = s =>{
         return leftVal - rightVal;
     }
 
-    var swap = (theArray,idx1,idx2)=>{
-        var tmp = theArray[idx1];
-        theArray[idx1] = theArray[idx2];
-        theArray[idx2] = tmp;
-    }
 // Lomuto partition scheme
     var partition = (theArray, left, right)=>{
         var pivotVal = theArray[right];
@@ -963,17 +963,32 @@ console.info( 'findSum', findSum([3,5,7,9,1,2,4,3], 10 ) )
 var findSums = (arr, num)=>{
     var prevNums = {};
     var numberOfSums=0;
-    // var numberMap = arr.reduce(function(pv,cv){
-    //     pv[cv +''] = cv;
-    //     return pv;
-    // },{})
-    for(var i = 0; i < arr.length; i++){
-        if (prevNums[ Math.abs( arr[ i ] -  num )  + '' ] && arr[ i ] < num) {
+    arr.forEach((v, i)=>{
+        if (prevNums[ Math.abs( v -  num )  + '' ] && v < num) {
             numberOfSums++;
         }
-        prevNums[ arr[ i ] ] = arr[ i ];
-    }
+        prevNums[ v ] = v;
+    });
     console.info(prevNums)
     return numberOfSums;
 }
 console.info( 'findSums', findSums([3,5,7,9,1,2,4,21], 6 ) )
+
+// Print the minimum number of swaps that should be performed in order to make the array beautiful.
+// An array is beautiful if the sum of  among  is minimal possible (after, possibly, performing some swaps).
+var lilysHomework = (arr)=>{
+    console.info('orignal arry', arr)
+    var arrLen = arr.length;
+    var ctr=0;
+    for (var i = 0; i < arrLen; i++){
+        if (i < arrLen){
+            if (arr[i] > arr[i + 1]){
+                swap( arr, i, i + 1);
+                ctr++;
+            }
+        }        
+    }
+    return {newArr: arr,'count':ctr}
+}
+
+console.info( 'lilysHomework', lilysHomework([2, 5, 3, 1] ) ) // correc answer 2
