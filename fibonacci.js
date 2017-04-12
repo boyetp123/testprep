@@ -1,31 +1,76 @@
 var startTime, endTime;
-var fibNumber = 100;
+var fibNumber = 500;
 
 console.info('fibonacci input ',fibNumber )
 
-function fibonacci(input){
-  var cache = {};
+// function fibonacci(input){
+//   var cache = {};
+//   function fib1(n) {
+//     var f1,f2;
+//     if (n <= 1){
+//       return n;      
+//     } else {
+//       f1 = cache[ n-1 ] || fib1( n-1 );
+//       f2 = cache[ n-2 ] || fib1( n - 2 );
+//       cache[ n - 1 ] = f1;
+//       cache[ n - 2 ] = f2;
+//       return f1 + f2;
+//     }
+//   }
+//   return fib1(input)
+// }
 
-  function fib1(n) {
-    var f1,f2;
+// function fibonacci(input){
+//   var cache = {};
+//   function fib1(n) {
+//     var f1,f2;
+//     if (n <= 1){
+//       return n;    
+//     } else if (cache[ n ]){
+//       return cache[ n ];
+//     } else {
+//       cache[ n-1 ] = fib1( n-1 );
+//       cache[ n-2 ] = fib1( n - 2 );
+//       return cache[ n-1 ] + cache[ n-2 ];
+//     }
+//   }
+//   return fib1(input)
+// }
 
-    if (n <= 1){
-      return n;      
-    } else {
-      f1 = cache[ n-1 ] || fib1( n-1 );
-      f2 = cache[ n-2 ] || fib1( n - 2 );
-      cache[ n - 1 ] = f1;
-      cache[ n - 2 ] = f2;
-      return f1 + f2;
+// function fibonacci(input){
+//   var cache = {};
+//   function fib1(n) {
+//     if (n <= 2){
+//       return n;    
+//     } else if (cache[ n ]){
+//       return cache[ n ];
+//     } else {
+//       cache[ n ] = fib1( n-1 ) + fib1( n - 2 );
+//       return cache[ n ];
+//     }
+//   }
+//   return fib1(input)
+// }
+
+function fibonacci(n){
+    var fib={};
+    var f=0;
+    for(var i = 0; i <= n ; i++){
+        if (i <= 2) {
+            f=1;
+        }else{
+            f = fib[ i - 1 ] + fib[ i - 2 ];
+        } 
+        fib [ i ] = f;
     }
-  }
-  return fib1(input)
+    return fib[ n ]
 }
+
 
 startTime = (new Date()).getTime();
 console.info('fibonacci',fibonacci( fibNumber ));
 endTime= (new Date()).getTime();
-console.info('fibonacci elapseTime', endTime - startTime);
+console.info('fibonacci elapseTime', (endTime - startTime)  );
 
 
 

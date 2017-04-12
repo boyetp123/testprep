@@ -992,3 +992,4 @@ var lilysHomework = (arr)=>{
 }
 
 console.info( 'lilysHomework', lilysHomework([2, 5, 3, 1] ) ) // correc answer 2
+
