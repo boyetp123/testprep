@@ -36,6 +36,56 @@ function BinaryTree(){
         }
     }
 
+    that.findMin = node =>{
+        node = node || that.root;
+        
+        while(node.left){
+            node = node.left;
+        }
+        return node.data;
+    }
+
+    that.findMax = node =>{
+        node = node || that.root;
+        
+        while(node.right){
+            node = node.right;
+        }
+        return node.data;
+    }
+
+
+    that.delete = data => {
+
+        function deleteNode(node, data){
+            if (!node) return null;
+
+            if (data === node.data){
+                if (!node.left && !node.right){ // if this is a leaf
+                    return null;
+                }
+                if (!node.left){ 
+                    return node.right;
+                }
+                if (!node.right){ 
+                    return node.left;
+                }                
+                // if node has 2 children
+                let tmpNode = that.findMin( node.right );
+                node.data = tmpNode;
+                node.right = that.deleteNode( node.right );
+                return node;
+            } else if ( data < node.data){
+                node.left = deleteNode(node.left, data)
+                return node;
+            } else {
+                node.right = deleteNode(node.right, data)
+                return node;
+            }
+        }
+        this.root = deleteNode(this.root, data);
+    }
+
     return that;
 }
 
