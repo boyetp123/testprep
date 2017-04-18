@@ -151,7 +151,8 @@ function removeRepeat(str){
 }
 
 function pad (l, s) {
-    return (new Array(l + 1)).join(s || ' ');
+    // return (new Array(l + 1)).join(s || ' ');
+    return (new Array(l )).fill(s || ' ');
 }
 
 function lpad(numStr,len, strToPad){
@@ -188,10 +189,10 @@ function timeConversion(ampmInput){
     return  lpad(outHr,2,'0') + ':' + inArr[1] + ':' + ( inArr[2].replace('AM','').replace('PM','')  );
 
 }
-// console.info( timeConversion ('7:05:45AM'));
-// console.info( timeConversion ('11:45:54AM'))
-// console.info( timeConversion ('12:45:54PM'))
-// console.info( timeConversion ('12:00:00AM'))
+console.info( 'timeConversion', timeConversion ('7:05:45AM'));
+// console.info('timeConversion',  timeConversion ('11:45:54AM'))
+// console.info('timeConversion',  timeConversion ('12:45:54PM'))
+// console.info('timeConversion',  timeConversion ('12:00:00AM'))
 
 function bigSum(arr){
     var sum = 0;
