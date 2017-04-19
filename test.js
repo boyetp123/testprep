@@ -994,7 +994,6 @@ var lilysHomework = (arr)=>{
 
 console.info( 'lilysHomework', lilysHomework([2, 5, 3, 1] ) ) // correc answer 2
 
-
 var standardDeviation = arr =>{
     let average = arr.reduce( (p,v)=>  p + v ,0) / arr.length;
     let differences = arr.map(v => v - average);
@@ -1002,7 +1001,6 @@ var standardDeviation = arr =>{
     // console.info('standardDeviation average', average)
     // console.info('standardDeviation differences', differences)
     // console.info('standardDeviation variance', variance)
-    
     return variance;
 }
 console.info( 'standardDeviation', standardDeviation([2, 5, 3, 1, 7, 9] ) ) // correc answer 2
