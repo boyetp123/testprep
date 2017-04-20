@@ -1080,3 +1080,19 @@ var urlify = s =>{
     return s.replace(/\s/g,'%20');
 }
 console.info('urlify', urlify( 'jack in the box' ))
+
+var stringCompression = s =>{
+    var out=[];
+    var map={};
+    s.split('').forEach(v=>{
+        if (!map[v]){
+            var count = (s.match( new RegExp(v,'g') ) || []).length;
+            map[v] = count;
+        }
+    });
+    return Object.keys(map).reduce( (p,v)=>{
+        return p + v + map[v];
+    } ,'')
+}
+
+console.info('stringCompression', stringCompression( 'aaabbbccdddddfffff' ));
