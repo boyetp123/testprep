@@ -1,6 +1,14 @@
 "use strict"
 
 var startTime, endTime;
+//  x.match(/[a-z]*\$/ig)
+// [ 'abc$' ]
+// > x.match(/[a-z]*\$[0-9]/ig)
+// [ 'abc$1' ]
+// > x.match(/[a-z]*\$[0-9]*/ig)
+// [ 'abc$1000' ]
+// > x.match(/[a-z]*\$[0-9]*[a-z]*/ig)
+// [ 'abc$1000defg' ]
 /*
 
 Trees (especially Binary Search Trees)
@@ -72,6 +80,21 @@ function getDuplicates(str){
 
 console.info('getDuplicates',getDuplicates('Bay Area'));
 
+function getDuplicates2(str){
+    var out={};
+    str.split('').forEach(v=>{
+        if (!out[v.toLowerCase() ]){
+            var count = str.match( (new RegExp(v,'ig')) || [] ).length;
+            if ( count > 1){
+                out[v.toLowerCase()] = count;
+            }
+        }
+    });
+    return out;
+}
+console.info('getDuplicates2',getDuplicates2('Bay Area'));
+
+
 
 function reverse(s){
     var sarr = [];
@@ -92,14 +115,14 @@ function reverse(s){
 function countZero(n){
   var count = 0;
   while(n>9){
-      console.info(n)
-   count += Math.floor(n/10);
-   n = n/10;
+    console.info(n)
+    count += Math.floor(n/10);
+    n = n/10;
   }
   return count;
 }
 
-// console.info(countZero(2014));
+console.info('countZero',countZero(2014));
 
 function reverseRecursive(s){
     s = s || '';
@@ -138,17 +161,28 @@ function camelCaseToSentence(str){
 // console.log(camelCaseToSentence('theQuickBrownFoxJumpOverTheLazyDog') )
 
 function removeRepeat(str){
-    let prevStr = '';
-    return str.replace(/[a-zA-Z]/g,(el,idx)=>{
-        if (prevStr === el){
-            return ''
-        } else {
-            prevStr = el;
+    var out = str;
+    str.split('').forEach( v => {
+        if (v !== ' '){
+            var rx = new RegExp(v,'g');
+            if ( (out.match( rx ) || []).length > 1  ){
+                out = out.replace(rx,'');
+            }
         }
-        return 
-    })
+    },{});
+    return out;
+    // let prevStr = '';
+    // return str.replace(/[a-zA-Z]/g,(el,idx)=>{
+    //     if (prevStr === el){
+    //         return ''
+    //     } else {
+    //         prevStr = el;
+    //     }
+    //     return prevStr;
+    // })
 // 'the quick brown fox jump over the lazy dog'.match(/^[a-z]/g)
 }
+console.info('removeRepeat',removeRepeat('the quick brown fox jump over the lazy dog'));
 
 function pad (l, s) {
     // return (new Array(l + 1)).join(s || ' ');
@@ -996,11 +1030,53 @@ console.info( 'lilysHomework', lilysHomework([2, 5, 3, 1] ) ) // correc answer 2
 
 var standardDeviation = arr =>{
     let average = arr.reduce( (p,v)=>  p + v ,0) / arr.length;
-    let differences = arr.map(v => v - average);
-    let variance = differences.reduce( (p,v)=> p + (v * v) ,0)/ arr.length
+    let differences = arr.map(v => Math.pow(v - average,2 ));
+    let diffTotal = differences.reduce( (p,v)=> p + v ,0) ;
+    // let variance = diffTotal / (arr.length - 1); // original
+    let variance = diffTotal / ((arr.length - 1) || 1); // bessel's correction
     // console.info('standardDeviation average', average)
     // console.info('standardDeviation differences', differences)
+    // console.info('standardDeviation diffTotal', diffTotal)    
     // console.info('standardDeviation variance', variance)
-    return variance;
+    return Math.sqrt(variance);
 }
-console.info( 'standardDeviation', standardDeviation([2, 5, 3, 1, 7, 9] ) ) // correc answer 2
+// console.info( 'standardDeviation', standardDeviation([2, 5, 3, 1, 7, 9] ) ) // correc answer 2
+// console.info( 'standardDeviation', standardDeviation([9, 2, 5, 4, 12, 7] ) ) // correc answer 
+console.info( 'standardDeviation', standardDeviation([ 9, 2, 5, 4, 12, 7, 8, 11, 9, 3, 7, 4, 12, 5, 4, 10, 9, 6, 9, 4 ] ) ) // correc answer 
+
+var moneyToNumber = s => {
+    return s.replace(/\$|\,/ig,'');
+}
+
+console.info('moneyToNumber', moneyToNumber('$10,000.00'));
+// return true if all letters in the string is unique
+var isUnique = s =>{
+    return s.split('').some(v=>(s.match( new RegExp(v) )||[]) > 1  )
+}
+
+console.info('isUnique', isUnique('abcdeaf'))
+
+// check permutaion of 2 string, if one permutation is the same as the other
+var checkPermutation = (s1, s2)=>{
+    return s1.split('').sort().join('') === s2.split('').sort().join('');
+}
+console.info('checkPermutation', checkPermutation('dog','god '))
+
+var isPrimeNumber = n =>{
+    if ( n < 2) return false;
+    if ( n === 2 || n === 3) return true;
+
+    for (var i = 2; i < n; i++){
+        if ( n % i === 0){
+            return false;
+        }
+    }
+    return true;
+}
+
+console.info('isPrimeNumber', isPrimeNumber( 101 ))
+
+var urlify = s =>{
+    return s.replace(/\s/g,'%20');
+}
+console.info('urlify', urlify( 'jack in the box' ))
