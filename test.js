@@ -1065,8 +1065,9 @@ console.info('checkPermutation', checkPermutation('dog','god '))
 var isPrimeNumber = n =>{
     if ( n < 2) return false;
     if ( n === 2 || n === 3) return true;
+    let sqrt = Math.floor( Math.sqrt(n) );
 
-    for (var i = 2; i < n; i++){
+    for (var i = 2; i < sqrt; i++){
         if ( n % i === 0){
             return false;
         }
@@ -1096,3 +1097,33 @@ var stringCompression = s =>{
 }
 
 console.info('stringCompression', stringCompression( 'aaabbbccdddddfffff' ));
+
+// var stringByWordPermutation = (s)=>{
+//     var permCount =[];
+//     var wordArr = s.split(' ');
+
+//     wordArr.forEach(word=>{
+//         var sarr = word.split('')
+//         var ctr=0;
+//         permCount.push(0);
+//         word.split('').forEach( (v,i)=>{
+//             var str2 = word.replace( new RegExp(v,'i'),'' );
+//             str2.split('').forEach((v1,i1)=>{
+//                 var str3 = str2.replace( new RegExp(v1,'i'),'' )
+//                 console.info('stringByWordPermutation', v + v1 + str3);
+//                 ctr++;
+//                 permCount[ permCount.length -1 ] = ctr;
+//             });
+//         });
+//     })
+//     return permCount;
+// }
+
+// console.info('stringByWordPermutation', stringByWordPermutation('abcd'));
+
+
+
+// wihout out duplicate aab  should only be ab,ba
+var stringPermCount = s =>{
+
+}

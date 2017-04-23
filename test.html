@@ -2,6 +2,7 @@
   <head>
     <title>test</title>   
     <script src="test.js"></script>
+    <link rel="stylesheet" href="animate.css" />
     <style>
       .color-box{
         border-radius: 5px;
@@ -86,15 +87,12 @@
         width:100px;
         height: 100px;
         border: 1px red dashed;
-        -webkit-transition: width 2s; /* Safari */
-        transition: width 2s;
-          transition-timing-function: ease;
-          -webkit-transition-timing-function: ease;
+        -webkit-transition: transform 2s ease 0s; /* Safari */
+        transition: transform 2s ease 0s;
         
       }
       .div-move:hover{
-        position:relative;
-        left:50px;
+        transform: translate(200px , 0px);
       }
     </style>
    
@@ -118,9 +116,13 @@
     <div class="div-grow3 div-grow">ease-in</div><br>
     <div class="div-grow4 div-grow">ease-out</div><br>
     <div class="div-grow5 div-grow">ease-in-out</div><br>
-    <div class="div-move">
-      move
-    </div><br>
+
+    <div class="div-move-container">
+      <div class="div-move">
+        move
+      </div>
+    </div>
+    <br>
 
   </body>
 
