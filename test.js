@@ -11,6 +11,9 @@ var startTime, endTime;
 // [ 'abc$1000defg' ]
 /*
 
+Number of permutation in 8 digit ode but only 2 posible values (0,1) 2 to the power of 8   Math.pow(2,8)
+for 3 digit but 10 posible is Math.pow(10,3)
+
 Trees (especially Binary Search Trees)
 Trees (especially Binary Search Trees) - again
 Big O Notation
@@ -1122,8 +1125,44 @@ console.info('stringCompression', stringCompression( 'aaabbbccdddddfffff' ));
 // console.info('stringByWordPermutation', stringByWordPermutation('abcd'));
 
 
-
-// wihout out duplicate aab  should only be ab,ba
 var stringPermCount = s =>{
-
+    var len = s.length;
+    var out = 1;
+    while(len >= 2){
+        // console.info('stringPermCount',out,len,len-1)
+        out *= len ;
+        len --;
+    }
+    return out;
 }
+
+console.info('stringPermCount', stringPermCount('abc'))
+
+
+  var permutations = s => {
+
+    var res =[];
+    var arr1 = s.split('');
+    function swap(arr2, i, j) {
+        var temp = arr2[i];
+        arr2[i] = arr2[j];
+        arr2[j] = temp;
+    }
+
+    function doProcess(arr, current) {
+        if (current >= arr.length) {
+            res.push(arr.join(''));  
+        } else {
+            for (var i = current; i < arr.length; i += 1) {
+                swap(arr, i, current);
+                doProcess(arr, current + 1);
+                swap(arr, i, current);
+            }
+        }
+    }
+    doProcess(arr1, 0);
+    return res;
+  };
+
+var tmp = permutations('abc')
+console.info('permutations',tmp.length, tmp)
