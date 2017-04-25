@@ -13,6 +13,7 @@ var startTime, endTime;
 
 Number of permutation in 8 digit ode but only 2 posible values (0,1) 2 to the power of 8   Math.pow(2,8)
 for 3 digit but 10 posible is Math.pow(10,3)
+for like Jai alai 3 digit but 9 posible is Math.pow(9,3)
 
 Trees (especially Binary Search Trees)
 Trees (especially Binary Search Trees) - again
@@ -96,8 +97,6 @@ function getDuplicates2(str){
     return out;
 }
 console.info('getDuplicates2',getDuplicates2('Bay Area'));
-
-
 
 function reverse(s){
     var sarr = [];
@@ -337,10 +336,18 @@ if (!String.prototype.reverse){
     }
 }
 
+// var generateArray = arraySize =>{
+//     var out=[];
+//     for(var i=0; i<arraySize; i++){
+//         out.push( Math.floor( Math.random() * (new Date()).getMilliseconds() ) );
+//     }
+//     return out;
+// }
+
 var generateArray = arraySize =>{
     var out=[];
     for(var i=0; i<arraySize; i++){
-        out.push( Math.random() * 1000 )
+        out.push( Math.floor( Math.random() * 1000 ));
     }
     return out;
 }
@@ -668,12 +675,12 @@ var quickSortPartion = s =>{
 
     return quickSort(numbers,0,numbers.length - 1);
 }
-// var iArr = generateArray(10000000);
-// startTime = (new Date()).getTime();
+var iArr = generateArray(10000);
+startTime = (new Date()).getTime();
 // // console.info('quickSortPartion', quickSortPartion([4, 3, 6, 2, 7, 8, 2, 5, 1,10,45,20,56,43,20,15]) )
-// quickSortPartion(iArr);
-// endTime= (new Date()).getTime();
-// console.info('quickSortPartion elapseTime', endTime - startTime,' ms for ',iArr.length, ' rows');
+quickSortPartion(iArr);
+endTime= (new Date()).getTime();
+console.info('quickSortPartion elapseTime', endTime - startTime,' ms for ',iArr.length, ' rows');
 
 var mergeSortArray = n =>{
     var comparator = (a , b) =>{
@@ -812,11 +819,11 @@ var javascriptSort = arr =>{
     })
 }
 
-// startTime = (new Date()).getTime();
+startTime = (new Date()).getTime();
 // // console.info('javascriptSort', bubbleSort([4, 3, 6, 2, 10,45,20,56,7, 8, 2, 5, 1,43,20,15]) )
-// javascriptSort(iArr)
-// endTime= (new Date()).getTime();
-// console.info('javascriptSort elapseTime', endTime - startTime,' ms for ',iArr.length, ' rows');
+javascriptSort(iArr)
+endTime= (new Date()).getTime();
+console.info('javascriptSort elapseTime', endTime - startTime,' ms for ',iArr.length, ' rows');
 
 
 var generateSeqArray = (start, end)=>{
@@ -1166,3 +1173,97 @@ console.info('stringPermCount', stringPermCount('abc'))
 
 var tmp = permutations('abc')
 console.info('permutations',tmp.length, tmp)
+
+var iArr = generateArray(10000)
+// console.info( 'arr unsorted', iArr)
+var numTofind = iArr[ Math.floor(iArr.length/2) ] - 1;
+
+startTime = (new Date()).getTime();
+var findClosestInArrayUnsorted = (arr, num) =>{
+    var min1 = null;
+    var idx = null;
+    var value=null;
+    arr.forEach( (v,i,arr)=>{
+        var v1 = Math.abs(v - num);
+        if (min1 === null || min1 > v1){
+            min1 = v1;
+            idx = i;
+            value=v;
+        }
+    });
+    return {value:value, idx: idx, loop:arr.length}
+}
+console.info('findClosestInArrayUnsorted find ' ,numTofind ,findClosestInArrayUnsorted(iArr, numTofind))
+endTime = (new Date()).getTime();
+console.info('findClosestInArrayUnsorted ',iArr.length,'rows', (endTime - startTime)/1000,'secs' )
+iArr = iArr.sort();
+
+// console.info( 'arr sorted', iArr)
+startTime = (new Date()).getTime();
+
+var findClosestInArraySorted = (arr,num) =>{
+    var leftIdx = 0;
+    var rightIdx = arr.length - 1;
+    var out=-1;
+    var loopCtr = 0;
+    var idx=0;
+    var minDiff=null;
+    var value=null;
+    var midIdx = Math.floor( (arr.length)/2 );
+
+    while(leftIdx < rightIdx){
+        var diff = Math.abs( arr[midIdx] - num );
+        // console.info('leftIdx',leftIdx,'rightIdx',rightIdx,'arr[midIdx]',arr[midIdx],'diff',diff,'midIdx',midIdx)
+
+        if (!minDiff || diff < minDiff){
+            idx = midIdx;
+            minDiff = diff;
+            value = arr[midIdx];
+        } else {
+            // console.info('break')
+            break;
+        }
+        if (arr[midIdx] < num){
+            // console.info(' diff < num ')
+            leftIdx = midIdx -1;           
+        } else if (arr[midIdx] >num){
+            // console.info(' diff > num ')
+            rightIdx = midIdx + 1;
+        }
+        midIdx = Math.floor( (rightIdx + leftIdx)/2 );
+        
+       loopCtr++;
+    }
+    return {value:value, idx:idx, loop:loopCtr}
+}
+
+console.info('findClosestInArraySorted find',numTofind ,findClosestInArraySorted(iArr, numTofind))
+endTime = (new Date()).getTime();
+console.info('findClosestInArraySorted ',iArr.length,'rows', (endTime - startTime)/1000, 'secs' )
+
+var oneWayEdit = function(s1, s2){
+    var s,s3;
+    if (s1.length > s2.length){
+        s = s1
+        s3 = s2;
+    } else {
+        s = s2;
+        s3 = s1;
+    }
+
+    let diffCount = s.split('').reduce( (p,v,i)=>{
+        // var rx = new RegExp(v,'g');
+        // var mat = s3.match( rx ) ;
+        if ( !(s3.match( new RegExp(v,'g') )) ){
+            p++;
+        }
+        return p;
+    },0);
+    return (diffCount < 2)
+}
+
+console.info('oneWayEdit pale, ple',oneWayEdit( 'pale', 'ple' ));
+console.info('oneWayEdit pales, pale',oneWayEdit( 'pales', 'pale' ));
+console.info('oneWayEdit pale, bale',oneWayEdit( 'pale', 'bale' ));
+console.info('oneWayEdit pale, bake',oneWayEdit( 'pale', 'bake' ));
+
