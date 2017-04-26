@@ -1242,7 +1242,7 @@ endTime = (new Date()).getTime();
 console.info('findClosestInArraySorted ',iArr.length,'rows', (endTime - startTime)/1000, 'secs' )
 
 var oneWayEdit = function(s1, s2){
-    var s,s3;
+    let s,s3;
     if (s1.length > s2.length){
         s = s1
         s3 = s2;
@@ -1267,3 +1267,30 @@ console.info('oneWayEdit pales, pale',oneWayEdit( 'pales', 'pale' ));
 console.info('oneWayEdit pale, bale',oneWayEdit( 'pale', 'bale' ));
 console.info('oneWayEdit pale, bake',oneWayEdit( 'pale', 'bake' ));
 
+var zeroMatrix = function(arr){
+    let marray = Array.from(arr);
+    let idxs = [];
+    let colIdx =-1;
+    marray.forEach( (arr, rowIdx ) =>{
+        colIdx = arr.indexOf( 0 );
+        if ( colIdx > -1){
+            idxs.push([ rowIdx, colIdx]);
+        }
+    })
+    if (idxs.length > 0){
+        idxs.forEach( (v,i)=>{
+            let rowIdx = v[0];
+            let colIdx = v[1];
+            marray.forEach( (varr,j)=>{
+                // console.info('zero', varr)
+                varr[colIdx] = 0;
+                if ( j === rowIdx){
+                    varr.fill(0);
+                }
+            })
+        })
+    }
+    return marray;
+}
+// 
+console.info('zeroMatrix',zeroMatrix([ [1,2,3],[4,5,6],[0,8,9]  ]))
