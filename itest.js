@@ -132,6 +132,23 @@ function transform2(endorsementsArry) {
 }
 
 
+function transform3(endorsementsArry) {
+  var mapIdx = {};  
+  return endorsementsArry.reduce( (p,v) => {
+      if ( !mapIdx[v.skill ] ){
+        p.push({skill:v.skill,users:[v.user],count:1});   
+       	mapIdx[v.skill] = p.length - 1;
+      } else {
+        var o = p[ mapIdx.skill ];
+        o.users.push( v.user );
+        o.count = o.users.length;
+      }
+     return p;
+  },[]); // map
+}
+
+
+
 var Foo = function( a ) { 
   this.a = a;
   this.bar = function() {   
