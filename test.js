@@ -1297,11 +1297,37 @@ console.info('zeroMatrix',zeroMatrix([ [1,2,3],[4,5,6],[0,8,9]  ]))
 
 var matrixRotation = (arr) =>{
     var newArr = Array.from(arr);    
-    var tmp = arr[0][ arr[0].length - 1];
     
+    let rotate = ()=> {
+        var len  = newArr.length;
+        var len2 = newArr[0].length;
+        var tmp  = newArr[0][ 0 ]; 
+        // left most
+        newArr.forEach((v,i)=>{
+            if ((i + 1) < newArr.length ){
+                v[ 0 ] = newArr[ i + 1 ][ 0 ];
+            }
+        });
+        // bottom
+        newArr[ len - 1].shift();
+        newArr[ len - 1].push( 0 ); // this is temp value, will be filled by the loop
+        // newArr[ len - 1].forEach((v,i, arrLast)=>{
+        //     if ((i + 1) < arrLast.length ){
+        //         arrLast [ i ] = arrLast [ i + 1];
+        //     }
+        // });
+        // right most
+        for (var i = len - 1; i > 0; i--){
+            newArr [ i ] [ len2 - 1 ] = newArr [ i - 1 ] [ len2 - 1 ]
+        }
+        // top or first row
+        newArr[ 0 ].splice(1,0,tmp);
+        newArr[ 0 ].pop();
 
-
+    }
+    rotate();
     return newArr;
 }
-
-console.info('zeroMatrix',zeroMatrix([ [1,2,3,4], [5,6,7,8], [9,10,11,12], [13,14,15,16] ]))
+var arr = [ [1,2,3,4], [5,6,7,8], [9,10,11,12], [13,14,15,16] ]
+console.info('matrixRotation orig',arr)
+console.info('matrixRotation',matrixRotation( arr ));
