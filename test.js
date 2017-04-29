@@ -1310,12 +1310,7 @@ var matrixRotation = (arr) =>{
         });
         // bottom
         newArr[ len - 1].shift();
-        newArr[ len - 1].push( 0 ); // this is temp value, will be filled by the loop
-        // newArr[ len - 1].forEach((v,i, arrLast)=>{
-        //     if ((i + 1) < arrLast.length ){
-        //         arrLast [ i ] = arrLast [ i + 1];
-        //     }
-        // });
+        newArr[ len - 1].push( 0 ); // this is temp value, will be filled by the next loop
         // right most
         for (var i = len - 1; i > 0; i--){
             newArr [ i ] [ len2 - 1 ] = newArr [ i - 1 ] [ len2 - 1 ]
