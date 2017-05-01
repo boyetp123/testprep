@@ -1395,7 +1395,7 @@ swap2VarWithNoOtherVariable();
 var obj ={
     name:'Louse',
     sayHello:()=>{
-        console.info('hello '+this.name)
+        return 'hello '+this.name;
     }
 }
 console.info('fat arrow', obj.sayHello());
