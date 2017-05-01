@@ -11,6 +11,22 @@ var startTime, endTime;
 // [ 'abc$1000defg' ]
 /*
 
+'waeaabb'.match(/(\w)\1+/g)  // return the successive letters
+RegExp
+
+\d	Any digit character
+\w	An alphanumeric character (“word character”)
+\s	Any whitespace character (space, tab, newline, and similar)
+\D	A character that is not a digit
+\W	A nonalphanumeric character
+\S	A nonwhitespace character
+.	Any character except for newline
+*/
+
+
+
+/*
+
 Number of permutation in 8 digit ode but only 2 posible values (0,1) 2 to the power of 8   Math.pow(2,8)
 for 3 digit but 10 posible is Math.pow(10,3)
 for like Jai alai 3 digit but 9 posible is Math.pow(9,3)
@@ -167,7 +183,7 @@ function removeRepeat(str){
     str.split('').forEach( v => {
         if (v !== ' '){
             var rx = new RegExp(v,'g');
-            if ( (out.match( rx ) || []).length > 1  ){
+            if ( out.match( rx )   ){
                 out = out.replace(rx,'');
             }
         }
@@ -262,7 +278,7 @@ function diagonalDiff(arr){
 }
 
 // console.info(diagonalDiff([ [ 11, 2, 4 ], [ 4, 5, 6 ], [ 10, 8, -12 ] ])  )
-
+// get the total length of all stringd, words inside a given array
 function getStrLengthInArray(arr){
     let len=0;
     arr.forEach( (val,idx)=>{
@@ -327,13 +343,17 @@ var words = ["This", "is", "an", "example", "of", "text", "justification."] , L 
 // var words = ["Two", "words."],  L = 9;
 // console.info( textJustification( words,L ) )
 
-if (!String.prototype.reverse){
-    String.prototype.reverse = function(){
-        if (this.length > 1){
-            // return String.prototype.reverse.call(this.substr(1)) +  this.substr(0,1) ;
-            return this.substr(1).reverse() +  this.substr(0,1) ;
-        } else return this;
-    }
+// String.prototype.reverse = String.prototype.reverse || function(){
+//     if (this.length > 1){
+//         return this.substr(1).reverse() +  this.substr(0,1) ;
+//     } else return this;
+// }
+
+// this is faster and better than the recursive
+String.prototype.reverse = String.prototype.reverse || function(){
+    if (this.length > 1){
+        return  this.split('').reverse();
+    } else return this;
 }
 
 // var generateArray = arraySize =>{
@@ -380,19 +400,28 @@ function miniMaxSum(arrInt){
             return (idx !== i ? pv + cv : pv );
         },0));
     });    
-            // console.info('temp',temp)
-    return [
-      Math.min.apply(null, temp),
-      Math.max.apply(null, temp)
-    ]
+    var min=0, max=0;
+    temp.forEach(v=>{
+        min = Math.min(v, min);
+        max = Math.max(v, max);
+    })
+    return [min, max];
+    // console.info('temp',temp)
+    // return [
+    //   Math.min.apply(null, temp),
+    //   Math.max.apply(null, temp)
+    // ]
 }
 
 // console.info('miniMaxSum',miniMaxSum([1,2,3,4,5]))
 
 function birthdayCandle(str){
     var numbers = str.split(' ');
-    numbers = numbers.map(Number)
-    var max = Math.max.apply(null,numbers);
+    var max = 0;
+    numbers = numbers.map(v=>{
+        max = Math.max(Number(v),max);
+        return Number(v);
+    })
     var counts = numbers.filter((v)=>{return v===max;});
     return counts;
 }
@@ -400,7 +429,7 @@ function birthdayCandle(str){
 //console.info( 'array',val , 'len',val.length)
 
 function gradingStudents(grades){
-    return grades.map((g)=>{
+    return grades.map(g=>{
         var r =(g % 10) % 5;
         if (  r > 2  ){
             return g + ( 5 - r);
@@ -508,7 +537,7 @@ var magicSquare = (input) =>{
 
 //  console.info('magicSquare',magicSquare('4 9 2\n3 5 7\n8 1 5'))
 
-var superReduceString = (s)=>{
+var superReduceString = s=>{
     var out = s;
     if (s && s.length > 1 ){
         var idx = 0;
@@ -931,14 +960,12 @@ function sparseArrays(input){
 
 var ivar = '4\naba\nbaba\naba\nxzxb\n3\naba\nxzxb\nab'
 console.info('sparseArrays',sparseArrays(ivar))
-
+/*
+Given N integers, count the number of pairs of integers whose difference is K
+*/
 var pairs = (input) =>{
     var inputs = input.split('\n');
     var numbers = inputs[1].split(' ').map(Number);
-    // var numberMap=inputs[1].split(' ').reduce(function(pv,cv){
-    //     pv[cv] = cv;
-    //     return pv;
-    // },{})
     var NK = inputs[0].split(' ').map(Number);
     var N = NK[0];
     var K = NK[1];
@@ -1326,3 +1353,56 @@ var matrixRotation = (arr) =>{
 var arr = [ [1,2,3,4], [5,6,7,8], [9,10,11,12], [13,14,15,16] ]
 console.info('matrixRotation orig',arr)
 console.info('matrixRotation',matrixRotation( arr ));
+
+function factorial(n){
+    if ( n < 0) return -1;
+    else if ( n === 0) return 1;
+    else return n * factorial( n - 1);
+}
+var factorialInput = 1000;
+startTime = (new Date()).getTime();
+console.info('factorial ', factorial(factorialInput))
+endTime = (new Date()).getTime();
+console.info('factorial ', factorialInput , (endTime - startTime)/1000,'secs' )
+
+
+function factorial2(n){
+    var out = 1;
+
+    for (var i = n; i > 0; i--){
+        out *= i;
+    }
+    return out;
+}
+startTime = (new Date()).getTime();
+console.info('factorial2 ', factorial2(factorialInput))
+endTime = (new Date()).getTime();
+console.info('factorial2 ', factorialInput , (endTime - startTime)/1000,'secs' )
+
+function swap2VarWithNoOtherVariable(){
+    var a = 1;
+    var b = 6;
+    a = a + b;
+    b = a - b;
+    a = a - b;
+    console.info('swap2VarWithNoOtherVariable a',a,'b',b)
+}
+
+swap2VarWithNoOtherVariable();
+
+// testing scope on fat arrow
+
+var obj ={
+    name:'Louse',
+    sayHello:()=>{
+        console.info('hello '+this.name)
+    }
+}
+console.info('fat arrow', obj.sayHello());
+window.addEventListener('DOMContentLoaded',function(evt){
+
+    document.querySelector('body').addEventListener('click',function(evt1){
+        console.info(obj.sayHello());
+    })
+
+});

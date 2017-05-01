@@ -1,0 +1,118 @@
+<html>
+    <head>
+        <style>
+        .main-container{
+            width:200px;
+            height:150px;
+            background-color: #E1E1E1;
+        }
+        .main-container .header{
+            text-align: center;
+        }
+        .main-container ul{
+            padding: 0;
+            margin: 0;
+            -webkit-padding-start: 0;
+        }
+        #drop-down{
+            position:absolute;
+            width: 80px;
+            height:30px;
+            border:dark-gray;
+            background-color:gray;
+            display:none;
+        }
+        #drop-down:hover{
+            background-color:blue;
+        }   
+        .icon-calendar{
+            margin:1px 3px;
+            width:2px;
+            height:2px;
+            background-color:red;
+        }
+        .icon-task{
+            margin:1px 3px;
+            width:2px;
+            height:2px;
+            background-color:blue;
+        }
+        .buttons-container{
+            display:flex;
+        }
+        .buttons-container button{
+            margin-right:5px;    
+            flex: 1;
+            background-color: #F7F7F7;
+        }
+        .body{
+            height: 300px;
+            background-color: inherit;
+        }
+        .body li{
+            display:flex;
+            margin-bottom: 15px;
+        }
+        .body li > label{
+            flex:1;
+        }
+        .body li > div{
+            flex:2;
+        }
+        .body li > label{
+            text-align: right;
+            padding-right: 5px;
+        }
+        .body li > div{
+            text-align: left;   
+            padding-left: 5px;        
+        }
+        </style>
+
+    </head>
+    <body>
+        <div class="main-container">
+            <div class="header">
+                J.Doe 
+            </div>
+            <div class="body">
+                <ul>
+                <li>
+                    <label for="location">location</label>
+                    <div id="location"> Room1 </div>
+                </li>
+                <li>
+                    <label for="invitees">invitees</label>
+                    <div id="invitees"> 
+                        <div>john</div>
+                        <div>paul</div>
+                        <div>ringo</div>
+                        <div>george</div>
+                    </div>
+                </li>
+                <li>
+                    <label for="calendar">calendar</label>
+                    <div id="calendar"> Room1 </div>
+                </li>
+                </ul>
+            </div>
+            <div class="buttons-container">
+                <button>Maybe</button>
+                <button>Decline</button>
+                <button>Accept</button>
+            </div>
+
+            <div id="drop-down">
+                <ul>
+                <li>
+                    <div class="icon-calendar">Calendar</div>
+                </li>
+                <li>
+                    <div class="icon-task">Task</div>
+                </li>
+                </ul>
+            </div>        
+        </div>
+
+    </body>
+</html>
