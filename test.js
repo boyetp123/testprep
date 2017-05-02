@@ -1392,17 +1392,43 @@ swap2VarWithNoOtherVariable();
 
 // testing scope on fat arrow
 
-var obj ={
-    name:'Louse',
-    sayHello:()=>{
-        return 'hello '+this.name;
+// var obj ={
+//     name:'Louse',
+//     sayHello:()=>{
+//         return 'hello '+this.name;
+//     }
+// }
+// console.info('fat arrow', obj.sayHello());
+// window.addEventListener('DOMContentLoaded',function(evt){
+
+//     document.querySelector('body').addEventListener('click',function(evt1){
+//         console.info(obj.sayHello());
+//     })
+// });
+
+function getStartFiscalMonth(fiscarStartMo, currentMo){
+    var mos = [];
+    for (var i = 0; i < 4; i++){
+        var val = fiscarStartMo + (3 * i);
+         val  = val > 12 ? val - 12 : val;
+         var end = val + 2;
+         end = end > 12  ? end - 12 : end;
+         mos.push({start: val, end: end});    
     }
+    // console.info(mos)
+    return mos.find ((v,i,arr)=>{
+        var flag = currentMo >= v.start || currentMo <= v.end
+        return flag;
+    }).start;    
 }
-console.info('fat arrow', obj.sayHello());
-window.addEventListener('DOMContentLoaded',function(evt){
+// 12 - 2, 3 - 5, 6 - 8, 9 - 11
+console.info('getStartFiscalMonth 12, 1', getStartFiscalMonth(12, 1));
+console.info('getStartFiscalMonth 12, 2', getStartFiscalMonth(12, 2));
+console.info('getStartFiscalMonth 12, 3', getStartFiscalMonth(12, 3));
+console.info('getStartFiscalMonth 12, 4', getStartFiscalMonth(12, 4));
+console.info('getStartFiscalMonth 12, 5', getStartFiscalMonth(12, 5));
+console.info('getStartFiscalMonth 12, 6', getStartFiscalMonth(12, 6));
+console.info('getStartFiscalMonth 12, 7', getStartFiscalMonth(12, 7));
 
-    document.querySelector('body').addEventListener('click',function(evt1){
-        console.info(obj.sayHello());
-    })
+// console.info('getStartFiscalMonth 12, 4', getStartFiscalMonth(10, 4));
 
-});
