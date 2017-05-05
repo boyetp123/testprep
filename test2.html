@@ -20,6 +20,8 @@
             height:30px;
             border:dark-gray;
             background-color:gray;
+        }
+        .dropdown-hide{
             display:none;
         }
         #drop-down:hover{
@@ -68,6 +70,17 @@
             padding-left: 5px;        
         }
         </style>
+        <script>
+            document.querySelector('.body').addEventListener('click',schedBodyClick,true);
+            var dropDown = document.querySelector('#drop-down');
+
+            function schedBodyClick(event){
+              var target = event.target;
+              if ( target.id === 'calendar'){
+                dropDown.classList.toggle('dropdown-hide');
+              }
+            }
+        </script>
 
     </head>
     <body>
@@ -93,6 +106,17 @@
                 <li>
                     <label for="calendar">calendar</label>
                     <div id="calendar"> Room1 </div>
+                    <div id="drop-down" class="dropdown-hide">
+                        <ul>
+                            <li>
+                                <div class="icon-calendar">Calendar</div>
+                            </li>
+                            <li>
+                                <div class="icon-task">Task</div>
+                            </li>
+                        </ul>
+                    </div>        
+                    
                 </li>
                 </ul>
             </div>
@@ -102,17 +126,7 @@
                 <button>Accept</button>
             </div>
 
-            <div id="drop-down">
-                <ul>
-                <li>
-                    <div class="icon-calendar">Calendar</div>
-                </li>
-                <li>
-                    <div class="icon-task">Task</div>
-                </li>
-                </ul>
-            </div>        
         </div>
-
     </body>
 </html>
+
