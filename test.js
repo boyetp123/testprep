@@ -1406,29 +1406,97 @@ swap2VarWithNoOtherVariable();
 //     })
 // });
 
-function getStartFiscalMonth(fiscarStartMo, currentMo){
-    var mos = [];
-    for (var i = 0; i < 4; i++){
-        var val = fiscarStartMo + (3 * i);
-         val  = val > 12 ? val - 12 : val;
-         var end = val + 2;
-         end = end > 12  ? end - 12 : end;
-         mos.push({start: val, end: end});    
+// function getStartFiscalMonth(fiscarStartMo, currentMo){
+//     var mos = [];
+//     for (var i = 0; i < 4; i++){
+//         var val = fiscarStartMo + (3 * i);
+//          val  = val > 12 ? val - 12 : val;
+//          var end = val + 2;
+//          end = end > 12  ? end - 12 : end;
+//          mos.push({start: val, end: end});    
+//     }
+//     // console.info(mos)
+//     return mos.find ((v,i,arr)=>{
+//         var flag = currentMo >= v.start || currentMo <= v.end
+//         return flag;
+//     }).start;    
+// }
+function getStartFiscalMonth(fiscalStartMo, currentMo){
+    if (fiscalStartMo > currentMo) currentMo+= 12;
+    var mo = fiscalStartMo;
+    for (var i = fiscalStartMo; i <= currentMo; i+=3){
+        mo = i;
     }
-    // console.info(mos)
-    return mos.find ((v,i,arr)=>{
-        var flag = currentMo >= v.start || currentMo <= v.end
-        return flag;
-    }).start;    
+    return mo > 12 ? mo - 12 : mo;
 }
+
 // 12 - 2, 3 - 5, 6 - 8, 9 - 11
-console.info('getStartFiscalMonth 12, 1', getStartFiscalMonth(12, 1));
-console.info('getStartFiscalMonth 12, 2', getStartFiscalMonth(12, 2));
-console.info('getStartFiscalMonth 12, 3', getStartFiscalMonth(12, 3));
-console.info('getStartFiscalMonth 12, 4', getStartFiscalMonth(12, 4));
-console.info('getStartFiscalMonth 12, 5', getStartFiscalMonth(12, 5));
-console.info('getStartFiscalMonth 12, 6', getStartFiscalMonth(12, 6));
-console.info('getStartFiscalMonth 12, 7', getStartFiscalMonth(12, 7));
+// console.info('getStartFiscalMonth 12, 1', getStartFiscalMonth(12, 1));
+// console.info('getStartFiscalMonth 12, 2', getStartFiscalMonth(12, 2));
+// console.info('getStartFiscalMonth 12, 3', getStartFiscalMonth(12, 3));
+// console.info('getStartFiscalMonth 12, 4', getStartFiscalMonth(12, 4));
+// console.info('getStartFiscalMonth 12, 5', getStartFiscalMonth(12, 5));
+// console.info('getStartFiscalMonth 12, 6', getStartFiscalMonth(12, 6));
+// console.info('getStartFiscalMonth 12, 7', getStartFiscalMonth(12, 7));
 
 // console.info('getStartFiscalMonth 12, 4', getStartFiscalMonth(10, 4));
 
+function towerOfHanoi(){
+    function tower(n, src, dest, aux){
+        if (n === 0) return;
+
+        tower(n - 1, src, aux, dest);
+
+        tower(n-1, aux, src, dest)
+
+    }
+
+    tower(3,'A','C','B')
+}
+
+
+function integerDivideWithoutDivide(a, b) {
+  if (b === 0) {
+    throw 'Division by zero is undefined: ' + a + '/' + b;
+  }
+  var sign = 1;
+  if (a < 0) {
+    a = -a;
+    sign = -sign;
+  }
+  if (b < 0) {
+    b = -b;
+    sign = -sign;
+  }
+  var result = 0;
+  while (a >= 0) {
+    a -= b;
+    result++;
+    console.info(`a=${a} b=${b} result=${result}`)
+  }
+  return (result - 1) * sign;
+}
+
+console.info('integerDivideWithoutDivide 12 / 4 = 3', integerDivideWithoutDivide(12, 4));
+
+function balancedBrackets(str){
+    var m = str.match(/\{|\[|\(/g)||[];
+    var m2 = str.match(/\}|\]|\)/g)||[];
+
+    if ( m.length !== m2.length ) return 'NO'
+
+    var map ={
+        '{':'}',
+        '[':']',
+        '(':')'
+    };
+    for (var i=m.length-1; i > -1; i--){
+        var closeBracket = m2.shift();
+        var openBracket = m[i]
+        if (map[ openBracket ] !== closeBracket)  return 'NO'
+    }
+    // console.info('balancedBrackets match',m)
+    return 'YES';
+}
+
+console.info('balancedBrackets',balancedBrackets('{[())}'))
