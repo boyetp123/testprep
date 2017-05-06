@@ -1,132 +1,205 @@
 <html>
     <head>
         <style>
-        .main-container{
+        .scheduler .main-container{
             width:200px;
             height:150px;
             background-color: #E1E1E1;
         }
-        .main-container .header{
+        .scheduler .main-container .header{
             text-align: center;
         }
-        .main-container ul{
+        .scheduler .main-container ul{
             padding: 0;
             margin: 0;
             -webkit-padding-start: 0;
         }
-        #drop-down{
-            position:absolute;
-            width: 80px;
-            height:30px;
-            border:dark-gray;
-            background-color:gray;
-        }
-        .dropdown-hide{
-            display:none;
-        }
-        #drop-down:hover{
-            background-color:blue;
-        }   
-        .icon-calendar{
-            margin:1px 3px;
-            width:2px;
-            height:2px;
-            background-color:red;
-        }
-        .icon-task{
-            margin:1px 3px;
-            width:2px;
-            height:2px;
-            background-color:blue;
-        }
-        .buttons-container{
+
+        .scheduler .buttons-container{
             display:flex;
         }
-        .buttons-container button{
+        .scheduler .buttons-container button{
             margin-right:5px;    
             flex: 1;
             background-color: #F7F7F7;
         }
-        .body{
+        .scheduler .body{
             height: 300px;
             background-color: inherit;
         }
-        .body li{
+        .scheduler .body li{
             display:flex;
             margin-bottom: 15px;
         }
-        .body li > label{
+        .scheduler .body li > .list-label{
             flex:1;
         }
-        .body li > div{
+        .scheduler .body li > .list-desc{
             flex:2;
         }
-        .body li > label{
+        .scheduler .body li > label{
             text-align: right;
             padding-right: 5px;
         }
-        .body li > div{
+        .scheduler .body li > div{
             text-align: left;   
             padding-left: 5px;        
         }
+        .scheduler #drop-down{
+            position:absolute;
+            width: 80px;
+            height:40px;
+            border:dark-gray;
+            background-color:gray;
+            padding: 5px 10px;
+        }
+        .scheduler #drop-down li{
+            display: flex;
+            margin-bottom: 2px;
+        }
+        .scheduler #drop-down li:hover{
+            background-color:blue;
+        }
+        .scheduler .drop-down-wrapper{
+            height: 100%;
+            width: 100%;
+        }
+        .scheduler .dropdown-hide{
+            display:none;
+        }
+        .scheduler #drop-down .icon-calendar{
+            margin:1px 3px;
+            background-color:red;
+            width: 10%;
+            border-radius: 5px;
+        }
+        .scheduler #drop-down .icon-task{
+            margin:1px 3px;
+            background-color:yellow;
+            width: 10%;
+            border-radius: 7px;
+        }
+        .scheduler #drop-down .drop-down-label{
+            width:90%;
+        }        
         </style>
         <script>
-            document.querySelector('.body').addEventListener('click',schedBodyClick,true);
-            var dropDown = document.querySelector('#drop-down');
+            function getPosition(el) {
+                var xPos = 0;
+                var yPos = 0;
+                
+                while (el) {
+                    if (el.tagName == "BODY") {
+                        // deal with browser quirks with body/window/document and page scroll
+                        var xScroll = el.scrollLeft || document.documentElement.scrollLeft;
+                        var yScroll = el.scrollTop || document.documentElement.scrollTop;
+                    
+                        xPos += (el.offsetLeft - xScroll + el.clientLeft);
+                        yPos += (el.offsetTop - yScroll + el.clientTop);
+                    } else {
+                        // for all other non-BODY elements
+                        xPos += (el.offsetLeft - el.scrollLeft + el.clientLeft);
+                        yPos += (el.offsetTop - el.scrollTop + el.clientTop);
+                    }
+                
+                    el = el.offsetParent;
+                }
+                return {
+                    x: xPos,
+                    y: yPos
+                };
+            }
+            
+            document.addEventListener('DOMContentLoaded', onReady);
+            
+            function onReady(){
+                document.querySelector('.body').addEventListener('click',schedBodyClick,true);
+                var dropDown = document.querySelector('#drop-down');
 
-            function schedBodyClick(event){
-              var target = event.target;
-              if ( target.id === 'calendar'){
-                dropDown.classList.toggle('dropdown-hide');
-              }
+                function schedBodyClick(event){
+                    var target = event.target;
+                    if ( target.id === 'calendar'){
+                        var targetLeft = target.offsetLeft;
+                        var targetTop = target.offsetTop;
+                        dropDown.style.left = targetLeft + 'px';
+                        dropDown.style.top = (targetTop + target.offsetHeight) + 'px';
+                        dropDown.classList.toggle('dropdown-hide');
+                    } else {
+                        dropDown.classList.add('dropdown-hide');
+                    }
+                }
             }
         </script>
 
     </head>
     <body>
-        <div class="main-container">
-            <div class="header">
-                J.Doe 
-            </div>
-            <div class="body">
-                <ul>
-                <li>
-                    <label for="location">location</label>
-                    <div id="location"> Room1 </div>
-                </li>
-                <li>
-                    <label for="invitees">invitees</label>
-                    <div id="invitees"> 
-                        <div>john</div>
-                        <div>paul</div>
-                        <div>ringo</div>
-                        <div>george</div>
-                    </div>
-                </li>
-                <li>
-                    <label for="calendar">calendar</label>
-                    <div id="calendar"> Room1 </div>
-                    <div id="drop-down" class="dropdown-hide">
-                        <ul>
-                            <li>
-                                <div class="icon-calendar">Calendar</div>
-                            </li>
-                            <li>
-                                <div class="icon-task">Task</div>
-                            </li>
-                        </ul>
-                    </div>        
-                    
-                </li>
-                </ul>
-            </div>
-            <div class="buttons-container">
-                <button>Maybe</button>
-                <button>Decline</button>
-                <button>Accept</button>
-            </div>
+        <table>
+            <tr>
+                <td>
+                        <h2>Scheduler</h2>
+                    <div class="scheduler">
+                        <div class="main-container">
+                            <div class="header">
+                                J.Doe 
+                            </div>
+                            <div class="body">
+                                <ul>
+                                <li>
+                                    <label for="location" class="list-label">location</label>
+                                    <div id="location" class="list-desc"> Room1 </div>
+                                </li>
+                                <li>
+                                    <label for="invitees" class="list-label">invitees</label>
+                                    <div id="invitees" class="list-desc"> 
+                                        <div>john</div>
+                                        <div>paul</div>
+                                        <div>ringo</div>
+                                        <div>george</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <label for="calendar" class="list-label">calendar</label>
+                                    <div id="calendar" class="list-desc"> Room1 </div>
+                                    <div id="drop-down" class="dropdown-hide">
+                                        <div class="drop-down-wrapper">
+                                            <ul>
+                                                <li>
+                                                    <div class="icon-calendar"></div>
+                                                    <div class="drop-down-label">Calendar</div>
+                                                </li>
+                                                <li>
+                                                    <div class="icon-task"></div>
+                                                    <div class="drop-down-label">Task</div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>        
+                                    
+                                </li>
+                                </ul>
+                            </div>
+                            <div class="buttons-container">
+                                <button>Maybe</button>
+                                <button>Decline</button>
+                                <button>Accept</button>
+                            </div>
 
-        </div>
+                        </div>                        
+                    </div>
+
+                    
+                </td>
+                <td>
+                    <h2>accordion</h2>
+
+                </td>
+                <td>
+                    dropdown
+                </td>
+
+            </tr>
+
+        </table>
     </body>
 </html>
 
