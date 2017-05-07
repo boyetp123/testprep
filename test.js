@@ -11,6 +11,9 @@ var startTime, endTime;
 // [ 'abc$1000defg' ]
 /*
 
+'My cow always gives milk'.match(/cow(.*)milk/g) == [ 'cow always gives milk' ]
+'My cow always gives milk'.match(/(?=cow).*(?=milk)/g) == [ 'cow always gives ' ]
+
 'waeaabb'.match(/(\w)\1+/g)  // return the successive letters
 RegExp
 
@@ -55,19 +58,6 @@ r - > is your monthly interest rate, calculated by dividing your annual interest
 n - > is your number of payments (the number of months you will be paying the loan)[6]
 
 */
-
-
-// function test(){
-//     console.log('test')
-//     console.log(this)
-// }
-//  ( function (){
-//     console.log('test1 anonymous')
-//     console.log(this)
-// } )();
-
-// test();
-// test1();
 
 
 // functor test
@@ -1406,21 +1396,7 @@ swap2VarWithNoOtherVariable();
 //     })
 // });
 
-// function getStartFiscalMonth(fiscarStartMo, currentMo){
-//     var mos = [];
-//     for (var i = 0; i < 4; i++){
-//         var val = fiscarStartMo + (3 * i);
-//          val  = val > 12 ? val - 12 : val;
-//          var end = val + 2;
-//          end = end > 12  ? end - 12 : end;
-//          mos.push({start: val, end: end});    
-//     }
-//     // console.info(mos)
-//     return mos.find ((v,i,arr)=>{
-//         var flag = currentMo >= v.start || currentMo <= v.end
-//         return flag;
-//     }).start;    
-// }
+
 function getStartFiscalMonth(fiscalStartMo, currentMo){
     if (fiscalStartMo > currentMo) currentMo+= 12;
     var mo = fiscalStartMo;
@@ -1499,4 +1475,9 @@ function balancedBrackets(str){
     return 'YES';
 }
 
-console.info('balancedBrackets',balancedBrackets('{[())}'))
+// console.info('balancedBrackets',balancedBrackets('{[())}'))
+console.info('balancedBrackets',balancedBrackets(getStartFiscalMonth.toString() ))
+
+// console.info(getStartFiscalMonth.toString().match(/\(.*(?=\))/g) )
+console.info(getStartFiscalMonth.toString().match(/\(.*\)/i) )
+// match(/(?=cow).*(?=milk)/g) == [ 'cow always gives ' ]

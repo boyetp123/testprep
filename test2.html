@@ -1,9 +1,16 @@
 <html>
     <head>
         <style>
+        table{
+            table-layout: fixed;
+        }            
+        table td {
+            vertical-align: top;
+            width:30%;
+        }    
         .scheduler .main-container{
             width:200px;
-            height:150px;
+            /* height:150px; */
             background-color: #E1E1E1;
         }
         .scheduler .main-container .header{
@@ -48,7 +55,7 @@
         .scheduler #drop-down{
             position:absolute;
             width: 80px;
-            height:40px;
+            height:80px;
             border:dark-gray;
             background-color:gray;
             padding: 5px 10px;
@@ -171,6 +178,14 @@
                                                     <div class="icon-task"></div>
                                                     <div class="drop-down-label">Task</div>
                                                 </li>
+                                                <li>
+                                                    <div class="icon-calendar"></div>
+                                                    <div class="drop-down-label">Item 3</div>
+                                                </li>
+                                                <li>
+                                                    <div class="icon-task"></div>
+                                                    <div class="drop-down-label">Item 4</div>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>        
@@ -190,8 +205,80 @@
                     
                 </td>
                 <td>
-                    <h2>accordion</h2>
+                    <style>
+                        /* Style the buttons that are used to open and close the accordion panel */
+                        .accordion-container button.accordion {
+                            background-color: #eee;
+                            color: #444;
+                            cursor: pointer;
+                            padding: 18px;
+                            width: 100%;
+                            text-align: left;
+                            border: none;
+                            outline: none;
+                            transition: 0.4s;
+                        }
 
+                        /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+                        .accordion-container button.accordion.active, button.accordion:hover {
+                            background-color: #ddd;
+                        }
+
+                        /* Style the accordion panel. Note: hidden by default */
+                        .accordion-container div.panel {
+                            padding: 0 18px;
+                            background-color: white;
+                            display: none;
+                        }   
+                        .accordion-container div.panel.show{
+                            display:block;
+                        }   
+
+                        .accordion-container button.accordion:after {
+                            content: '\02795'; /* Unicode character for "plus" sign (+) */
+                            font-size: 13px;
+                            color: #777;
+                            float: right;
+                            margin-left: 5px;
+                        }
+
+                        .accordion-container button.accordion.active:after {
+                            content: "\2796"; /* Unicode character for "minus" sign (-) */
+                        }                        
+
+                    </style>
+                    <script>
+                         document.addEventListener('DOMContentLoaded', onReadyAccordion);
+                         function onReadyAccordion(){
+                            document.querySelectorAll('.accordion-container .accordion').forEach( function(el,i, arr){
+                                el.addEventListener('click',function(event){
+                                    this.classList.toggle('active');
+                                    var panel = this.nextElementSibling;
+                                    panel.classList.toggle('show');
+                                })
+                            });
+                         }
+                    </script>
+                    <h2>accordion</h2>
+                    <div class="accordion-container">
+
+                        <button class="accordion">Section 1</button>
+                        <div class="panel">
+                        <p>Lorem ipsum...</p>
+                        </div>
+
+                        <button class="accordion">Section 2</button>
+                        <div class="panel">
+                        <p>Lorem ipsum...</p>
+                        </div>
+
+                        <button class="accordion">Section 3</button>
+                        <div class="panel">
+                        <p>Lorem ipsum...</p>
+                        </div>
+
+
+                    </div>
                 </td>
                 <td>
                     <h2>Dropdown</h2>
