@@ -1455,29 +1455,54 @@ function integerDivideWithoutDivide(a, b) {
 
 console.info('integerDivideWithoutDivide 12 / 4 = 3', integerDivideWithoutDivide(12, 4));
 
-function balancedBrackets(str){
+function balancedBrackets(str3){
+    console.info('balancedBrackets input string ', str3)
+    // var str2 = str2.replace(/\((.*)\)/g,'');
+    // var str2 = str2.replace(/\{(.*)\}/g,'');
+    var str = str3;
+    var match = str3.match(/\(*\)/g);
+    var clsIdx = str3.indexOf(')');
+    var openIdx = str3.indexOf('{');
+    if (match && ( clsIdx < openIdx ) && clsIdx > -1 ){
+        str = str3.replace(match[0],''); // if a function
+    }
+
     var m = str.match(/\{|\[|\(/g)||[];
     var m2 = str.match(/\}|\]|\)/g)||[];
 
+    console.info('opening',m,'closing',m2);
+
+    var mCopy = Array.from(m);
+    var m2Copy = Array.from(m2);
+
     if ( m.length !== m2.length ) return 'NO'
+    var len = m.length;
 
     var map ={
         '{':'}',
         '[':']',
         '(':')'
     };
-    for (var i=m.length-1; i > -1; i--){
-        var closeBracket = m2.shift();
-        var openBracket = m[i]
-        if (map[ openBracket ] !== closeBracket)  return 'NO'
+    // while(len > 0){
+    //     var closeBracket = m2Copy.shift();
+    //     var openBracket = mCopy.pop();
+    //     if (map[ openBracket ] !== closeBracket)  return 'NO'
+    //     len = mCopy.length;
+    // }
+    for (var i=0; i < len; i++){
+        
     }
-    // console.info('balancedBrackets match',m)
+
+
+
+    console.info('balancedBrackets match',m)
     return 'YES';
 }
 
-// console.info('balancedBrackets',balancedBrackets('{[())}'))
-console.info('balancedBrackets',balancedBrackets(getStartFiscalMonth.toString() ))
 
+
+console.info('balancedBrackets',balancedBrackets('(){()[()]}'))
+// console.info('balancedBrackets',balancedBrackets(getStartFiscalMonth.toString() ));
 // console.info(getStartFiscalMonth.toString().match(/\(.*(?=\))/g) )
-console.info(getStartFiscalMonth.toString().match(/\(.*\)/i) )
+// console.info(getStartFiscalMonth.toString().match(/\(.*\)/i) )
 // match(/(?=cow).*(?=milk)/g) == [ 'cow always gives ' ]

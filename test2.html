@@ -43,6 +43,8 @@
         }
         .scheduler .body li > .list-desc{
             flex:2;
+            border: 1px solid red;
+            box-sizing: border-box;
         }
         .scheduler .body li > label{
             text-align: right;
@@ -126,10 +128,10 @@
                 function schedBodyClick(event){
                     var target = event.target;
                     if ( target.id === 'calendar'){
-                        var targetLeft = target.offsetLeft;
                         var targetTop = target.offsetTop;
-                        dropDown.style.left = targetLeft + 'px';
                         dropDown.style.top = (targetTop + target.offsetHeight) + 'px';
+                        var pos = getPosition( target );
+                        dropDown.style.left = pos.x + 'px';
                         dropDown.classList.toggle('dropdown-hide');
                     } else {
                         dropDown.classList.add('dropdown-hide');
@@ -254,6 +256,7 @@
                                 el.addEventListener('click',function(event){
                                     this.classList.toggle('active');
                                     var panel = this.nextElementSibling;
+                                    // var panel = this.nextSibling;
                                     panel.classList.toggle('show');
                                 })
                             });
