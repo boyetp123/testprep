@@ -21,10 +21,24 @@
         box-sizing: border-box;
         border-radius: 5px;
     }
-/*    ul.star-rating li:hover:nth-child(-n+3){ */
     ul.star-rating li:hover ~ li,  ul.star-rating li:hover{
         background-color: blue;        
     }
+
+
+/* default link color is blue */
+.parent a {
+  color: blue;
+}
+
+/* prev siblings should be red */
+.parent:hover a {
+  color: red;
+}
+.parent a:hover,
+.parent a:hover ~ a {
+  color: blue;
+}
 
   </style>
 </head>
@@ -48,5 +62,14 @@
     <li class="star4">star 4</li>
     <li class="star5">star 5</li>
   </ul>
+
+
+ <div class="parent">
+  <a href="#">link</a>
+  <a href="#">link</a>
+  <a href="#">link</a>
+  <a href="#">link</a>
+  <a href="#">link</a>
+</div> 
 </body>
 </html>
