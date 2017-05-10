@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    /* How to select a range of children
+     * (Here, 3rd-7th children, inclusive):
+     */
+    ul.test li:nth-child(n+3):nth-child(-n+7) {
+      outline: 1px solid #0f0;
+    }
+    ul.star-rating{
+        list-style: none;
+        display:block;
+        float: left;
+    }
+    ul.star-rating li{
+        display:block;
+        float:right;
+        margin-right: 5px;
+        border:1px red solid;
+        box-sizing: border-box;
+        border-radius: 5px;
+    }
+/*    ul.star-rating li:hover:nth-child(-n+3){ */
+    ul.star-rating li:hover ~ li,  ul.star-rating li:hover{
+        background-color: blue;        
+    }
+
+  </style>
+</head>
+<body>
+  <ul class="test">
+    <li>Child 1</li>
+    <li>Child 2</li>
+    <li>Child 3</li>
+    <li>Child 4</li>
+    <li>Child 5</li>
+    <li>Child 6</li>
+    <li>Child 7</li>
+    <li>Child 8</li>
+    <li>Child 9</li>
+    <li>Child 10</li>
+  </ul>
+  <ul class="star-rating">
+    <li class="star1">star 1</li>
+    <li class="star2">star 2</li>
+    <li class="star3">star 3</li>
+    <li class="star4">star 4</li>
+    <li class="star5">star 5</li>
+  </ul>
+</body>
+</html>
