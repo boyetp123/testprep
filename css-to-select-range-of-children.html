@@ -13,18 +13,27 @@
         display:block;
         float: left;
     }
+
     ul.star-rating li{
         display:block;
-        float:right;
+        float:left;
         margin-right: 5px;
         border:1px red solid;
         box-sizing: border-box;
         border-radius: 5px;
     }
+    ul.star-rating:hover li{
+        background-color: red;
+    } 
+    ul.star-rating li:hover ~ li{
+        background-color:transparent;
+    }
+
+    /*
     ul.star-rating li:hover ~ li,  ul.star-rating li:hover{
         background-color: blue;        
     }
-
+    */
 
 /* default link color is blue */
 .parent a {
@@ -35,7 +44,7 @@
 .parent:hover a {
   color: red;
 }
-.parent a:hover,
+/*.parent a:hover, */
 .parent a:hover ~ a {
   color: blue;
 }
@@ -71,5 +80,11 @@
   <a href="#">link</a>
   <a href="#">link</a>
 </div> 
+
+
+
+
+
+
 </body>
 </html>
