@@ -9,82 +9,111 @@
       outline: 1px solid #0f0;
     }
     ul.star-rating{
+        /*width          : 9.5em;
+        height         : 1.5em;*/
+        list-style: none;
+        display:block;
+        float: left;
+        padding:0px;
+        margin-left:50px;
+    }
+
+    ul.star-rating li{
+        cursor : pointer;
+        display : block;
+        position : relative;
+        float : left;
+        padding-right: 0px;
+        width : 1.6em;
+        height : 1.5em;
+        box-sizing: border-box;
+        background : url('./starCss/star-off.svg');        
+        background-size: contain;
+        border-radius: 5px;
+    }
+    ul.star-rating:hover li{
+        display : block;
+        position : relative;
+        background : url('./starCss/star-on.svg');        
+        background-size: contain;
+    } 
+    ul.star-rating li:hover ~ li{
+        display : block;
+        position : relative;
+        background : url('./starCss/star-off.svg');        
+        background-size: contain;
+    }
+
+
+    /* default link color is blue */
+    .parent a {
+        color: blue;
+    }
+
+    /* prev siblings should be red */
+    .parent:hover a {
+        color: red;
+    }
+    /*.parent a:hover, */
+    .parent a:hover ~ a {
+        color: blue;
+    }
+
+    ul.star-rating1{
         list-style: none;
         display:block;
         float: left;
     }
-
-    ul.star-rating li{
+    ul.star-rating1 li{
         display:block;
-        float:left;
+        float:right;
         margin-right: 5px;
         border:1px red solid;
         box-sizing: border-box;
         border-radius: 5px;
     }
-    ul.star-rating:hover li{
-        background-color: red;
-    } 
-    ul.star-rating li:hover ~ li{
-        background-color:transparent;
-    }
-
-    /*
-    ul.star-rating li:hover ~ li,  ul.star-rating li:hover{
+    ul.star-rating1 li:hover ~ li,  ul.star-rating1 li:hover{
         background-color: blue;        
     }
-    */
-
-/* default link color is blue */
-.parent a {
-  color: blue;
-}
-
-/* prev siblings should be red */
-.parent:hover a {
-  color: red;
-}
-/*.parent a:hover, */
-.parent a:hover ~ a {
-  color: blue;
-}
-
   </style>
 </head>
 <body>
-  <ul class="test">
-    <li>Child 1</li>
-    <li>Child 2</li>
-    <li>Child 3</li>
-    <li>Child 4</li>
-    <li>Child 5</li>
-    <li>Child 6</li>
-    <li>Child 7</li>
-    <li>Child 8</li>
-    <li>Child 9</li>
-    <li>Child 10</li>
-  </ul>
-  <ul class="star-rating">
-    <li class="star1">star 1</li>
-    <li class="star2">star 2</li>
-    <li class="star3">star 3</li>
-    <li class="star4">star 4</li>
-    <li class="star5">star 5</li>
-  </ul>
+    <ul class="test">
+        <li>Child 1</li>
+        <li>Child 2</li>
+        <li>Child 3</li>
+        <li>Child 4</li>
+        <li>Child 5</li>
+        <li>Child 6</li>
+        <li>Child 7</li>
+        <li>Child 8</li>
+        <li>Child 9</li>
+        <li>Child 10</li>
+    </ul>
 
+    <ul class="star-rating">
+        <li class="star1"></li>
+        <li class="star2"></li>
+        <li class="star3"></li>
+        <li class="star4"></li>
+        <li class="star5"></li>
+    </ul>
 
- <div class="parent">
-  <a href="#">link</a>
-  <a href="#">link</a>
-  <a href="#">link</a>
-  <a href="#">link</a>
-  <a href="#">link</a>
-</div> 
+    <div class="parent">
+        <a href="#">link</a>
+        <a href="#">link</a>
+        <a href="#">link</a>
+        <a href="#">link</a>
+        <a href="#">link</a>
+    </div> 
 
-
-
-
-
+    <ul class="star-rating1">
+        <li class="star1">star 1</li>
+        <li class="star2">star 2</li>
+        <li class="star3">star 3</li>
+        <li class="star4">star 4</li>
+        <li class="star5">star 5</li>
+    </ul>
 
 </body>
 </html>
