@@ -1078,10 +1078,10 @@ var moneyToNumber = s => {
 console.info('moneyToNumber', moneyToNumber('$10,000.00'));
 // return true if all letters in the string is unique
 var isUnique = s =>{
-    return s.split('').some(v=>(s.match( new RegExp(v) )||[]) > 1  )
+    return !s.split('').some( v=> s.match( new RegExp(v,'g') ).length > 1  )
 }
 
-console.info('isUnique', isUnique('abcdeaf'))
+console.info('isUnique', isUnique('abcdaef'))
 
 // check permutaion of 2 string, if one permutation is the same as the other
 var checkPermutation = (s1, s2)=>{
