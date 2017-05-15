@@ -1463,10 +1463,10 @@ function balancedBrackets(str3){
     var match = str3.match(/\(*\)/g);
     var clsIdx = str3.indexOf(')');
     var openIdx = str3.indexOf('{');
+
     if (match && ( clsIdx < openIdx ) && clsIdx > -1 ){
         str = str3.replace(match[0],''); // if a function
     }
-
     var m = str.match(/\{|\[|\(/g)||[];
     var m2 = str.match(/\}|\]|\)/g)||[];
 
@@ -1501,8 +1501,40 @@ function balancedBrackets(str3){
 
 
 
-console.info('balancedBrackets',balancedBrackets('(){()[()]}'))
+// console.info('balancedBrackets',balancedBrackets('(){()[()]}'))
 // console.info('balancedBrackets',balancedBrackets(getStartFiscalMonth.toString() ));
 // console.info(getStartFiscalMonth.toString().match(/\(.*(?=\))/g) )
 // console.info(getStartFiscalMonth.toString().match(/\(.*\)/i) )
 // match(/(?=cow).*(?=milk)/g) == [ 'cow always gives ' ]
+
+
+
+function MaximumSumIncreasingSubsequence( a )  {
+
+//   @Test
+//   public static void test() {
+//     assertEquals(106, maxSumSub(new int[] { 1, 101, 2, 3, 100, 4, 5 }));
+//     assertEquals(306, maxSumSub(new int[] { 1, 105, 2, 3, 200, 4, 5 }));
+//   }
+
+//   function maxSumSub( a ) {
+    if (a == null || a.length == 0)
+      return 0;
+
+    var dp = new Array(a.length);
+    dp.fill(0);
+    dp[0] = a[0];
+    var max = 0;
+    for (var i = 1; i < a.length; i++)
+      for (var j = 0; j < i; j++)
+        if (a[i] > a[j]) {
+          dp[i] = Math.max(dp[i], dp[j] + a[i]);
+          max = Math.max(max, dp[i]);
+        }
+    return max;
+//   }
+
+}
+
+console.info('MaximumSumIncreasingSubsequence 106 ', MaximumSumIncreasingSubsequence([1, 101, 2, 3, 100, 4, 5] ));
+// console.info('MaximumSumIncreasingSubsequence 106 ', MaximumSumIncreasingSubsequence([ 1, 105, 2, 3, 200, 4, 5 ] ));
