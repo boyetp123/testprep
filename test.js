@@ -1509,32 +1509,59 @@ function balancedBrackets(str3){
 
 
 
-function MaximumSumIncreasingSubsequence( a )  {
-
-//   @Test
-//   public static void test() {
-//     assertEquals(106, maxSumSub(new int[] { 1, 101, 2, 3, 100, 4, 5 }));
-//     assertEquals(306, maxSumSub(new int[] { 1, 105, 2, 3, 200, 4, 5 }));
-//   }
-
-//   function maxSumSub( a ) {
-    if (a == null || a.length == 0)
-      return 0;
+function MaximumSumIncreasingSubsequence( a ){
+    if (a == null || a.length == 0) return 0;
 
     var dp = new Array(a.length);
     dp.fill(0);
     dp[0] = a[0];
     var max = 0;
-    for (var i = 1; i < a.length; i++)
-      for (var j = 0; j < i; j++)
-        if (a[i] > a[j]) {
-          dp[i] = Math.max(dp[i], dp[j] + a[i]);
-          max = Math.max(max, dp[i]);
-        }
-    return max;
-//   }
 
+    for (var i = 1; i < a.length; i++){
+        for (var j = 0; j < i; j++){
+            if (a[i] > a[j]) {
+                dp[i] = Math.max(dp[i], dp[j] + a[i]);
+                max = Math.max(max, dp[i]);
+            }
+        }
+    }
+    return max;
 }
 
 console.info('MaximumSumIncreasingSubsequence 106 ', MaximumSumIncreasingSubsequence([1, 101, 2, 3, 100, 4, 5] ));
 // console.info('MaximumSumIncreasingSubsequence 106 ', MaximumSumIncreasingSubsequence([ 1, 105, 2, 3, 200, 4, 5 ] ));
+
+function magicIndex(arr){
+
+    function magicFast(start,end){
+        if ( Math.abs( start - end)  <= 1 ) return -1;
+        var mid = Math.floor( (start + end)/2 );
+        var val  = arr[mid];
+
+        if ( val === mid  ){
+            return mid;
+        } else if ( val > mid ){
+            return magicFast( start, mid);
+        } else {
+            return magicFast( mid, end);            
+        }
+    }
+    return magicFast(0,arr.length - 1);
+}
+
+// console.info('magicIndex ',magicIndex([-40, -20, -1, 1 , 2 , 3 , 5, 7 , 9, 12, 13]));
+console.info('magicIndex ',magicIndex([-10, -5, 2, 2, 2, 3, 7, 7, 7, 9, 10, 12, 13]));
+
+function recursiveMultiply(x, y){
+    var x1 = Math.max(x,y);
+    var y1 = Math.min(x,y);
+    
+    function multiply( a, b, c){
+        if (c <= 1 ) return a;
+        a = a + b;
+        return multiply(a , b, c - 1)
+    }
+    return multiply(x1, x1,  y1);
+}
+
+console.info('recursiveMultiply ',recursiveMultiply(100, 100));
