@@ -1565,3 +1565,59 @@ function recursiveMultiply(x, y){
 }
 
 console.info('recursiveMultiply ',recursiveMultiply(100, 100));
+        
+'use strict'
+
+const colors = ["aliceblue","antiquewhite","aqua","aquamarine","azure","beige","bisque","black","blanchedalmond","blue","blueviolet","brown","burlywood","cadetblue","chartreuse","chocolate","coral","cornflowerblue","cornsilk","crimson","cyan","darkblue","darkcyan","darkgoldenrod","darkgray","darkgreen","darkgrey","darkkhaki","darkmagenta","darkolivegreen","darkorange","darkorchid","darkred","darksalmon","darkseagreen","darkslateblue","darkslategray","darkslategrey","darkturquoise","darkviolet","deeppink","deepskyblue","dimgray","dimgrey","dodgerblue","firebrick","floralwhite","forestgreen","fuchsia","gainsboro","ghostwhite","gold","goldenrod","gray","green","greenyellow","grey","honeydew","hotpink","indianred","indigo","ivory","khaki","lavender","lavenderblush","lawngreen","lemonchiffon","lightblue","lightcoral","lightcyan","lightgoldenrodyellow","lightgray","lightgreen","lightgrey","lightpink","lightsalmon","lightseagreen","lightskyblue","lightslategray","lightslategrey","lightsteelblue","lightyellow","lime","limegreen","linen","magenta","maroon","mediumaquamarine","mediumblue","mediumorchid","mediumpurple","mediumseagreen","mediumslateblue","mediumspringgreen","mediumturquoise","mediumvioletred","midnightblue","mintcream","mistyrose","moccasin","navajowhite","navy","oldlace","olive","olivedrab","orange","orangered","orchid","palegoldenrod","palegreen","paleturquoise","palevioletred","papayawhip","peachpuff","peru","pink","plum","powderblue","purple","red","rosybrown","royalblue","saddlebrown","salmon","sandybrown","seagreen","seashell","sienna","silver","skyblue","slateblue","slategray","slategrey","snow","springgreen","steelblue","tan","teal","thistle","tomato","turquoise","violet","wheat","white","whitesmoke","yellow","yellowgreen"]
+
+function findColor(param) {
+  var parr = param.split('');
+  
+  return colors.filter(v =>{
+    var pos = 0;
+        
+    for (var i = 0; i < parr.length; i++){
+        pos = v.indexOf(parr[i],pos); 
+      
+        if (pos < 0){
+          break;
+        }
+    }    
+    // var pos = -2;
+    // for (var i = 0; i < parr.length; i++){
+      
+    //     if (pos === -2){
+    //         pos = v.indexOf(parr[i]);
+    //     } else if (pos > -1){
+    //         pos = v.indexOf(parr[i],pos); 
+    //     } else {
+    //       pos = -1;
+    //       break;
+    //     }
+    // }
+    
+    if ( pos < 0){
+      return false;
+    } else {
+      return true;
+    }
+  });
+}
+
+//p = -2
+//p= -1
+//p>0
+
+// O(n^2)
+// How can we leverage Space to speed up the search?
+
+
+
+console.log(findColor('uqi'))
+// [ 'darkturquoise', 'mediumaquamarine', 'mediumturquoise', 'paleturquoise', 'turquoise' ]
+
+console.log(findColor('zre'))
+// [ 'azure' ]
+
+console.log(findColor('gold'))
+// [ 'darkgoldenrod', 'gold', 'goldenrod', 'lightgoldenrodyellow', 'palegoldenrod' ]
