@@ -37,6 +37,7 @@
         .scheduler .body li{
             display:flex;
             margin-bottom: 15px;
+            /* position: relative; */
         }
         .scheduler .body li > .list-label{
             flex:1;
@@ -56,7 +57,7 @@
         }
         .scheduler #drop-down{
             position:absolute;
-            width: 80px;
+            width: 150px;
             height:80px;
             border:dark-gray;
             background-color:gray;
@@ -69,10 +70,10 @@
         .scheduler #drop-down li:hover{
             background-color:blue;
         }
-        .scheduler .drop-down-wrapper{
+        /* .scheduler .drop-down-wrapper{
             height: 100%;
             width: 100%;
-        }
+        } */
         .scheduler .dropdown-hide{
             display:none;
         }
@@ -90,7 +91,11 @@
         }
         .scheduler #drop-down .drop-down-label{
             width:90%;
-        }        
+        }  
+        .pos-relative {
+            position: relative;
+        }  
+
         </style>
         <script>
             function getPosition(el) {
@@ -128,11 +133,12 @@
                 function schedBodyClick(event){
                     var target = event.target;
                     if ( target.id === 'calendar'){
+                        dropDown.parentElement.classList.add('pos-relative');
+                        dropDown.classList.toggle('dropdown-hide');
                         var targetTop = target.offsetTop;
                         dropDown.style.top = (targetTop + target.offsetHeight) + 'px';
                         var pos = getPosition( target );
-                        dropDown.style.left = pos.x + 'px';
-                        dropDown.classList.toggle('dropdown-hide');
+                        dropDown.style.left = target.offsetLeft + 'px';
                     } else {
                         dropDown.classList.add('dropdown-hide');
                     }
@@ -145,7 +151,7 @@
         <table>
             <tr>
                 <td>
-                        <h2>Scheduler</h2>
+                    <h2>Scheduler</h2>
                     <div class="scheduler">
                         <div class="main-container">
                             <div class="header">
@@ -167,29 +173,29 @@
                                     </div>
                                 </li>
                                 <li>
-                                    <label for="calendar" class="list-label">calendar</label>
-                                    <div id="calendar" class="list-desc"> Room1 </div>
+                                    <label for="calendar" class="list-label">Calendar</label>
+                                    <div id="calendar" class="list-desc"> June 2017 </div>
                                     <div id="drop-down" class="dropdown-hide">
-                                        <div class="drop-down-wrapper">
+                                        <!-- div class="drop-down-wrapper" -->
                                             <ul>
                                                 <li>
                                                     <div class="icon-calendar"></div>
-                                                    <div class="drop-down-label">Calendar</div>
+                                                    <div class="drop-down-label">July 2017</div>
                                                 </li>
                                                 <li>
                                                     <div class="icon-task"></div>
-                                                    <div class="drop-down-label">Task</div>
+                                                    <div class="drop-down-label">August 2017</div>
                                                 </li>
                                                 <li>
                                                     <div class="icon-calendar"></div>
-                                                    <div class="drop-down-label">Item 3</div>
+                                                    <div class="drop-down-label">September 2017</div>
                                                 </li>
                                                 <li>
                                                     <div class="icon-task"></div>
-                                                    <div class="drop-down-label">Item 4</div>
+                                                    <div class="drop-down-label">October 2017</div>
                                                 </li>
                                             </ul>
-                                        </div>
+                                        <!-- /div -->
                                     </div>        
                                     
                                 </li>
@@ -285,6 +291,78 @@
                 </td>
                 <td>
                     <h2>Dropdown</h2>
+
+                    <style>
+                        /**
+                        * Apply these styles to .dropdown-menu when user hovers
+                        * over .dropdown
+                        */
+                        .dd3 .dropdown {
+                            position: relative;
+                            display: inline-block;
+                        }
+
+                        .dd3 .dropdown .dropdown-menu {
+                            position: absolute;
+                            top: 100%;
+                            display: none;
+                            margin: 0;
+
+                            /****************
+                            ** NEW STYLES **
+                            ****************/
+
+                            list-style: none; /** Remove list bullets */
+                            width: 100%; /** Set the width to 100% of it's parent */
+                            padding: 0;
+                        }
+
+                        .dd3 .dropdown:hover .dropdown-menu {
+                            display: block;
+                        }
+
+                        /** Button Styles **/
+                        .dd3 .dropdown button {
+                            background: #FF6223;
+                            color: #FFFFFF;
+                            border: none;
+                            margin: 0;
+                            padding: 0.4em 0.8em;
+                            font-size: 1em;
+                        }
+
+                        /** List Item Styles **/
+                        .dd3 .dropdown a {
+                            display: block;
+                            padding: 0.2em 0.8em;
+                            text-decoration: none;
+                            background: #CCCCCC;
+                            color: #333333;
+                        }
+
+                        /** List Item Hover Styles **/
+                        .dd3 .dropdown a:hover {
+                            background: #BBBBBB;
+                        }              
+                    </style>
+
+                    <!-- dropdown container -->
+                    <div class="dd3">
+                        <div class="dropdown">
+
+                            <!-- trigger button -->
+                            <button>Navigate</button>
+
+                            <!-- dropdown menu -->
+                            <ul class="dropdown-menu">
+                                <li><a href="#home">Home</a></li>
+                                <li><a href="#about">About</a></li>
+                                <li><a href="#contact">Contact</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+
                 </td>
 
             </tr>

@@ -1483,15 +1483,15 @@ function balancedBrackets(str3){
         '[':']',
         '(':')'
     };
-    // while(len > 0){
-    //     var closeBracket = m2Copy.shift();
-    //     var openBracket = mCopy.pop();
-    //     if (map[ openBracket ] !== closeBracket)  return 'NO'
-    //     len = mCopy.length;
-    // }
-    for (var i=0; i < len; i++){
-        
+    while(len > 0){
+        var closeBracket = m2Copy.shift();
+        var openBracket = mCopy.pop();
+        if (map[ openBracket ] !== closeBracket)  return 'NO'
+        len = mCopy.length;
     }
+    // for (var i=0; i < len; i++){
+        
+    // }
 
 
 
@@ -1531,7 +1531,7 @@ function MaximumSumIncreasingSubsequence( a ){
 console.info('MaximumSumIncreasingSubsequence 106 ', MaximumSumIncreasingSubsequence([1, 101, 2, 3, 100, 4, 5] ));
 // console.info('MaximumSumIncreasingSubsequence 106 ', MaximumSumIncreasingSubsequence([ 1, 105, 2, 3, 200, 4, 5 ] ));
 
-function magicIndex(arr){
+function magicIndexRecursive(arr){
 
     function magicFast(start,end){
         if ( Math.abs( start - end)  <= 1 ) return -1;
@@ -1548,9 +1548,95 @@ function magicIndex(arr){
     }
     return magicFast(0,arr.length - 1);
 }
-
 // console.info('magicIndex ',magicIndex([-40, -20, -1, 1 , 2 , 3 , 5, 7 , 9, 12, 13]));
-console.info('magicIndex ',magicIndex([-10, -5, 2, 2, 2, 3, 7, 7, 7, 9, 10, 12, 13]));
+console.info('magicIndexRecursive ',magicIndexRecursive([-10, -5, 2, 2, 2, 3, 7, 7, 7, 9, 10, 12, 13]));
+
+function magicIndexLinear(arr){
+
+    function magicFast(start,end){
+
+        while (start < end){
+            if ( Math.abs( start - end)  <= 1 ) return -1;
+            var mid = Math.floor( (start + end)/2 );
+            var val  = arr[mid];
+
+            if ( val === mid  ){
+                return mid;
+            } else if ( val > mid ){
+                end = mid ;
+            } else {
+                start = mid ;
+            }
+        }
+    }
+    return magicFast(0,arr.length - 1);
+}
+
+console.info('magicIndex ',magicIndexLinear([-40, -20, -1, 1 , 2 , 3 , 5, 7 , 9, 12, 13]));
+
+function magicIndexWithDups(arr){
+
+    function magicFast(start,end){
+        var midAcc = 0;
+        var len = arr.length;
+        var mid = Math.floor( len/2 );
+
+        // while (start < end){
+        while (start <= (mid - midAcc ) || (mid + midAcc ) <= end ){
+            
+            if ( Math.abs( start - end)  <= 1 ) return -1;
+
+            if ( (mid - midAcc) > -1 && arr[mid - midAcc] === mid - midAcc  ){
+                return mid - midAcc;
+            } else if (midAcc > 0 && (mid + midAcc) < len && arr[mid + midAcc] === mid + midAcc  ){
+                return mid + midAcc;
+            } else if (  arr[start] === start ) {
+                return start;
+            } else if (  arr[end] === end ) {
+                return end;
+            }
+            start ++;
+            end --;
+            midAcc++;
+        }
+    }
+    return magicFast( 0, arr.length - 1);
+}
+console.info('magicIndexWithDups ',magicIndexWithDups([-10, -5, 2, 2, 2, 3, 7, 7, 7, 9.5, 10.5, 12, 13]));
+
+function magicAllIndexWithDups(arr){
+    var out = [];
+    function add( n ){
+        if ( !(out.indexOf(n) > -1) ){
+            out.push(n)
+        }
+    }
+    function magicFast(start,end){
+        var midAcc = 0;
+        var len = arr.length;
+        var mid = Math.floor( len/2 );
+// start < end && 
+        while (start <= (mid - midAcc ) || (mid + midAcc ) <= end ){
+            if ( Math.abs( start - end)  <= 1 ) return -1;
+
+            if ( (mid - midAcc) > -1 && arr[mid - midAcc] === mid - midAcc  ){
+                add(mid - midAcc);
+            } else if (midAcc > 0 && (mid + midAcc) < len && arr[mid + midAcc] === mid + midAcc  ){
+                add(mid + midAcc);
+            } else if (  arr[start] === start ) {
+                add(start);
+            } else if (  arr[end] === end ) {
+                add(end);
+            }
+            start ++;
+            end --;
+            midAcc++;
+        }
+        return out;
+    }
+    return magicFast( 0, arr.length - 1);
+}
+console.info('magicAllIndexWithDups ',magicAllIndexWithDups([-10, -5, 2, 2, 2, 3, 7, 7, 7, 9.5, 10.5, 12, 13]));
 
 function recursiveMultiply(x, y){
     var x1 = Math.max(x,y);
@@ -1570,6 +1656,7 @@ console.info('recursiveMultiply ',recursiveMultiply(100, 100));
 
 const colors = ["aliceblue","antiquewhite","aqua","aquamarine","azure","beige","bisque","black","blanchedalmond","blue","blueviolet","brown","burlywood","cadetblue","chartreuse","chocolate","coral","cornflowerblue","cornsilk","crimson","cyan","darkblue","darkcyan","darkgoldenrod","darkgray","darkgreen","darkgrey","darkkhaki","darkmagenta","darkolivegreen","darkorange","darkorchid","darkred","darksalmon","darkseagreen","darkslateblue","darkslategray","darkslategrey","darkturquoise","darkviolet","deeppink","deepskyblue","dimgray","dimgrey","dodgerblue","firebrick","floralwhite","forestgreen","fuchsia","gainsboro","ghostwhite","gold","goldenrod","gray","green","greenyellow","grey","honeydew","hotpink","indianred","indigo","ivory","khaki","lavender","lavenderblush","lawngreen","lemonchiffon","lightblue","lightcoral","lightcyan","lightgoldenrodyellow","lightgray","lightgreen","lightgrey","lightpink","lightsalmon","lightseagreen","lightskyblue","lightslategray","lightslategrey","lightsteelblue","lightyellow","lime","limegreen","linen","magenta","maroon","mediumaquamarine","mediumblue","mediumorchid","mediumpurple","mediumseagreen","mediumslateblue","mediumspringgreen","mediumturquoise","mediumvioletred","midnightblue","mintcream","mistyrose","moccasin","navajowhite","navy","oldlace","olive","olivedrab","orange","orangered","orchid","palegoldenrod","palegreen","paleturquoise","palevioletred","papayawhip","peachpuff","peru","pink","plum","powderblue","purple","red","rosybrown","royalblue","saddlebrown","salmon","sandybrown","seagreen","seashell","sienna","silver","skyblue","slateblue","slategray","slategrey","snow","springgreen","steelblue","tan","teal","thistle","tomato","turquoise","violet","wheat","white","whitesmoke","yellow","yellowgreen"]
 
+/*
 function findColor(param) {
   var parr = param.split('');
   
@@ -1583,19 +1670,7 @@ function findColor(param) {
           break;
         }
     }    
-    // var pos = -2;
-    // for (var i = 0; i < parr.length; i++){
-      
-    //     if (pos === -2){
-    //         pos = v.indexOf(parr[i]);
-    //     } else if (pos > -1){
-    //         pos = v.indexOf(parr[i],pos); 
-    //     } else {
-    //       pos = -1;
-    //       break;
-    //     }
-    // }
-    
+
     if ( pos < 0){
       return false;
     } else {
@@ -1603,7 +1678,7 @@ function findColor(param) {
     }
   });
 }
-
+*/
 //p = -2
 //p= -1
 //p>0
@@ -1611,7 +1686,12 @@ function findColor(param) {
 // O(n^2)
 // How can we leverage Space to speed up the search?
 
-
+function findColor(param){
+    var reg = new RegExp(param.split('').join('.*'))
+    return colors.filter( v =>{
+        return reg.test( v );
+    })
+}
 
 console.log(findColor('uqi'))
 // [ 'darkturquoise', 'mediumaquamarine', 'mediumturquoise', 'paleturquoise', 'turquoise' ]
