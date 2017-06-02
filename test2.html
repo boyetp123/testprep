@@ -7,9 +7,11 @@
         table td {
             vertical-align: top;
             width:30%;
+        }
+        .scheduler {
+            width: 350px;
         }    
         .scheduler .main-container{
-            width:200px;
             /* height:150px; */
             background-color: #E1E1E1;
         }
@@ -132,7 +134,7 @@
 
                 function schedBodyClick(event){
                     var target = event.target;
-                    if ( target.id === 'calendar'){
+                    if ( target.id === 'calendar' &&  dropDown.classList.contains('dropdown-hide') ){
                         dropDown.parentElement.classList.add('pos-relative');
                         dropDown.classList.toggle('dropdown-hide');
                         var targetTop = target.offsetTop;
