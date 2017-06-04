@@ -123,9 +123,9 @@ function reverse(s){
 function countZero(n){
   var count = 0;
   while(n>9){
-    console.info(n)
+    // console.info(n)
     count += Math.floor(n/10);
-    n = n/10;
+    n = n / 10;
   }
   return count;
 }
@@ -1343,19 +1343,19 @@ var matrixRotation = (arr) =>{
 var arr = [ [1,2,3,4], [5,6,7,8], [9,10,11,12], [13,14,15,16] ]
 console.info('matrixRotation orig',arr)
 console.info('matrixRotation',matrixRotation( arr ));
-
+// this slower than factorial2
 function factorial(n){
     if ( n < 0) return -1;
     else if ( n === 0) return 1;
     else return n * factorial( n - 1);
 }
-var factorialInput = 1000;
-startTime = (new Date()).getTime();
+var factorialInput = 5 ;
+// startTime = (new Date()).getTime();
 console.info('factorial ', factorial(factorialInput))
-endTime = (new Date()).getTime();
-console.info('factorial ', factorialInput , (endTime - startTime)/1000,'secs' )
+// endTime = (new Date()).getTime();
+// console.info('factorial ', factorialInput , (endTime - startTime)/1000,'secs' )
 
-
+// this is faster that factorial
 function factorial2(n){
     var out = 1;
 
@@ -1364,10 +1364,37 @@ function factorial2(n){
     }
     return out;
 }
-startTime = (new Date()).getTime();
+// startTime = (new Date()).getTime();
 console.info('factorial2 ', factorial2(factorialInput))
-endTime = (new Date()).getTime();
-console.info('factorial2 ', factorialInput , (endTime - startTime)/1000,'secs' )
+// endTime = (new Date()).getTime();
+// console.info('factorial2 ', factorialInput , (endTime - startTime)/1000,'secs' )
+
+function factorial3(n){
+    var out = 1;
+
+    for (var i = 0; i < n; i++){
+        out *= ( n - i );
+    }
+    return out;
+}
+// startTime = (new Date()).getTime();
+console.info('factorial3 ', factorial3(factorialInput))
+
+
+
+function countFactorialZero(num ) {
+    var count = 10;
+
+    if (num < 0) return -1;
+
+    for (var i = 5; num / i > 0; i *= 5){
+        count *= num  / i;
+    }
+
+    return count;
+}
+console.info('countFactorialZero ', countFactorialZero( factorial2( factorialInput) ))
+
 
 function swap2VarWithNoOtherVariable(){
     var a = 1;
@@ -1633,7 +1660,9 @@ function findColor(param) {
 // O(n^2)
 // How can we leverage Space to speed up the search?
 
-function findColor(param){
+function findColor(param) {
+    // if ( testing ) {
+    var anotherTest = '{';    
     var reg = new RegExp(param.split('').join('.*'))
     return colors.filter( v =>{
         return reg.test( v );
@@ -1661,19 +1690,26 @@ console.log(findColor('gold'))
 
 
 function balancedBrackets(str3){
-    console.info('balancedBrackets input string ', str3)
-    var str = str3;
+    // console.info('balancedBrackets input string ', str3)
+    // var str = str3;
+    var str = str3.split('\n').map( v=> {
+        if ( (v||'').trim().startsWith('//') ) {
+            return '';
+        }
+        var nv = v.replace(/\'+\{|\}|\[|\]|\(|\)+\'/g,'\'');
+        var nv = nv.replace(/\"+\{|\}|\[|\]|\(|\)+\"/g,'\"');
+        return nv;
+    }).join('\n'); // .match(/\{|\}|\[|\]|\(|\)/g)||[];
+
     var allM = str.match(/\{|\}|\[|\]|\(|\)/g)||[];
+
     if ( allM.length % 2 !== 0 ) {
         console.info('balancedBrackets input is not balance')
         return 'NO'
     }
-    var map ={
-        '{':'}',
-        '[':']',
-        '(':')'
-    };
+    var map ={ '{':'}', '[':']', '(':')' };
     var buff = [];
+
     for (var i=0; i < allM.length; i++){
         if ( map.hasOwnProperty( allM[ i ] ) ){
             buff.push( allM[ i ] )
@@ -1684,7 +1720,7 @@ function balancedBrackets(str3){
             }
         }
     }
-    console.info('buff', buff)
+    // console.info('buff', buff)
     if (buff.length > 0){
         return 'NO'
     } else {
@@ -1694,6 +1730,72 @@ function balancedBrackets(str3){
 
 // console.info('balancedBrackets',balancedBrackets('(){()[()]}'))
 // console.info('balancedBrackets',balancedBrackets(getStartFiscalMonth.toString() ));
-console.info('balancedBrackets', balancedBrackets( magicIndexWithDups.toString() ) );
+console.info('balancedBrackets', balancedBrackets( findColor.toString() ) );
 // console.info(getStartFiscalMonth.toString().match(/\(.*\)/i) )
 // match(/(?=cow).*(?=milk)/g) == [ 'cow always gives ' ]
+
+function fizzBuzz ( n ) {
+    var out = [];
+
+    for (var i = 1; i <= n; i++ ) {
+        if ( i % 3 === 0 && i % 5 === 0) {
+            out.push(' fizzbuzz');
+        } else if ( i % 3 === 0 ) {
+            out.push(' fizz');
+        } else if ( i % 5 === 0 ) {
+            out.push(' buzz');
+        }
+    }
+    return out.join('\n');
+}
+// console.info('fizzBuzz', fizzBuzz( 30 ) );
+
+function englishInt (num ) {
+    var intWordArr = [
+       'zero',
+        'one',
+        'two',
+        'three',
+        'four',
+        'five',
+        'six',
+        'seven',
+        'eight',
+        'nine',
+        'ten',
+         'eleven',
+        'twelve',
+        'thirteen',
+        'fourteen',
+        'fifteen',
+        'sixteen',
+        'seventeen',
+         'eighteen',
+        'nineteen']
+
+    var tensArr = [
+        'twenty',
+        'thirty',
+        'fourty',
+        'fifty',
+        'sixty',
+        'seventy',
+        'eighty',
+        'ninety',
+        'one hundred'        
+    ]
+
+    var bigNumArr = [
+        'Hundred','Thousand', 'Million', 'Billion'
+    ]
+    var snum = num + '';
+
+    if ( num < 20 ){
+        return intWordArr[num];
+    } else {
+
+    }
+    
+}
+var numToWord = 10
+ console.info('englishInt',numToWord, englishInt( numToWord ) );
