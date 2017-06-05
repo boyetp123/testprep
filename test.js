@@ -1752,28 +1752,14 @@ function fizzBuzz ( n ) {
 
 function englishInt (num ) {
     var intWordArr = [
-       'zero',
-        'one',
-        'two',
-        'three',
-        'four',
-        'five',
-        'six',
-        'seven',
-        'eight',
-        'nine',
-        'ten',
-         'eleven',
-        'twelve',
-        'thirteen',
-        'fourteen',
-        'fifteen',
-        'sixteen',
-        'seventeen',
-         'eighteen',
-        'nineteen']
+       '', 'one', 'two', 'three', 'four', 'five', 'six',
+        'seven', 'eight', 'nine',  'ten', 'eleven', 'twelve',
+        'thirteen', 'fourteen', 'fifteen', 'sixteen',
+        'seventeen', 'eighteen', 'nineteen']
 
     var tensArr = [
+        '',
+        '',
         'twenty',
         'thirty',
         'fourty',
@@ -1781,21 +1767,70 @@ function englishInt (num ) {
         'sixty',
         'seventy',
         'eighty',
-        'ninety',
-        'one hundred'        
+        'ninety'
     ]
 
     var bigNumArr = [
         'Hundred','Thousand', 'Million', 'Billion'
     ]
-    var snum = num + '';
 
-    if ( num < 20 ){
-        return intWordArr[num];
-    } else {
+    function convert(num){
 
+        var snum = num + '';
+        var split = snum.split('');
+        if (num === 0){
+            return 'zero'
+        } else if ( num < 20 ){
+            return intWordArr[num];
+        } else if (snum.length === 2) {
+            return tensArr[ split[0] ]  + ' ' + convert( snum.substr(1) );
+        } else {
+            var rnum = Number(snum.substr(1));
+            var word = rnum < 1 ? '' : convert( rnum )
+            return intWordArr[ split[0 ] ] + ' ' + bigNumArr[ split.length - 3 ] + ' ' + word;
+        }
     }
-    
+    return  convert(num);   
 }
-var numToWord = 10
+var numToWord = 2151;
  console.info('englishInt',numToWord, englishInt( numToWord ) );
+
+
+// compute when 2 cars 2 diff speeds when they are at the same point
+// get the time
+function carsSpeeds( speed1, speed2, start1, start2 ) {
+    var d1, d2, t, s;
+    // if start1 > start2       d2 = start1 + d1
+    s = Math.abs( start1 - start2 );
+
+    if ( speed2 > speed1 && start1 > start2 ) {
+        d1 =  ( speed1 * s) / Math.abs(speed2 - speed1);
+        t = d1 / speed1;
+        return {time : t, distance1 : d1, distance2 : d1 + s}
+    } else if ( speed1 > speed2 && start2 > start1 ) {
+        d2 =  ( speed2 * s) / Math.abs(speed2 - speed1);  
+        t = d2 / speed2;
+        return {time : t, distance1 : d2 + s, distance2 : d2}
+    } else {
+        return 'invalid inputs'
+    }
+}
+console.info('carsSpeeds', carsSpeeds( 30, 40, 2, 0 ) );
+console.info('carsSpeeds', carsSpeeds( 40, 30, 0, 2 ) );
+
+
+function lineIntercept( linePt1, linePt2 ){
+    var m1 = (linePt1.y2 - linePt1.y1 ) / (linePt1.x2 - linePt1.x1 );
+    var m2 = (linePt2.y2 - linePt2.y1 ) / (linePt2.x2 - linePt2.x1 );
+    var b1 = linePt1.y1 - (m1 * linePt1.x1 );
+    var b2 = linePt2.y1 - (m2 * linePt2.x1 );
+
+    console.info('m1',m1,'m2',m2,'b1',b1,'b2',b2)
+
+    var x = ( b1 - b2 ) / ( m2 - m1);
+    var y = ( m2 *  x ) + b2;
+    var checkY = ( m1 *  x  )  + b1;
+    return { x: x, y : y , checkY : checkY};
+}
+
+console.info('lineIntercept', lineIntercept( {x1: 1, y1 : 1, x2 : 7, y2: 7}, { x1: 2, y1: 5, x2: 5, y2: 1} ) );
