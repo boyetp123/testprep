@@ -173,7 +173,7 @@ function removeRepeat(str){
     str.split('').forEach( v => {
         if (v !== ' '){
             var rx = new RegExp(v,'g');
-            if ( out.match( rx )   ){
+            if ( (out.match( rx ) || []).length > 1 ){
                 out = out.replace(rx,'');
             }
         }
@@ -238,23 +238,33 @@ console.info( 'timeConversion', timeConversion ('7:05:45AM'));
 
 function bigSum(arr){
     var sum = 0;
-    arr.forEach((value,idx)=>{
+    arr.forEach( value => {
         sum+= value;
     } );
     return sum;
 }
+console.info( 'bigSum',  bigSum ( [1001,1002,1003,1004,1005] ) )
 
-// console.info(  bigSum ( [1001,1002,1003,1004,1005] ) )
+function bigSum2(arr){
+    return arr.reduce( ( p, v ) => p + v, 0 )
+}
+console.info( 'bigSum2', bigSum2 ( [1001,1002,1003,1004,1005] ) )
 
 
 function diagonalDiff(arr){
     var dir1=0;
     var dir2=0;
+    var len = arr.length - 1;
+
+    // for (var i = 0; i < arr.length; i++){
+    //     dir1 += arr[i];
+    //     dir2 += arr[ len - i ]
+    // }
 
     arr.forEach((valuearr,idx)=>{
         console.info(valuearr)
-        valuearr.forEach((val,idx2)=>{
-            console.info(idx === idx2, idx === (valuearr.length - 1) - idx2 )
+        valuearr.forEach((val, idx2 )=>{
+            // console.info(idx === idx2, idx === (valuearr.length - 1) - idx2 )
             if (idx === idx2 ){
                 dir1 += val; 
             }
@@ -268,6 +278,9 @@ function diagonalDiff(arr){
 }
 
 // console.info(diagonalDiff([ [ 11, 2, 4 ], [ 4, 5, 6 ], [ 10, 8, -12 ] ])  )
+console.info('diagonalDiff',diagonalDiff([ [ 1 ,2, 3, 4, 5 ], [ 1 ,2, 3, 4, 5 ], [ 1 ,2, 3, 4, 5 ], [ 1 ,2, 3, 4, 5 ], [ 1 ,2, 3, 4, 5 ] ])  )
+
+
 // get the total length of all stringd, words inside a given array
 function getStrLengthInArray(arr){
     let len=0;
@@ -331,7 +344,7 @@ function textJustification(words, L) {
 }
 var words = ["This", "is", "an", "example", "of", "text", "justification."] , L =16;
 // var words = ["Two", "words."],  L = 9;
-// console.info( textJustification( words,L ) )
+console.info( 'textJustification',textJustification( words,L ) )
 
 // String.prototype.reverse = String.prototype.reverse || function(){
 //     if (this.length > 1){
@@ -593,7 +606,7 @@ var twoCharacters = s=>{
 
     return out + '; len ' + out.length;
 }
-// console.info(twoCharacters('beabeefeab'))
+console.info('twoCharacters', twoCharacters('beabeefeab'))
 
 var weightedUniformString = s=>{
     // a is 97
@@ -603,8 +616,18 @@ var weightedUniformString = s=>{
         return (s.charCodeAt(0) - 96) + weightedUniformString(s.substr(1));
     }
 }
-// console.info(weightedUniformString('apple'))
-// console.info(weightedUniformString('watch'))
+// console.info('*** weightedUniformString a',weightedUniformString('a'))
+console.info('*** weightedUniformString apple',weightedUniformString('apple'))
+// console.info('*** weightedUniformString watch', weightedUniformString('watch'))
+
+var weightedUniformString2 = s=>{
+    // a is 97
+    return s.split('').reduce( (p, v) => {
+        p = p + (v.charCodeAt() - 96) 
+        return p;
+    },0)    
+}
+console.info('*** weightedUniformString2 apple',weightedUniformString2('apple'))
 
 var closestInArray = (arr, num)=>{
     var out=0;
@@ -977,6 +1000,7 @@ var pairs = (input) =>{
     });
     return numOfPairs;
 }
+// var iVar = '5 2\n1 5 3 4 2';
 var iVar = '5 2\n1 5 3 4 2';
 console.info('pairs',pairs(iVar))
 
@@ -1834,3 +1858,35 @@ function lineIntercept( linePt1, linePt2 ){
 }
 
 console.info('lineIntercept', lineIntercept( {x1: 1, y1 : 1, x2 : 7, y2: 7}, { x1: 2, y1: 5, x2: 5, y2: 1} ) );
+
+function coins(num){
+    var coinsList = [1,3,5].reverse();
+    var ctr =0;
+    var rem = num;
+    var out = [];
+
+    while (ctr < coinsList.length){
+        if (rem <= 0) break;
+        if (rem >= coinsList[ctr] ){
+            rem = rem - coinsList[ctr];
+            out.push( coinsList[ctr] )
+        } else {
+            ctr ++;
+        }
+    }
+    return out;
+}
+console.info('coins', coins( 8 ) );
+
+function steps (n) {
+    if (n < 0) return 0;
+    if ( n <= 1) return 1;
+
+    return steps(n - 1) + steps(n - 2) + steps(n - 3)
+}
+console.info('steps 1', steps( 1 ) );
+console.info('steps 2', steps( 2 ) );
+console.info('steps 3', steps( 3 ) );
+console.info('steps 4', steps( 4 ) );
+
+
