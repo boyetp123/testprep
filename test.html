@@ -94,35 +94,238 @@
       .div-move:hover{
         transform: translate(200px , 0px);
       }
+      textarea {
+        width:800px;
+        height:120px;
+      }
     </style>
    
   </head>
 
   <!-- 3. Display the application -->
   <body>
-    <div class="container-box">
-      <div class="color-box red-box">
+    <table>
+      <tr>
+        <td>
+            <div class="container-box">
+              <div class="color-box red-box">
+              </div>
+              <div class="color-box blue-box">
+              </div>
+            </div>
+        </td>
+        <td>CSS code <br/>
+          <textarea >
 
-      </div>
-      <div class="color-box blue-box">
+            .color-box{
+              border-radius: 5px;
+              width: 100%;
+              height: 100%;
+            }
+            .container-box{        
+              width: 200px;
+              height: 200px;
+              -webkit-transition: width 2s, height 2s, background-color 2s, -webkit-transform 2s;
+              transition: width 2s, height 2s, background-color 2s, transform 2s;
+            }
+            
+            .container-box:hover{        
+              width: 200px;
+              height: 200px;
+              -webkit-transform: rotate(180deg);
+              transform: rotate(180deg);
+            }
+            .red-box {
+              border: red 1px solid;
+              background-color: red;
+              width: 100%;
+              height: 50%;
+              box-sizing: border-box
+            }
+            .blue-box {
+              border: blue 1px solid;
+              background-color:blue;
+              width: 100%;
+              height: 50%;
+              box-sizing: border-box
+            }
+          </textarea>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="box-tilt"></div>          
+        </td>
+        <td>CSS code <br/>
+           <textarea>
 
-      </div>
-    </div>
+            .box-tilt {
+                width: 200px;
+                height: 100px;
+                background-color: yellow;
+                transition-timing-function: ease;
+                -webkit-transition-timing-function: ease;
+                transition: width 2s, height 2s, background-color 2s, transform 2s;
+            }
+            .box-tilt:hover{
+                -ms-transform: rotate(90deg); /* IE 9 */
+                -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+                transform: rotate(90deg);
+            }
+           </textarea>
+        </td>
+      </tr>
+      <tr>
+        <td>
+            <div class="div-grow1 div-grow">linear</div><br>
+        </td>
+        <td>CSS code <br/>
+            <textarea >
+            .div-grow1 {
+              -webkit-transition-timing-function: linear; /* For Safari 3.1 to 6.0 */
+              transition-timing-function: linear; /* Standard syntax */
+            }
+            .div-grow:hover {
+                width: 300px;
+            }
+            .div-grow {
+                width: 100px;
+                height: 100px;
+                background:green;
+                -webkit-transition: width 2s; /* Safari */
+                transition: width 2s;
+            }
+            </textarea>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="div-grow2 div-grow">ease</div><br>
+        </td>
+        <td>CSS code <br/>
+           <textarea >
+            .div-grow2 {
+              -webkit-transition-timing-function: ease; /* For Safari 3.1 to 6.0 */
+              transition-timing-function: ease; /* Standard syntax */
+            }             
+            .div-grow:hover {
+                width: 300px;
+            }
+            .div-grow {
+                width: 100px;
+                height: 100px;
+                background:green;
+                -webkit-transition: width 2s; /* Safari */
+                transition: width 2s;
+            }
+            </textarea>
 
-    <div class="box-tilt"></div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="div-grow3 div-grow">ease-in</div><br>
+        </td>
+        <td>CSS code <br/>
+           <textarea >
+            .div-grow3 {
+              -webkit-transition-timing-function: ease-in; /* For Safari 3.1 to 6.0 */
+              transition-timing-function: ease-in; /* Standard syntax */
+            }             
+            .div-grow:hover {
+                width: 300px;
+            }
+            .div-grow {
+                width: 100px;
+                height: 100px;
+                background:green;
+                -webkit-transition: width 2s; /* Safari */
+                transition: width 2s;
+            }
+            </textarea>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="div-grow4 div-grow">ease-out</div><br>
+        </td>
+        <td>CSS code <br/>
+           <textarea >
+            .div-grow4 {
+              -webkit-transition-timing-function: ease-out; /* For Safari 3.1 to 6.0 */
+              transition-timing-function: ease-out; /* Standard syntax */
+            }
+            .div-grow:hover {
+                width: 300px;
+            }
+            .div-grow {
+                width: 100px;
+                height: 100px;
+                background:green;
+                -webkit-transition: width 2s; /* Safari */
+                transition: width 2s;
+            }
+            </textarea>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="div-grow5 div-grow">ease-in-out</div><br>
+        </td>
+        <td>CSS code <br/>
+           <textarea >
+            .div-grow5 {
+              -webkit-transition-timing-function: ease-in-out; /* For Safari 3.1 to 6.0 */
+              transition-timing-function: ease-in-out; /* Standard syntax */
+            }
+             
+            .div-grow:hover {
+                width: 300px;
+            }
+            .div-grow {
+                width: 100px;
+                height: 100px;
+                background:green;
+                -webkit-transition: width 2s; /* Safari */
+                transition: width 2s;
+            }
+            </textarea>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="div-move-container">
+            <div class="div-move">
+              move
+            </div>
+          </div>
+        </td>
+        <td>CSS code <br/>
+           <textarea>
+              .div-move{
+                position:relative;
+                left:0px;
+                width:100px;
+                height: 100px;
+                border: 1px red dashed;
+                -webkit-transition: transform 2s ease 0s; /* Safari */
+                transition: transform 2s ease 0s;
+              }
+              .div-move:hover{
+                transform: translate(200px , 0px);
+              }
+            </textarea>
+      
+        </td>
+      </tr>
 
-    <div class="div-grow1 div-grow">linear</div><br>
-    <div class="div-grow2 div-grow">ease</div><br>
-    <div class="div-grow3 div-grow">ease-in</div><br>
-    <div class="div-grow4 div-grow">ease-out</div><br>
-    <div class="div-grow5 div-grow">ease-in-out</div><br>
 
-    <div class="div-move-container">
-      <div class="div-move">
-        move
-      </div>
-    </div>
-    <br>
+
+
+
+    </table>
+
+
 
   </body>
 

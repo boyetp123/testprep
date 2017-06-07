@@ -1889,4 +1889,74 @@ console.info('steps 2', steps( 2 ) );
 console.info('steps 3', steps( 3 ) );
 console.info('steps 4', steps( 4 ) );
 
+function testPromise (){
 
+    (new Promise( function ( resolve, reject) {
+        setTimeout( function () {
+            resolve('this is resolve');
+        },300)
+    })).then(function(data){
+        console.info('then ', data)
+        return (new Promise( function ( resolve, reject) {
+            setTimeout( function () {
+                resolve('this is resolve 2');
+            },300);
+        }));
+    }).then(function (data){
+        console.info('then2 ', data)        
+    })
+
+}
+testPromise();
+
+function stringify(anyvalue){
+    if (!anyvalue) return '';
+
+    function stringify2( any ) {
+        var stype = typeof(any);
+
+        if ( any === null){
+            return 'null'
+        } else if ( stype === 'undefined') {
+            return 'undefined';
+        } else if ( stype === 'string') {
+            return '\"' + any + '\"';
+        } else if ( stype === 'number') {
+            return any + '';
+        } else if ( Array.isArray( any ) ) {
+            var out2 = any.map( cv => {
+                return stringify2(cv);
+            },[]);
+            return  '[' + out2.join(',') + ']';
+        } else { // object
+            var out3 = Object.keys( any ).map( cv =>{
+                return '\"' + cv + '\":' + stringify2( any[ cv ] ) + '';
+            },[]);
+            return '{' + out3.join(',') + '}';
+        }
+    }
+    return stringify2(anyvalue);
+}
+
+
+var testObj = {
+    name:'John Smith',
+    age:45,
+    wife: {
+        name: 'Susan',
+        age:40
+    },
+    children:[
+        { 
+            name: 'blanchy',
+            age:21,
+            school : 'San Jose State University'
+        },
+        { 
+            name : 'henrick',
+            age: 16,
+            school : 'Santa Teresa'
+        }
+    ]
+}
+console.info( 'stringify' , stringify( testObj ) )
