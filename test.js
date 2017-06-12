@@ -1904,6 +1904,8 @@ function testPromise (){
         }));
     }).then(function (data){
         console.info('then2 ', data)        
+    }).then(function (data){
+        console.info('then3 then2 is not returning a promise ', data)        
     })
 
 }
