@@ -1,0 +1,81 @@
+<html>
+    <head>
+        <title>
+            Circles , Box shadow
+        </title>
+        <style>
+            .quarter-circle-container {
+                width: 400px;
+                height: 200px;
+                position: relative;
+            }
+            .quarter-circle {
+                width: 200px;
+                height: 200px;
+                border-top-left-radius: 100%;
+                border-width: 2px;
+                border-style: solid;
+                position: absolute;
+                border-right-color: transparent;
+                border-top-color: transparent;
+                border-bottom-color: transparent;
+            }
+            .quarter-circle1 {
+                border-left-color:  red;
+            }
+            .quarter-circle2 {
+                border-left-color:  blue;
+                transform: rotate(45deg);
+            }
+            .quarter-circle3 {
+                border-width: 20px;
+                border-radius: 50%;
+                border-color:  green;
+            }
+            .quarter-circle4 {
+                border-width: 20px;
+                border-left-color:  yellow;
+                transform: rotate(90deg);
+                border-radius: 50%;
+            }
+            .loading-animator {
+                width: 200px;
+                height: 200px;
+                border: 20px solid gray;
+                border-top-color: red;
+                border-radius: 50%;
+                animation: round 2s linear infinite;
+            }
+            @keyframes round {
+                from { transform: rotate(0deg)}
+                to { transform: rotate(360deg)}
+            }
+        </style>
+        <script>
+
+        </script>
+
+    </head>
+    <body>
+        <div class="quarter-circle-container">
+            <div class="quarter-circle quarter-circle1">
+                hello
+            </div>
+            <div class="quarter-circle quarter-circle2">
+                hello
+            </div>
+        </div>
+        <div class="quarter-circle-container">
+            <div class="quarter-circle quarter-circle3">
+                hello
+            </div>
+            <div class="quarter-circle quarter-circle4">
+                hello
+            </div>
+        </div>
+        <div class="loading-animator">
+            
+        </div>
+    </body>
+</html>
+
