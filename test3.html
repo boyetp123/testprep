@@ -6,13 +6,16 @@
         <style>
             .quarter-circle-container {
                 width: 400px;
-                height: 200px;
+                height: 500px;
                 position: relative;
+                overflow: hidden;
+                border: 1px dashed black;
             }
             .quarter-circle {
-                width: 200px;
-                height: 200px;
-                border-top-left-radius: 100%;
+                width: 400px;
+                height: 400px;
+                /*border-top-left-radius: 50%;*/
+                border-radius: 50%;
                 border-width: 2px;
                 border-style: solid;
                 position: absolute;
@@ -21,11 +24,13 @@
                 border-bottom-color: transparent;
             }
             .quarter-circle1 {
+                border-width: 4px;
                 border-left-color:  red;
             }
             .quarter-circle2 {
                 border-left-color:  blue;
-                transform: rotate(45deg);
+                transform: rotate(90deg);
+                /*left:200px;*/
             }
             .quarter-circle3 {
                 border-width: 20px;
@@ -50,6 +55,33 @@
                 from { transform: rotate(0deg)}
                 to { transform: rotate(360deg)}
             }
+
+            .center-container{
+                width: 400px;
+                height: 400px;
+                position: relative;
+                /*border-radius: 50%;*/
+                border: 1px solid blue;
+                text-align: center;
+            }
+            .center{
+                display: block;
+                width: 50px;
+                height: 50px;
+                position: absolute;
+                border: 1px solid red;
+                /*border-radius: 50%;*/
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                margin: auto;
+                /*top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);*/
+            }
+
+
         </style>
         <script>
 
@@ -59,10 +91,8 @@
     <body>
         <div class="quarter-circle-container">
             <div class="quarter-circle quarter-circle1">
-                hello
             </div>
             <div class="quarter-circle quarter-circle2">
-                hello
             </div>
         </div>
         <div class="quarter-circle-container">
@@ -75,6 +105,11 @@
         </div>
         <div class="loading-animator">
             
+        </div>
+        <div class="center-container">
+            <div>test</div>
+            <div class="center">
+            </div>
         </div>
     </body>
 </html>
