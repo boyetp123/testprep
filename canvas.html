@@ -5,14 +5,26 @@
         </title>
         <style>
             #canvas-1 {
-                width: 600px;
-                height: 500px;
+                width: 500px;
+                height: 350px;
                 border: 1px solid red;
             }
 
         </style>
         <script>
             function draw() {
+                var canvas = document.getElementById('canvas-1');
+                var ctx1 = canvas.getContext('2d');
+
+                ctx1.arc(150,150,100,0,Math.PI*2,false); // x, y, radius, startAngle, endAngle, true/false (for clockwise and anticlockwise)
+                // Math.PI gives semi-circle
+                // Math.PI*2 gives full circle
+                // Numbers can also be used instead of Math.P eg. 6.28
+                // try using numbers less than 6.28 to see how you get less of a circle
+                ctx1.stroke();
+                //try doing semi-circle that is (flipped over) by chaning false to true
+ 
+
 
             }
             window.onload = draw;
