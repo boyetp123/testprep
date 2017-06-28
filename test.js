@@ -1909,7 +1909,7 @@ function testPromise (){
     })
 
 }
-testPromise();
+// testPromise();
 
 function stringify(anyvalue){
     if (!anyvalue) return '';
@@ -1962,3 +1962,485 @@ var testObj = {
     ]
 }
 console.info( 'stringify' , stringify( testObj ) )
+
+// Problem
+/*
+Assume you have a standard phone keypad that looks like this:
+1 2 3
+4 5 6
+7 8 9
+0
+
+For the purposes of this problem, the digit “1” is considered adjacent 
+to “1”, “2”, “5” and “4”. The digit “5” is considered adjacent to every digit except 
+“0”. “0” is adjacent to “7”, “8” and “9”.
+
+We consider a phone number “easy to dial” if every digit is physically 
+adjacent to the next digit on the keypad. The phone numbers “254-7096” 
+and “554-7521” are easy to dial. The phone numbers “280-6547” 
+and “355-8123” are not.
+
+Write a function that takes as input a phone number and returns 
+whether or not it is easy to dial.
+*/
+// solution 1
+// this is for running not in a loop
+function isEasyPhoneNumber1 (phoneNumberStr) {
+    var phoneDialPad = [
+        [  '1',  '2',   '3'],
+        [  '4',  '5',   '6'],
+        [  '7',  '8',   '9'],
+        [   '',  '0',   '']
+    ];
+    var phoneNumber = phoneNumberStr.split('').filter( v => v !== '-' );
+    var mem = {};
+    // get the X and Y location of a number from the dial pad
+    function getNumberLocation ( n ) {
+        var row = 0;
+        var col = 0;
+        for (; row < phoneDialPad.length; row ++){
+            col = phoneDialPad[row].indexOf(n);
+            if (col > -1) {
+                return {row: row, col: col};
+            }
+        }
+        // console.info('number ', n, 'not found in the dialpad')
+        return null;
+    }
+    var getAjacentCols = ( arr, colIdx) => {
+        return arr.reduce( (pv, v, idx ) => {
+            if ( idx === colIdx || idx === (colIdx + 1) || idx === (colIdx - 1) ){
+                pv.push( v );
+            }
+            return pv;
+        }, [] );
+    }
+    // return a object for faster search
+    function getAdjacentNumbers( n ) {
+        var location = getNumberLocation( n );
+        return phoneDialPad.reduce( (pv, vArr, idx) => {
+            if ( idx === location.row  || idx  === (location.row + 1) || idx=== (location.row - 1) ){
+                pv = pv.concat( getAjacentCols(vArr, location.col) );
+            }
+            return pv;
+        }, [])
+        .reduce( (pv1, v1) => { pv1[v1] = ''; return pv1; },{} )
+    }
+
+    function isEasyNumberToDial() {
+        var prevNum, nextNum, num;
+
+        for (var i = 0; i < phoneNumber.length; i++){
+            num = phoneNumber[ i ];
+            
+            // if the current number is not in the memory, then create it
+            if ( !mem.hasOwnProperty( num  ) ){ 
+                // memorize the adjacent numbers if does not exist so we don't have to 
+                // search the adjacent numbers
+                mem[ num ] = getAdjacentNumbers( num );
+                // console.info(num, mem[ num ])
+            }
+            if ( i == 0){
+                // check the next if easy access
+                if ( !mem[ num ].hasOwnProperty(  phoneNumber[ i + 1 ] ) ) {
+                    return false;
+                }
+            } else if ( i > 0 && i < phoneNumber.length - 1) { 
+                // check the previous and next if easy access
+                nextNum =  phoneNumber[ i + 1 ];
+                prevNum =  phoneNumber[ i - 1 ]
+                if ( !mem[ num ].hasOwnProperty( nextNum ) || !mem[ num ].hasOwnProperty( prevNum )  ){
+                    return false;
+                }
+            } else if (  i === phoneNumber.length - 1) { 
+                // check prev number if easy access
+                if ( !mem[ num ].hasOwnProperty(  phoneNumber[ i - 1 ] ) ){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    return isEasyNumberToDial();
+}
+var totalStartTime = (new Date()).getTime();
+startTime = (new Date()).getTime();
+console.log('isEasyPhoneNumber1 254-7096 should be true', isEasyPhoneNumber1('254-7096') === true ? 'success' : 'fail', 'elapse',(Date.now() - startTime),'milis' )
+startTime = (new Date()).getTime();
+console.log('isEasyPhoneNumber1 554-7521 should be true', isEasyPhoneNumber1('554-7521') === true ? 'success' : 'fail', 'elapse',(Date.now() - startTime),'milis');
+startTime = (new Date()).getTime();
+console.log('isEasyPhoneNumber1 280-6547 should be false', isEasyPhoneNumber1('280-6547') === false ? 'success' : 'fail', 'elapse',(Date.now() - startTime),'milis');
+startTime = (new Date()).getTime();
+console.log('isEasyPhoneNumber1 355-8123 should be false', isEasyPhoneNumber1('355-8123') === false ? 'success' : 'fail', 'elapse',(Date.now() - startTime),'milis');
+console.log('EasyPhoneNumber2 446-8851 should be false', isEasyPhoneNumber1('446-8851') === false ? 'success' : 'fail' );
+console.log('EasyPhoneNumber2 906-2721 should be false', isEasyPhoneNumber1('906-2721') === false ? 'success' : 'fail' );
+console.log('EasyPhoneNumber2 925-1352 should be false', isEasyPhoneNumber1('925-1352') === false ? 'success' : 'fail' );
+console.log('EasyPhoneNumber2 837-1600 should be false', isEasyPhoneNumber1('837-1600') === false ? 'success' : 'fail' );
+console.log('EasyPhoneNumber2 357-5900 should be false', isEasyPhoneNumber1('357-5900') === false ? 'success' : 'fail' );
+console.log('EasyPhoneNumber2 357-5100 should be false', isEasyPhoneNumber1('357-5100') === false ? 'success' : 'fail' );
+
+
+console.info('totalTime elapse',(Date.now() - totalStartTime),'milis')
+// solution 2, this is better for running in a loop
+// taking advantage of the memoization
+class EasyPhoneNumber2 {
+    constructor ( ) {
+        this.mem = {};
+        this.phoneDialPad = [
+            [  '1',  '2',   '3'],
+            [  '4',  '5',   '6'],
+            [  '7',  '8',   '9'],
+            [   '',  '0',   '']
+        ];
+        // for (let i = 0; i < 10; i++) {
+        //    this.mem[ i + '' ] = this.getAdjacentNumbers( i + '' );
+        // }
+        // console.info('mem', this.mem)
+    }
+    getAdjacentNumbers ( n ) {
+        let location = this.getNumberLocation( n );
+        return this.phoneDialPad.reduce( (pv, vArr, idx) => {
+            if ( idx === location.row  || idx  === (location.row + 1) || idx=== (location.row - 1) ){
+                pv = pv.concat( this.getAjacentCols(vArr, location.col) );
+            }
+            return pv;
+        }, []).reduce( (pv1, v1) => { pv1[v1] = ''; return pv1; },{} )
+    }
+
+    // // get the X and Y location of a number from the dial pad
+    getNumberLocation( n ) {
+        let row = 0;
+        let col = 0;
+        for (; row < this.phoneDialPad.length; row ++){
+            col = this.phoneDialPad[row].indexOf(n);
+            if (col > -1) {
+                return {row: row, col: col};
+            }
+        }
+        // console.info('number ', n, 'not found in the dialpad')
+        return null;
+    }
+
+    getAjacentCols( arr, colIdx) {
+        return arr.reduce( (pv, v, idx ) => {
+            if ( idx === colIdx || idx === (colIdx + 1) || idx === (colIdx - 1) ){
+                pv.push( v );
+            }
+            return pv;
+        }, [] );
+    }
+
+    isEasyNumber(numberStr) {
+        let phoneNumber = numberStr.split('').filter( v => v !== '-' );
+        var prevNum, nextNum;
+
+        for (var i = 0; i < phoneNumber.length; i++){
+            var num = phoneNumber[ i ];
+            // if the current number is not in the memory, then create it
+            if ( !this.mem.hasOwnProperty( num  ) ){ 
+                // memorize the adjacent numbers if does not exist so we don't have to 
+                // search the adjacent numbers
+                this.mem[ num ] = this.getAdjacentNumbers( num );
+                // console.info(num, mem[ num ])
+            }
+
+            if ( i == 0){
+                // check the next if easy access
+                if ( ! this.mem[ num ].hasOwnProperty( phoneNumber[ i + 1 ] ) ) {
+                    return false;
+                }
+            } else if ( i > 0 && i < phoneNumber.length - 1) { 
+                // check the previous and next if easy access
+                nextNum =  phoneNumber[ i + 1 ];
+                prevNum =  phoneNumber[ i - 1 ]
+                if ( !this.mem[ num ].hasOwnProperty( nextNum ) || !this.mem[ num ].hasOwnProperty( prevNum )  ){
+                    return false;
+                }
+            } else if (  i === phoneNumber.length - 1) { 
+                // check prev number if easy access
+                if ( !this.mem[ num ].hasOwnProperty(  phoneNumber[ i - 1 ] ) ){
+                    return false;
+                }
+            }
+        }
+        return true;        
+    }
+
+}
+var totalStartTime  = Date.now()
+startTime = Date.now()
+let easyPhoneNumber2 =  new EasyPhoneNumber2();
+console.info((Date.now() - startTime),'milis to init')
+startTime = Date.now()
+console.log('EasyPhoneNumber2 254-7096 should be true', easyPhoneNumber2.isEasyNumber('254-7096') === true ? 'success' : 'fail',(Date.now() - startTime),'milis' )
+startTime = Date.now()
+console.log('EasyPhoneNumber2 554-7521 should be true', easyPhoneNumber2.isEasyNumber('554-7521') === true ? 'success' : 'fail',(Date.now() - startTime),'milis' );
+startTime = Date.now()
+console.log('EasyPhoneNumber2 280-6547 should be false', easyPhoneNumber2.isEasyNumber('280-6547') === false ? 'success' : 'fail',(Date.now() - startTime),'milis' );
+startTime = Date.now()
+console.log('EasyPhoneNumber2 355-8123 should be false', easyPhoneNumber2.isEasyNumber('355-8123') === false ? 'success' : 'fail',(Date.now() - startTime),'milis' );
+
+console.log('EasyPhoneNumber2 446-8851 should be false', easyPhoneNumber2.isEasyNumber('446-8851') === false ? 'success' : 'fail' );
+console.log('EasyPhoneNumber2 906-2721 should be false', easyPhoneNumber2.isEasyNumber('906-2721') === false ? 'success' : 'fail' );
+console.log('EasyPhoneNumber2 925-1352 should be false', easyPhoneNumber2.isEasyNumber('925-1352') === false ? 'success' : 'fail' );
+console.log('EasyPhoneNumber2 837-1600 should be false', easyPhoneNumber2.isEasyNumber('837-1600') === false ? 'success' : 'fail' );
+console.log('EasyPhoneNumber2 357-5900 should be false', easyPhoneNumber2.isEasyNumber('357-5900') === false ? 'success' : 'fail' );
+console.log('EasyPhoneNumber2 357-5100 should be false', easyPhoneNumber2.isEasyNumber('357-5100') === false ? 'success' : 'fail' );
+
+console.info('totalTime elapse',(Date.now() - totalStartTime),'milis')
+
+
+/*
+    for a dialpad that will always be the same arrangment,
+    use hardcoding the adjacent numbers
+*/
+function isEasyPhoneNumber3 (phoneNumberStr) {
+    var phoneDialPad = [
+        [  '1',  '2',   '3'],
+        [  '4',  '5',   '6'],
+        [  '7',  '8',   '9'],
+        [   '',  '0',   '']
+    ];
+    var phoneNumber = phoneNumberStr.split('').filter( v => v !== '-' );
+    var mem = { '0': { '0': '', '7': '', '8': '', '9': '', '': '' },
+                '1': { '1': '', '2': '', '4': '', '5': '' },
+                '2': { '1': '', '2': '', '3': '', '4': '', '5': '', '6': '' },
+                '3': { '2': '', '3': '', '5': '', '6': '' },
+                '4': { '1': '', '2': '', '4': '', '5': '', '7': '', '8': '' },
+                '5': { '1': '', '2': '', '3': '', '4': '', '5': '', '6': '', '7': '', '8': '', '9': '' },
+                '6': { '2': '', '3': '', '5': '', '6': '', '8': '', '9': '' },
+                '7': { '0': '', '4': '', '5': '', '7': '', '8': '', '': '' },
+                '8': { '0': '', '4': '', '5': '', '6': '', '7': '', '8': '', '9': '', '': '' },
+                '9': { '0': '', '5': '', '6': '', '8': '', '9': '', '': '' } }
+
+    function isEasyNumberToDial() {
+        var prevNum, nextNum, num;
+
+        for (var i = 0; i < phoneNumber.length; i++){
+            num = phoneNumber[ i ];
+            
+            // if the current number is not in the memory, then create it
+            if ( !mem.hasOwnProperty( num  ) ){ 
+                // memorize the adjacent numbers if does not exist so we don't have to 
+                // search the adjacent numbers
+                mem[ num ] = getAdjacentNumbers( num );
+                // console.info(num, mem[ num ])
+            }
+            if ( i == 0){
+                // check the next if easy access
+                if ( !mem[ num ].hasOwnProperty(  phoneNumber[ i + 1 ] ) ) {
+                    return false;
+                }
+            } else if ( i > 0 && i < phoneNumber.length - 1) { 
+                // check the previous and next if easy access
+                nextNum =  phoneNumber[ i + 1 ];
+                prevNum =  phoneNumber[ i - 1 ]
+                if ( !mem[ num ].hasOwnProperty( nextNum ) || !mem[ num ].hasOwnProperty( prevNum )  ){
+                    return false;
+                }
+            } else if (  i === phoneNumber.length - 1) { 
+                // check prev number if easy access
+                if ( !mem[ num ].hasOwnProperty(  phoneNumber[ i - 1 ] ) ){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    return isEasyNumberToDial();
+}
+var totalStartTime = (new Date()).getTime();
+startTime = (new Date()).getTime();
+console.log('isEasyPhoneNumber3 254-7096 should be true', isEasyPhoneNumber3('254-7096') === true ? 'success' : 'fail', 'elapse',(Date.now() - startTime),'milis' )
+startTime = (new Date()).getTime();
+console.log('isEasyPhoneNumber3 554-7521 should be true', isEasyPhoneNumber3('554-7521') === true ? 'success' : 'fail', 'elapse',(Date.now() - startTime),'milis');
+startTime = (new Date()).getTime();
+console.log('isEasyPhoneNumber3 280-6547 should be false', isEasyPhoneNumber3('280-6547') === false ? 'success' : 'fail', 'elapse',(Date.now() - startTime),'milis');
+startTime = (new Date()).getTime();
+console.log('isEasyPhoneNumber3 355-8123 should be false', isEasyPhoneNumber3('355-8123') === false ? 'success' : 'fail', 'elapse',(Date.now() - startTime),'milis');
+console.log('isEasyPhoneNumber3 446-8851 should be false', isEasyPhoneNumber3('446-8851') === false ? 'success' : 'fail' );
+console.log('isEasyPhoneNumber3 906-2721 should be false', isEasyPhoneNumber3('906-2721') === false ? 'success' : 'fail' );
+console.log('isEasyPhoneNumber3 925-1352 should be false', isEasyPhoneNumber3('925-1352') === false ? 'success' : 'fail' );
+console.log('isEasyPhoneNumber3 837-1600 should be false', isEasyPhoneNumber3('837-1600') === false ? 'success' : 'fail' );
+console.log('isEasyPhoneNumber3 357-5900 should be false', isEasyPhoneNumber3('357-5900') === false ? 'success' : 'fail' );
+console.log('isEasyPhoneNumber3 357-5100 should be false', isEasyPhoneNumber3('357-5100') === false ? 'success' : 'fail' );
+
+console.log('isEasyPhoneNumber3 355-8123 should be false', isEasyPhoneNumber3('355-8123') === false ? 'success' : 'fail', 'elapse',(Date.now() - startTime),'milis');
+console.log('isEasyPhoneNumber3 446-8851 should be false', isEasyPhoneNumber3('446-8851') === false ? 'success' : 'fail' );
+console.log('isEasyPhoneNumber3 906-2721 should be false', isEasyPhoneNumber3('906-2721') === false ? 'success' : 'fail' );
+console.log('isEasyPhoneNumber3 925-1352 should be false', isEasyPhoneNumber3('925-1352') === false ? 'success' : 'fail' );
+console.log('isEasyPhoneNumber3 837-1600 should be false', isEasyPhoneNumber3('837-1600') === false ? 'success' : 'fail' );
+console.log('isEasyPhoneNumber3 357-5900 should be false', isEasyPhoneNumber3('357-5900') === false ? 'success' : 'fail' );
+console.log('isEasyPhoneNumber3 357-5100 should be false', isEasyPhoneNumber3('357-5100') === false ? 'success' : 'fail' );
+console.log('isEasyPhoneNumber3 355-8123 should be false', isEasyPhoneNumber3('355-8123') === false ? 'success' : 'fail', 'elapse',(Date.now() - startTime),'milis');
+console.log('isEasyPhoneNumber3 446-8851 should be false', isEasyPhoneNumber3('446-8851') === false ? 'success' : 'fail' );
+console.log('isEasyPhoneNumber3 906-2721 should be false', isEasyPhoneNumber3('906-2721') === false ? 'success' : 'fail' );
+console.log('isEasyPhoneNumber3 925-1352 should be false', isEasyPhoneNumber3('925-1352') === false ? 'success' : 'fail' );
+console.log('isEasyPhoneNumber3 837-1600 should be false', isEasyPhoneNumber3('837-1600') === false ? 'success' : 'fail' );
+console.log('isEasyPhoneNumber3 357-5900 should be false', isEasyPhoneNumber3('357-5900') === false ? 'success' : 'fail' );
+console.log('isEasyPhoneNumber3 357-5100 should be false', isEasyPhoneNumber3('357-5100') === false ? 'success' : 'fail' );
+
+console.info('totalTime elapse',(Date.now() - totalStartTime),'milis')
+
+
+function isEasyPhoneNumber4 (phoneNumberStr1) {
+    var phoneDialPad = [
+        [  '1',  '2',   '3'],
+        [  '4',  '5',   '6'],
+        [  '7',  '8',   '9'],
+        [   '',  '0',   '']
+    ];
+    var mem = {};
+    // phoneDialPad.forEach( (varr , row) => {
+    //     varr.forEach( ( v, col) =>{
+    //         mem[v] = {row : row, col: col};
+    //     });
+    // });
+
+    // get the X and Y location of a number from the dial pad
+    function getNumberLocation ( n ) {
+        if ( mem.hasOwnProperty( n  ) ){
+            return mem[ n ];
+        }
+        var row = 0;
+        var col = 0;
+        for (; row < phoneDialPad.length; row ++){
+            col = phoneDialPad[row].indexOf(n);
+
+            if (col > -1) {
+                mem[ n ] = {row: row, col: col};
+                return mem[ n ];
+            }
+        }
+        // console.info('number ', n, 'not found in the dialpad')
+        return null;
+    }
+
+    function isEasyNumberToDial(phoneNumberStr) {
+        var prevNum, nextNum, num;
+        var phoneNumber = phoneNumberStr.split('').filter( v => v !== '-' );
+
+        for (var i = 0; i < phoneNumber.length; i++){
+            num = phoneNumber[ i ];
+            nextNum = phoneNumber[ i + 1 ];
+            prevNum = phoneNumber[ i - 1 ];
+            let curNumLoc =  getNumberLocation( num );
+
+            if ( i == 0){
+                // check the next if easy access
+                let nextNumLoc = getNumberLocation( nextNum );
+                if ( Math.abs(nextNumLoc.row - curNumLoc.row ) > 1 || Math.abs(nextNumLoc.col - curNumLoc.col ) > 1 ) {
+                    return false;
+                }
+            } else if ( i > 0 && i < phoneNumber.length - 1) { 
+                // check the previous and next if easy access
+                // nextNum =  phoneNumber[ i + 1 ];
+                // prevNum =  phoneNumber[ i - 1 ]
+                let nextNumLoc = getNumberLocation( nextNum );
+                let prevNumLoc = getNumberLocation( prevNum );
+
+                if ( Math.abs(nextNumLoc.row - curNumLoc.row ) > 1 || 
+                     Math.abs(nextNumLoc.col - curNumLoc.col ) > 1 || 
+                     Math.abs(prevNumLoc.row - curNumLoc.row ) > 1 || 
+                     Math.abs(prevNumLoc.col - curNumLoc.col ) > 1) {
+                    return false;
+                }
+            } else if (  i === phoneNumber.length - 1) { 
+                // check prev number if easy access
+                let prevNumLoc = getNumberLocation( prevNum );
+                if ( Math.abs(prevNumLoc.row - curNumLoc.row ) > 1 || 
+                     Math.abs(prevNumLoc.col - curNumLoc.col ) > 1){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    return isEasyNumberToDial(phoneNumberStr1);
+}
+var totalStartTime = (new Date()).getTime();
+startTime = Date.now();
+console.log('isEasyPhoneNumber4 254-7096 should be true', isEasyPhoneNumber4('254-7096') === true ? 'success' : 'fail', 'elapse',(Date.now() - startTime),'milis' )
+startTime = Date.now();
+console.log('isEasyPhoneNumber4 554-7521 should be true', isEasyPhoneNumber4('554-7521') === true ? 'success' : 'fail', 'elapse',(Date.now() - startTime),'milis');
+startTime = Date.now();
+console.log('isEasyPhoneNumber4 280-6547 should be false', isEasyPhoneNumber4('280-6547') === false ? 'success' : 'fail', 'elapse',(Date.now() - startTime),'milis');
+startTime = Date.now();
+console.log('isEasyPhoneNumber4 355-8123 should be false', isEasyPhoneNumber4('355-8123') === false ? 'success' : 'fail', 'elapse',(Date.now() - startTime),'milis');
+// console.log('isEasyPhoneNumber4 446-8851 should be false', isEasyPhoneNumber4('446-8851') === false ? 'success' : 'fail' );
+// console.log('isEasyPhoneNumber4 906-2721 should be false', isEasyPhoneNumber4('906-2721') === false ? 'success' : 'fail' );
+// console.log('isEasyPhoneNumber4 925-1352 should be false', isEasyPhoneNumber4('925-1352') === false ? 'success' : 'fail' );
+// console.log('isEasyPhoneNumber4 837-1600 should be false', isEasyPhoneNumber4('837-1600') === false ? 'success' : 'fail' );
+// console.log('isEasyPhoneNumber4 357-5900 should be false', isEasyPhoneNumber4('357-5900') === false ? 'success' : 'fail' );
+// console.log('isEasyPhoneNumber4 357-5100 should be false', isEasyPhoneNumber4('357-5100') === false ? 'success' : 'fail' );
+
+
+function isEasyPhoneNumber5 () {
+    var phoneDialPad = [
+        [  '1',  '2',   '3'],
+        [  '4',  '5',   '6'],
+        [  '7',  '8',   '9'],
+        [   '',  '0',   '']
+    ];
+    var mem = {};
+
+    // get the X and Y location of a number from the dial pad
+    // and save in cache
+    function getNumberLocation ( n ) {
+        if ( mem.hasOwnProperty( n  ) ){
+            return mem[ n ];
+        }
+        let row = 0, col = 0;
+        for (; row < phoneDialPad.length; row ++){
+            col = phoneDialPad[row].indexOf(n);
+            if (col > -1) {
+                mem[ n ] = {row: row, col: col};
+                return mem[ n ];
+            }
+        }
+        return null;
+    }
+
+    function isEasyNumberToDial(phoneNumberStr) {
+        var nextNum, num;
+        var phoneNumber = phoneNumberStr.split('').filter( v => v !== '-' );
+        let nextNumLoc, curNumLoc;
+
+        for (var i = 0; i < phoneNumber.length -1; i++){
+            num = phoneNumber[ i ];
+            nextNum = phoneNumber[ i + 1 ];
+            curNumLoc =  getNumberLocation( num );
+            // console.info( 'testing num',num, 'nextNum', nextNum );
+            if ( i == 0){
+                // check the next if adjacent
+                nextNumLoc = getNumberLocation( nextNum );
+                if ( Math.abs(nextNumLoc.row - curNumLoc.row ) > 1 || Math.abs(nextNumLoc.col - curNumLoc.col ) > 1 ) {
+                    return false;
+                }
+            } else if ( i > 0 && i < phoneNumber.length - 1) { 
+                // check the previous and next if adjacent
+                nextNumLoc = getNumberLocation( nextNum );
+
+                if ( Math.abs(nextNumLoc.row - curNumLoc.row ) > 1 || 
+                     Math.abs(nextNumLoc.col - curNumLoc.col ) > 1 ) {
+                    return false;
+                }
+            } 
+        }
+        return true;
+    }
+    return {
+        isEasyNumberToDial: isEasyNumberToDial
+    };
+}
+var isEasy5 = isEasyPhoneNumber5();
+startTime = Date.now();
+console.log('isEasyPhoneNumber5 254-7096 should be true', isEasy5.isEasyNumberToDial('254-7096') === true ? 'success' : 'fail', 'elapse',(Date.now() - startTime),'milis' )
+startTime = Date.now();
+console.log('isEasyPhoneNumber5 554-7521 should be true', isEasy5.isEasyNumberToDial('554-7521') === true ? 'success' : 'fail', 'elapse',(Date.now() - startTime),'milis');
+startTime = Date.now();
+console.log('isEasyPhoneNumber5 280-6547 should be false', isEasy5.isEasyNumberToDial('280-6547') === false ? 'success' : 'fail', 'elapse',(Date.now() - startTime),'milis');
+startTime = Date.now();
+console.log('isEasyPhoneNumber5 355-8123 should be false', isEasy5.isEasyNumberToDial('355-8123') === false ? 'success' : 'fail', 'elapse',(Date.now() - startTime),'milis');
+
+console.log('isEasyPhoneNumber5 254-7096 should be true', isEasy5.isEasyNumberToDial('254-7091') === true ? 'success' : 'fail' )
