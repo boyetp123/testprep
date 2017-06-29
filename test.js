@@ -2109,14 +2109,21 @@ function isEasyPhoneNumber2 () {
 
 
 class IsEasyPhoneNumber3 {
-    constructor () {
-        this.phoneDialPad = [
-            [  '1',  '2',   '3'],
-            [  '4',  '5',   '6'],
-            [  '7',  '8',   '9'],
-            [   '',  '0',   '']
-        ];
+
+    constructor ( dialPad ) {
         this.memCache = {};
+        if ( typeof dialPad === 'string') {
+            this.phoneDialPad = dialPad.split('\n').map( s => s.split(''));
+        } else if (Array.isArray(dialPad)) {
+            this.phoneDialPad = dialPad;
+        } else {
+            this.phoneDialPad = [
+                [  '1',  '2',   '3'],
+                [  '4',  '5',   '6'],
+                [  '7',  '8',   '9'],
+                [   '',  '0',   '']
+            ];
+        }
     }
     // get the X and Y location of a number from the dial pad and save in cache
     getNumberLocation ( n ) {
@@ -2132,7 +2139,6 @@ class IsEasyPhoneNumber3 {
         }
         return null;
     }
-
     isEasyNumberToDial(phoneNumberStr) {
         let phoneNumber = phoneNumberStr.split('').filter( v => v !== '-' );
         let nextNumLoc, curNumLoc;
@@ -2149,6 +2155,8 @@ class IsEasyPhoneNumber3 {
 }
 
 var startTime = Date.now();
+var customDialPad = '123\n456\n789\n 0 ';
+// var isEasy3 = new IsEasyPhoneNumber3(customDialPad);
 var isEasy3 = new IsEasyPhoneNumber3();
 console.log('IsEasyPhoneNumber3 254-7096 should be true', isEasy3.isEasyNumberToDial('254-7096') === true ? 'success' : 'fail');
 console.log('IsEasyPhoneNumber3 554-7521 should be true', isEasy3.isEasyNumberToDial('554-7521') === true ? 'success' : 'fail');
