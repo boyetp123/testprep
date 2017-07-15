@@ -104,6 +104,18 @@ function getDuplicates2(str){
 }
 console.info('getDuplicates2',getDuplicates2('Bay Area'));
 
+function getDuplicates3(str){
+    str = str.toLowerCase();
+    return str.split('').reduce( (p, v) => {
+        let count = (str.match( new RegExp(v,'ig')) || []).length;
+        if (count > 1 && !p.hasOwnProperty(v)){
+            p[v] = count;
+        }
+        return p;
+    }, {});
+}
+console.log('getDuplicates3',getDuplicates3('Bay Area red horse'));
+
 function reverse(s){
     var sarr = [];
     for(var i = s.length - 1; i  > -1 ;i--){
@@ -283,11 +295,13 @@ console.info('diagonalDiff',diagonalDiff([ [ 1 ,2, 3, 4, 5 ], [ 1 ,2, 3, 4, 5 ],
 
 // get the total length of all stringd, words inside a given array
 function getStrLengthInArray(arr){
-    let len=0;
-    arr.forEach( (val,idx)=>{
-        len += val.length;
-    } )
-    return len;
+    // let len=0;
+    // arr.forEach( (val,idx)=>{
+    //     len += val.length;
+    // } )
+    // return len;
+
+    return arr.reduce( (p, v) => p + v.length , 0);
 }
 
 function textJustification(words, L) {
@@ -1984,42 +1998,38 @@ Write a function that takes as input a phone number and returns
 whether or not it is easy to dial.
 */
 // solution 1
-// this is for running not in a loop, just being called once or twice
 function isEasyPhoneNumber1 (phoneNumberStr1) {
-    var phoneDialPad = [
-        [  '1',  '2',   '3'],
-        [  '4',  '5',   '6'],
-        [  '7',  '8',   '9'],
-        [   '',  '0',   '']
-    ];
-    var memCache = {};
-
-    // get the X and Y location of a number from the dial pad
-    // and save in cache
+    var dialMap = {
+        'A':1,
+        'B':1,
+        'C':1,
+        'D' :2,
+        'E': 2,
+        'F':2
+    }
     function getNumberLocation ( n ) {
-        if ( memCache.hasOwnProperty( n  ) ){
-            return memCache[ n ];
+        if (n === '0'){
+            return {row : 3, col: 1};
         }
-        for (let row = 0; row < phoneDialPad.length; row ++){
-            // for (let col = 0; col < phoneDialPad [row ].length; col++){
-            //     if ( !memCache.hasOwnProperty( phoneDialPad [row ][ col ] ) ){
-            //         memCache[ phoneDialPad [row ][ col ] ] = {row: row, col: col};
-            //     }
-            //     if ( phoneDialPad [row ][ col ] === n ) {
-            //         return memCache[ n ]
-            //     }
-            // }
-            let col = phoneDialPad[row].indexOf(n);
-            if (col > -1) {
-                memCache[ n ] = {row: row, col: col};
-                return memCache[ n ];
-            }
-        }
-        return null;
+        n = Number(n);
+        let col = n % 3;
+        col = col === 0 ? 2 : col - 1;
+        let row = Math.floor(n / 3);      
+
+        if ( n % 3 === 0 ){
+            row --;
+        }  
+        return {row : row, col: col};
     }
 
     function isEasyNumberToDial(phoneNumberStr) {
-        let phoneNumber = phoneNumberStr.split('').filter( v => v !== '-' );
+        let phoneNumber = phoneNumberStr.split('').filter( v => v !== '-' ).map( v => {
+            if (dialMap.hasOwnProperty(v)) {
+                return dialMap[v] + '';
+            }
+            return v;
+        });
+        
         let nextNumLoc, curNumLoc;
 
         for (var i = 0; i < phoneNumber.length -1; i++){
@@ -2038,14 +2048,8 @@ console.log('isEasyPhoneNumber1 254-7096 should be true', isEasyPhoneNumber1('25
 console.log('isEasyPhoneNumber1 554-7521 should be true', isEasyPhoneNumber1('554-7521') === true ? 'success' : 'fail');
 console.log('isEasyPhoneNumber1 280-6547 should be false', isEasyPhoneNumber1('280-6547') === false ? 'success' : 'fail');
 console.log('isEasyPhoneNumber1 355-8123 should be false', isEasyPhoneNumber1('355-8123') === false ? 'success' : 'fail');
-// console.log('isEasyPhoneNumber1 446-8851 should be false', isEasyPhoneNumber1('446-8851') === false ? 'success' : 'fail' );
-// console.log('isEasyPhoneNumber1 906-2721 should be false', isEasyPhoneNumber1('906-2721') === false ? 'success' : 'fail' );
-// console.log('isEasyPhoneNumber1 925-1352 should be false', isEasyPhoneNumber1('925-1352') === false ? 'success' : 'fail' );
-// console.log('isEasyPhoneNumber1 837-1600 should be false', isEasyPhoneNumber1('837-1600') === false ? 'success' : 'fail' );
-// console.log('isEasyPhoneNumber1 357-5900 should be false', isEasyPhoneNumber1('357-5900') === false ? 'success' : 'fail' );
-// console.log('isEasyPhoneNumber1 357-5100 should be false', isEasyPhoneNumber1('357-5100') === false ? 'success' : 'fail' );
+console.log('isEasyPhoneNumber1 425-BEEF should be false', isEasyPhoneNumber1('425-BEEF') === false ? 'success' : 'fail');
 console.info('isEasyPhoneNumber1 timeelapse ', Date.now() - startTime, 'millis');
-
 // this is ideal if called in a loop
 function isEasyPhoneNumber2 () {
     var phoneDialPad = [
@@ -2097,16 +2101,14 @@ function isEasyPhoneNumber2 () {
         isEasyNumberToDial: isEasyNumberToDial
     };
 }
-// var startTime = Date.now();
-// var isEasy2 = isEasyPhoneNumber2();
-// console.log('isEasyPhoneNumber2 254-7096 should be true', isEasy2.isEasyNumberToDial('254-7096') === true ? 'success' : 'fail');
-// console.log('isEasyPhoneNumber2 554-7521 should be true', isEasy2.isEasyNumberToDial('554-7521') === true ? 'success' : 'fail');
-// console.log('isEasyPhoneNumber2 280-6547 should be false', isEasy2.isEasyNumberToDial('280-6547') === false ? 'success' : 'fail');
-// console.log('isEasyPhoneNumber2 355-8123 should be false', isEasy2.isEasyNumberToDial('355-8123') === false ? 'success' : 'fail');
-// // console.log('isEasyPhoneNumber2 254-7096 should be false', isEasy2.isEasyNumberToDial('254-7091') === false ? 'success' : 'fail' );
-// console.info('isEasyPhoneNumber2 timeelapse ', Date.now() - startTime, 'millis');
-
-
+var startTime = Date.now();
+var isEasy2 = isEasyPhoneNumber2();
+console.log('isEasyPhoneNumber2 254-7096 should be true', isEasy2.isEasyNumberToDial('254-7096') === true ? 'success' : 'fail');
+console.log('isEasyPhoneNumber2 554-7521 should be true', isEasy2.isEasyNumberToDial('554-7521') === true ? 'success' : 'fail');
+console.log('isEasyPhoneNumber2 280-6547 should be false', isEasy2.isEasyNumberToDial('280-6547') === false ? 'success' : 'fail');
+console.log('isEasyPhoneNumber2 355-8123 should be false', isEasy2.isEasyNumberToDial('355-8123') === false ? 'success' : 'fail');
+// console.log('isEasyPhoneNumber2 254-7096 should be false', isEasy2.isEasyNumberToDial('254-7091') === false ? 'success' : 'fail' );
+console.info('isEasyPhoneNumber2 timeelapse ', Date.now() - startTime, 'millis');
 
 class IsEasyPhoneNumber3 {
 
@@ -2164,3 +2166,47 @@ console.log('IsEasyPhoneNumber3 280-6547 should be false', isEasy3.isEasyNumberT
 console.log('IsEasyPhoneNumber3 355-8123 should be false', isEasy3.isEasyNumberToDial('355-8123') === false ? 'success' : 'fail');
 // console.log('isEasyPhoneNumber2 254-7096 should be false', isEasy2.isEasyNumberToDial('254-7091') === false ? 'success' : 'fail' );
 console.info('IsEasyPhoneNumber3 timeelapse ', Date.now() - startTime, 'millis');
+
+
+function binaryToGrayCode(binInStr) {
+    let varr = binInStr.split('');
+    let isNotBinNum = varr.some( v => {
+        let n = Number(v); 
+        return ( isNaN(n) || n > 1 );
+    });
+    if (!isNotBinNum) {
+        let lastVal = varr[0];
+        return varr.splice(1).reduce( (p, v) => {
+            p.push( lastVal !== v ? '1' : '0' )
+            lastVal = v;
+            return p;
+        }, [ lastVal ]).join('');
+    } else {
+        return 'invalid input';
+    }
+}
+let paramValuebinaryToGrayCode = '11011'
+let resultbinaryToGrayCode = binaryToGrayCode(paramValuebinaryToGrayCode)
+console.info('binaryToGrayCode source', paramValuebinaryToGrayCode ,'result',resultbinaryToGrayCode);
+paramValuebinaryToGrayCode = resultbinaryToGrayCode;
+
+function grayCodeToBinaryCode(binInStr) {
+    let varr = binInStr.split('');
+    let isNotBinNum = varr.some( v => {
+        let n = Number(v); 
+        return ( isNaN(n) || n > 1 );
+    });
+    if (!isNotBinNum) {
+        let lastVal = varr[0], newVal;
+        return varr.splice(1).reduce( (p, v) => {
+            p.push( (lastVal === v ? '0' : '1') )
+            lastVal = p[ p.length - 1];
+            return p;
+        }, [ lastVal ]).join('');
+    } else {
+        return 'invalid input';
+    }
+}
+
+resultbinaryToGrayCode = grayCodeToBinaryCode(paramValuebinaryToGrayCode)
+console.info('grayCodeToBinaryCode source', paramValuebinaryToGrayCode ,'result',resultbinaryToGrayCode);

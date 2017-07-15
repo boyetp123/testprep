@@ -19,7 +19,7 @@ function BinaryTree(){
         // this.parent=null;
     }
 
-    that.add = (data)=>{
+    that.add = (data) => {
         let node = new Node(data);
         if (!that.root){
             that.root = node;
