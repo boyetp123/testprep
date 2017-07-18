@@ -14,18 +14,6 @@
         <script>
             function draw() {
                 var canvas = document.getElementById('canvas-1');
-                // var ctx1 = canvas.getContext('2d');
-                // // ctx.beginPath();
-                // ctx1.arc(150,75,50, 0 , Math.PI ,false); // x, y, radius, startAngle, endAngle, true/false (for clockwise and anticlockwise)
-                // // Math.PI gives semi-circle
-                // // Math.PI*2 gives full circle
-                // // Numbers can also be used instead of Math.P eg. 6.28
-                // // try using numbers less than 6.28 to see how you get less of a circle
-                // ctx1.strokeStyle = 'blue';
-                // ctx1.stroke();
-                //try doing semi-circle that is (flipped over) by chaning false to true
- 
-    //   var canvas = document.getElementById('myCanvas');
                 var context = canvas.getContext('2d');
                 var x = canvas.width / 2;
                 var y = canvas.height / 2;
@@ -39,7 +27,7 @@
                 context.lineWidth = 15;
 
                 // line color
-                context.strokeStyle = 'black';
+                context.strokeStyle = 'red';
                 context.stroke();
                 // context.endPath();
 
@@ -53,17 +41,59 @@
                 context.strokeStyle = 'blue';
                 context.stroke();
 
-
-
-
-
             }
-            window.onload = draw;
         </script>
 
     </head>
     <body>
         <canvas id="canvas-1" width="800" height="500"></canvas>
+        <style>
+            .round-div{
+                height: 200px;
+                width: 200px;
+                border: 10px gray solid;
+                border-radius: 50%;
+                text-align: center; 
+                position: relative;
+                left: 100px;
+                overflow: visible;
+            }
+            #canvas-2 {
+                position: absolute;
+                border: 1px dashed black;
+                left: -10px;
+                top: -10px;
+            }
+        </style>
+        <script>
+            
+            window.onload = function() {
+                draw()
+                draw2()
+            }
+
+            function draw2() {
+                var canvas2 = document.getElementById('canvas-2');
+                var x = canvas2.width / 2;
+                var y = canvas2.height / 2;
+                var radius = 105;
+                var counterClockwise = false;
+                var startAngle = .5 * Math.PI;
+                var perc = .75;
+                var endAngle = ( ((2 * perc) + .5) * Math.PI)
+                var context2 = canvas2.getContext('2d');
+                context2.beginPath();
+                context2.arc(x, y, radius, startAngle, endAngle, counterClockwise);
+                context2.lineWidth = 10;
+                context2.strokeStyle = 'red';
+                context2.stroke();
+            }
+        </script>
+        
+        <div class="round-div">
+             round-div 
+            <canvas id="canvas-2" width="220" height="220"></canvas>
+        </div>
     </body>
 </html>
 
