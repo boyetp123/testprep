@@ -1,0 +1,104 @@
+<html>
+    <head>
+        <title>
+            Circles , Box shadow
+        </title>
+        <style>
+            #outer-box {
+                position: relative;
+                border: 1px solid blue;
+                width: 100px;
+                height: 100px;
+            }
+            #inner-box {
+                position: absolute;
+                border: 1px solid red;
+                width: 10px;
+                height: 10px;
+            }
+
+        </style>
+
+
+    </head>
+    <body>
+        <div id="outer-box">
+            <div id="inner-box">
+            </div>
+        </div>
+
+
+        <script>
+
+        function move( timeInSeconds ){
+console.info('move')
+            var outerBox = document.getElementById('outer-box');
+            var innerBox = document.getElementById('inner-box');
+            
+            innerBox.style.top = '0px';
+            innerBox.style.left = '0px';
+
+            var oWidth = outerBox.offsetWidth;
+            var oHieght = outerBox.offsetHeight;
+            var iWidth = innerBox.offsetWidth;
+            var iHieght = innerBox.offsetHeight;
+            
+            
+            var travelLenX = oWidth - iWidth;
+            var travelLenY = oHieght - iHieght;
+            
+            
+            var targetElapseTime = timeInSeconds * 1000;
+            var wait = Math.floor( targetElapseTime / Math.max (travelLenX, travelLenY) );
+            
+            var top = 0, left = 0;
+
+            let interval = setInterval( () => {
+                top++;
+                left++;                
+                console.log('travelLenY',travelLenY,'travelLenX', travelLenX,'top', top,'left',left)
+                innerBox.style.top = top + 'px';
+                innerBox.style.left = left + 'px';
+                if ( top >= travelLenY && left >= travelLenX ) {
+                    cleaInterval(interval);
+                }
+            }, wait)
+            
+            
+            // while ( top < travelLenY || left < travelLenX ) {
+            //     top++;
+            //     left++;
+            //     top = Math.min( top, travelLenY);
+            //     left = Math.min( left, travelLenX);
+            //     (new Promise( (resolve, reject) => {
+            //         (function(top, left){
+            //             setTimeout( () => {
+            //                 console.log('travelLenY',travelLenY,'travelLenX', travelLenX,'top', top,'left',left)
+            //                 innerBox.style.top = top + 'px';
+            //                 innerBox.style.left = left + 'px';
+            //                 resolve('success')
+            //             }, wait)
+            //         })(top, left)
+            //     })).then( result =>{
+
+            //         return result.json();
+            //     })
+
+                
+            //     if ( top >= travelLenY && left >= travelLenX ) {
+            //         break;
+            //     }
+            // }
+
+        }        
+        
+            // window.onload = function (){
+                // setTimeout(function(){
+                    move(1)
+                // },500)
+            // }
+        
+        </script>        
+    </body>
+</html>
+

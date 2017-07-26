@@ -164,7 +164,8 @@ function BinaryTree(){
         }
         that.root = deleteNode(that.root, data);
     }
-
+// prints the data first of the current node
+// before go to the next level
     that.traverseBFS = callBackFn =>{
         let node = null;
         let newLine = new Node('\n');

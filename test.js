@@ -191,18 +191,34 @@ function removeRepeat(str){
         }
     },{});
     return out;
-    // let prevStr = '';
-    // return str.replace(/[a-zA-Z]/g,(el,idx)=>{
-    //     if (prevStr === el){
-    //         return ''
-    //     } else {
-    //         prevStr = el;
-    //     }
-    //     return prevStr;
-    // })
 // 'the quick brown fox jump over the lazy dog'.match(/^[a-z]/g)
 }
 console.info('removeRepeat',removeRepeat('the quick brown fox jump over the lazy dog'));
+
+function removeRepeat2(str){
+    var out = str;
+    str.split('').forEach( v => {
+        if (v !== ' '){
+            var rx = new RegExp(v,'g');
+            if ( (out.match( rx ) || []).length > 1 ){
+                let ctr = -1;
+                out = out.replace(rx, ( v ) => {
+                    ctr++;
+                    if ( ctr === 0){
+                        return v;
+                    } else {
+                        return '';
+                    }
+                });
+            }
+        }
+    },{});
+    return out;
+// 'the quick brown fox jump over the lazy dog'.match(/^[a-z]/g)
+}
+console.info('**** removeRepeat2',removeRepeat2('the quick brown fox jump over the lazy dog'));
+
+
 
 function pad (l, s) {
     // return (new Array(l + 1)).join(s || ' ');
@@ -610,7 +626,7 @@ var twoCharacters = s=>{
 
     var theChar = matchPrev.length > matchNext.length ? matchPrev[0] : matchNext[0];
     console.info('theChar', theChar)
-    out = s.split('').reduce((pv,cv,idx)=>{
+    out = s.split('').reduce((pv,cv)=>{
         if (cv !== firstChar && cv !== theChar){
             return pv;
         } else {
