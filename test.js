@@ -1245,30 +1245,94 @@ console.info('stringPermCount', stringPermCount('abc'))
 var tmp = permutations('abc')
 console.info('permutations',tmp.length, tmp)
 
-var iArr = generateArray(10000)
+var iArr = generateArray(1000)
 // console.info( 'arr unsorted', iArr)
-var numTofind = iArr[ Math.floor(iArr.length/2) ] - 1;
+var origNumber = iArr[ Math.floor(iArr.length/2) ] ;
+var numTofind = origNumber - 1;
+console.info("**** origNumber ", origNumber, "numTofind", numTofind)
 
 startTime = (new Date()).getTime();
 var findClosestInArrayUnsorted = (arr, num) =>{
     var min1 = null;
     var idx = null;
-    var value=null;
-    arr.forEach( (v,i,arr)=>{
+    var val=null;
+    arr.forEach( (v,i)=>{
         var v1 = Math.abs(v - num);
         if (min1 === null || min1 > v1){
             min1 = v1;
             idx = i;
-            value=v;
+            val=v;
         }
     });
-    return {value:value, idx: idx, loop:arr.length}
-}
-console.info('findClosestInArrayUnsorted find ' ,numTofind ,findClosestInArrayUnsorted(iArr, numTofind))
-endTime = (new Date()).getTime();
-console.info('findClosestInArrayUnsorted ',iArr.length,'rows', (endTime - startTime)/1000,'secs' )
-iArr = iArr.sort();
 
+    // for (var i=0; i < arr.length; i ++) {
+    //     var v1 = Math.abs( arr[ i ] - num);
+    //     if (min1 === null || min1 > v1){
+    //         min1 = v1;
+    //         idx = i;
+    //         val = arr[ i ];
+    //     }        
+    // }
+    return {theNumber: val, theIndex: idx, loop:arr.length, diff: min1};
+}
+console.info('*** findClosestInArrayUnsorted find ' ,numTofind ,findClosestInArrayUnsorted(iArr, numTofind))
+endTime = (new Date()).getTime();
+console.info('*** findClosestInArrayUnsorted ',iArr.length,'rows', (endTime - startTime)/1000,'secs' )
+
+
+var findClosestInArrayUnsorted2 = (arr, num) => {
+    let outObj = {theNumber: null, theIndex: null, diff: null};
+    let midIdx = Math.floor( arr.length/2);
+    let startIdx1 = 0;
+    let endIdx1 = midIdx;
+    let startIdx2 = midIdx + 1;
+    let endIdx2 = arr.length -1;
+
+    let getMinObj = (obj1, obj2) => {
+        if (obj1 && obj2 === null) {
+            return obj1;
+        } else if (obj2 && obj1 === null) {
+            return obj2;
+        }
+        let out = {theNumber: null, theIndex: null};
+        if (obj1.diff < obj2.diff) {
+            out = {theNumber: obj1.theNumber, theIndex: obj1.theIndex, diff: obj1.diff};
+        } else {
+            out = {theNumber: obj2.theNumber, theIndex: obj2.theIndex, diff: obj2.diff};
+        }    
+        return out;
+    }
+    // outObj = getMinObj( {theNumber: arr[endIdx1], theIndex: endIdx1, diff: Math.abs(arr[endIdx1] - num)}, 
+    //                     {theNumber: arr[startIdx2], theIndex: startIdx2, diff: Math.abs(arr[startIdx2] - num)});
+
+    let out1 = {};
+    let out2 = {}
+    let loopCtr = 0;
+    while (startIdx1 < endIdx1 || startIdx2 < endIdx2) {
+        if(startIdx1 < endIdx1) {
+            out1  = getMinObj( {theNumber: arr[startIdx1], theIndex: startIdx1, diff: Math.abs(arr[startIdx1] - num)}, 
+            {theNumber: arr[startIdx1 + 1], theIndex: startIdx1 + 1, diff: Math.abs(arr[startIdx1 + 1] - num)});
+        }
+        if (startIdx2 < endIdx2) {
+            out2  = getMinObj( {theNumber: arr[startIdx2], theIndex: startIdx2, diff: Math.abs(arr[startIdx2] - num)}, 
+            {theNumber: arr[startIdx2 + 1], theIndex: startIdx2 + 1, diff: Math.abs(arr[startIdx2 + 1] - num)});
+        }
+        startIdx1++;
+        startIdx2++;
+        // endIdx1--;
+        // endIdx2--;
+        loopCtr++;
+    }
+    outObj = getMinObj(out1, out2);
+    outObj.loop = loopCtr;
+    return outObj;
+}
+startTime = (new Date()).getTime();
+console.info('*** findClosestInArrayUnsorted2 find ' ,numTofind ,findClosestInArrayUnsorted2(iArr, numTofind))
+endTime = (new Date()).getTime();
+console.info('*** findClosestInArrayUnsorted2 ',iArr.length,'rows', (endTime - startTime)/1000,'secs' )
+
+iArr = iArr.sort();
 // console.info( 'arr sorted', iArr)
 startTime = (new Date()).getTime();
 
