@@ -116,6 +116,8 @@ function getDuplicates3(str){
 }
 console.log('getDuplicates3',getDuplicates3('Bay Area red horse'));
 
+
+
 function reverse(s){
     var sarr = [];
     for(var i = s.length - 1; i  > -1 ;i--){
@@ -132,17 +134,6 @@ function reverse(s){
 //     })(i), 10)
 // }
 
-function countZero(n){
-  var count = 0;
-  while(n>9){
-    // console.info(n)
-    count += Math.floor(n/10);
-    n = n / 10;
-  }
-  return count;
-}
-
-console.info('countZero',countZero(2014));
 
 function reverseRecursive(s){
     s = s || '';
@@ -216,7 +207,7 @@ function removeRepeat2(str){
     return out;
 // 'the quick brown fox jump over the lazy dog'.match(/^[a-z]/g)
 }
-console.info('**** removeRepeat2',removeRepeat2('the quick brown fox jump over the lazy dog'));
+console.info(' removeRepeat2',removeRepeat2('the quick brown fox jump over the lazy dog'));
 
 
 
@@ -256,10 +247,11 @@ function timeConversion(ampmInput){
             outHr = Number(outHr) - 12;
         }
     }
-    return  lpad(outHr,2,'0') + ':' + inArr[1] + ':' + ( inArr[2].replace('AM','').replace('PM','')  );
-
+    // return  lpad(outHr,2,'0') + ':' + inArr[1] + ':' + ( inArr[2].replace('AM','').replace('PM','')  );
+    return  lpad(outHr,2,'0') + ':' + inArr[1] + ':' + ( (parseInt(inArr[2])+'').padStart(2,0)  );
+    
 }
-console.info( 'timeConversion', timeConversion ('7:05:45AM'));
+console.info( 'timeConversion', timeConversion ('12:05:05PM'));
 // console.info('timeConversion',  timeConversion ('11:45:54AM'))
 // console.info('timeConversion',  timeConversion ('12:45:54PM'))
 // console.info('timeConversion',  timeConversion ('12:00:00AM'))
@@ -646,9 +638,9 @@ var weightedUniformString = s=>{
         return (s.charCodeAt(0) - 96) + weightedUniformString(s.substr(1));
     }
 }
-// console.info('*** weightedUniformString a',weightedUniformString('a'))
-console.info('*** weightedUniformString apple',weightedUniformString('apple'))
-// console.info('*** weightedUniformString watch', weightedUniformString('watch'))
+// console.info('weightedUniformString a',weightedUniformString('a'))
+console.info(' weightedUniformString apple',weightedUniformString('apple'))
+// console.info(' weightedUniformString watch', weightedUniformString('watch'))
 
 var weightedUniformString2 = s=>{
     // a is 97
@@ -657,7 +649,7 @@ var weightedUniformString2 = s=>{
         return p;
     },0)    
 }
-console.info('*** weightedUniformString2 apple',weightedUniformString2('apple'))
+console.info(' weightedUniformString2 apple',weightedUniformString2('apple'))
 
 var closestInArray = (arr, num)=>{
     var out=0;
@@ -1249,7 +1241,7 @@ var iArr = generateArray(1000)
 // console.info( 'arr unsorted', iArr)
 var origNumber = iArr[ Math.floor(iArr.length/2) ] ;
 var numTofind = origNumber - 1;
-console.info("**** origNumber ", origNumber, "numTofind", numTofind)
+console.info(" origNumber ", origNumber, "numTofind", numTofind)
 
 startTime = (new Date()).getTime();
 var findClosestInArrayUnsorted = (arr, num) =>{
@@ -1266,9 +1258,9 @@ var findClosestInArrayUnsorted = (arr, num) =>{
     });
     return {theNumber: val, theIndex: idx, loop:arr.length, diff: min1};
 }
-console.info('*** findClosestInArrayUnsorted find ' ,numTofind ,findClosestInArrayUnsorted(iArr, numTofind))
+console.info(' findClosestInArrayUnsorted find ' ,numTofind ,findClosestInArrayUnsorted(iArr, numTofind))
 endTime = (new Date()).getTime();
-console.info('*** findClosestInArrayUnsorted ',iArr.length,'rows', (endTime - startTime)/1000,'secs' )
+console.info(' findClosestInArrayUnsorted ',iArr.length,'rows', (endTime - startTime)/1000,'secs' )
 
 
 var findClosestInArrayUnsorted2 = (arr, num) => {
@@ -1319,9 +1311,9 @@ var findClosestInArrayUnsorted2 = (arr, num) => {
     return outObj;
 }
 startTime = (new Date()).getTime();
-console.info('*** findClosestInArrayUnsorted2 find ' ,numTofind ,findClosestInArrayUnsorted2(iArr, numTofind))
+console.info(' findClosestInArrayUnsorted2 find ' ,numTofind ,findClosestInArrayUnsorted2(iArr, numTofind))
 endTime = (new Date()).getTime();
-console.info('*** findClosestInArrayUnsorted2 ',iArr.length,'rows', (endTime - startTime)/1000,'secs' )
+console.info('findClosestInArrayUnsorted2 ',iArr.length,'rows', (endTime - startTime)/1000,'secs' )
 
 
 
@@ -1383,9 +1375,9 @@ var findClosestInArrayUnsorted3 = (arr, num) => {
     return outObj;
 }
 startTime = (new Date()).getTime();
-console.info('*** findClosestInArrayUnsorted3 find ' ,numTofind ,findClosestInArrayUnsorted3(iArr, numTofind))
+console.info(' findClosestInArrayUnsorted3 find ' ,numTofind ,findClosestInArrayUnsorted3(iArr, numTofind))
 endTime = (new Date()).getTime();
-console.info('*** findClosestInArrayUnsorted3 ',iArr.length,'rows', (endTime - startTime)/1000,'secs' )
+console.info(' findClosestInArrayUnsorted3 ',iArr.length,'rows', (endTime - startTime)/1000,'secs' )
 
 
 iArr = iArr.sort();
@@ -2028,6 +2020,8 @@ function coins(num){
 }
 console.info('coins', coins( 8 ) );
 
+// how many possible steps can a child does where max step for 1 hop is 3 steps in stairs
+
 function steps (n) {
     if (n < 0) return 0;
     if ( n <= 1) return 1;
@@ -2346,3 +2340,212 @@ function grayCodeToBinaryCode(binInStr) {
 
 resultbinaryToGrayCode = grayCodeToBinaryCode(paramValuebinaryToGrayCode)
 console.info('grayCodeToBinaryCode source', paramValuebinaryToGrayCode ,'result',resultbinaryToGrayCode);
+
+function countZero(n){
+    var orig = n;
+    var count = 0;
+    while(n>9){
+//      console.info(n)
+      count += Math.floor(n/10);
+      console.info(n, count, n/10)
+      n = n / 10;
+    }
+    var m = orig % ( (count - 1) * 10 );
+    // var h = orig 
+    console.info('mod', m)
+    return count;
+}
+console.info('***** countZero',countZero(109));
+  
+
+var arr = [1,2,3,5]
+// removing element, one at a time, find the min and max
+// [2,3,5] = 10
+// [1,3,5] = 9
+// [1,2,5] = 8
+function sol1(array) {
+	let minMax = []
+	array.forEach((ar,i)=>{
+		let arr1 = [...arr]
+		arr1.splice(i, 1)
+		minMax.push(arr1.reduce((acc,v)=> {
+			return acc + v
+		}))
+		
+	})
+	let min = Math.min.apply(null, minMax)
+	let max = Math.max.apply(null, minMax)
+	console.log({min:min, max:max, minMaxxArr: minMax})
+}
+
+function sol2(array) {
+	let min = Math.min(...array)
+	let max = Math.max(...array)
+	
+	let sum = array.reduce((ac,v)=> {
+		return ac + v;
+	})
+	console.log({max: sum - min, min: sum - max, sum: sum, min1: min, max1: max})
+}
+// sol1(arr)
+// sol2(arr)
+
+
+/// find the length of the number without converting to string
+var num = 123456.789
+function numberLength(number) {
+	// split into 2 parts
+	let numberWhole = Math.floor(number)
+	let numberDecimal = number - numberWhole
+
+	// count number on numberDecimal which is decimal
+	let count=0
+	while( Math.floor(numberWhole) >= 1 ) {
+		numberWhole /= 10
+		count++
+	}
+	console.log('number length', count)
+}
+// numberLength(num)
+
+//factory pattern
+const Animal = function(name){
+    	console.log('1')
+    	console.log(this)
+    const animal = {};
+    animal.name = name;
+    animal.walk = function(){
+    	console.log('2')
+    	console.log(this)
+        console.log(this.name + " walks");
+    }
+    return animal;
+};
+const a = Animal('Doggy')
+a.walk()
+
+
+function testThis(name) {
+	console.log(this)
+}
+// testThis('hello')
+
+
+
+
+//  generators 
+// function delayedDisplay(str, delay = 1000) {
+// 	 return new Promise(resolve=>{
+// 		setTimeout(()=>{
+// 			resolve(str)
+// 		},1000)
+// 	})
+// }
+
+// function* foo(){
+// 	try{
+// 	  yield delayedDisplay('1',500);
+// 	  yield delayedDisplay('2',300);
+// 	  yield delayedDisplay('3',100);
+
+// 	} catch(e) {
+// 		console.error('error', e)
+// 	}
+//   return 
+// }
+
+// for (let o of foo()) {
+// 	o.then((val)=>{
+// 		console.log(val);
+// 	})
+  
+//   // expected output: 1
+//   // break; // closes iterator, triggers return
+// }
+
+// var f = foo()
+// console.log(f.next())
+// console.log(f.next())
+// console.log(f.next())
+
+// find the missing number maybe not sorted
+const arry = [1,2,3,4,5,7,8,9,10]
+// soln 1
+
+function findMissingNumber() {
+    const sortedArr = arry.sort((a,b)=> a-b)
+    for(let i = 0; i <= sortedArr.length; i++) {
+        if (sortedArr[i] !== i + 1) {
+            return sortedArr[i] - 1
+        }
+    }
+}
+
+function findMissingNumber2() {
+    const len = arry.length + 1
+    const total1 = len * (len + 1)/2
+    const total2 = arry.reduce((t, i) => t + i)
+    return Math.abs( total1 - total2)
+}
+
+
+console.log('findMissingNumber', findMissingNumber(), findMissingNumber2() )
+    
+// desing a function to give change as less coins as posiblee
+const cashReg = {
+    penny: 12,
+    nickel: 10,
+    dime: 2,
+    quarter: 12,
+    dollar: 30
+}
+const values = {
+    penny: 1,
+    nickel: 5,
+    dime: 10,
+    quarter: 25,
+    dollar: 100
+}
+const hieracy = [
+    'dollar',
+    'quarter',
+    'dime',
+    'nickel',
+    'penny'
+]
+
+// give change of 20.47 at the least amount of coints
+function getChange(chg) {
+    let change = chg * 100 // 2047
+    let rem;
+    let nums = []
+
+    for (let i = 0; i < hieracy.length; i++) {
+        let m = hieracy[i]
+        console.log(m, change)
+        if (change > values[m]) {
+            rem = change % values[m]
+            nums.push({[m]: (change - rem) / values[m] })
+            change = rem
+        }
+            
+    }
+
+    // if (change > values.dollar) {
+    //     rem = change % values.dollar
+    //     nums.push({dollar: (change - rem) / values.dollar })
+    //     change = rem
+    // }
+    // if (change > values.quarter){
+    //     rem = change % values.quarter
+    //     nums.push({quarter: (change - rem) / values.quarter })
+    //     change = rem        
+    // }
+    // if (change > values.dime) {
+    //     rem = change % values.dime
+    //     nums.push({dime: (change - rem) / values.dime })
+    //     change = rem                
+    // }
+    console.log(nums)
+}
+getChange(20.47)
