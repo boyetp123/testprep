@@ -1138,9 +1138,9 @@ console.info('checkPermutation', checkPermutation('dog','god '))
 var isPrimeNumber = n =>{
     if ( n < 2) return false;
     if ( n === 2 || n === 3) return true;
-    let sqrt = Math.floor( Math.sqrt(n) );
+    // let sqrt = Math.floor( Math.sqrt(n) );
 
-    for (var i = 2; i < sqrt; i++){
+    for (var i = 2; i < n; i++){
         if ( n % i === 0){
             return false;
         }
@@ -2522,7 +2522,7 @@ function getChange(chg) {
 
     for (let i = 0; i < hieracy.length; i++) {
         let m = hieracy[i]
-        console.log(m, change)
+        // console.log(m, change)
         if (change > values[m]) {
             rem = change % values[m]
             nums.push({[m]: (change - rem) / values[m] })
@@ -2530,22 +2530,31 @@ function getChange(chg) {
         }
             
     }
-
-    // if (change > values.dollar) {
-    //     rem = change % values.dollar
-    //     nums.push({dollar: (change - rem) / values.dollar })
-    //     change = rem
-    // }
-    // if (change > values.quarter){
-    //     rem = change % values.quarter
-    //     nums.push({quarter: (change - rem) / values.quarter })
-    //     change = rem        
-    // }
-    // if (change > values.dime) {
-    //     rem = change % values.dime
-    //     nums.push({dime: (change - rem) / values.dime })
-    //     change = rem                
-    // }
-    console.log(nums)
+    return nums
 }
-getChange(20.47)
+console.log('getChange',getChange(20.47))
+
+// joing 2 arrays and sorted without sorting aasuming each array is sorted
+
+function joinArrayInSortedWay(ar1, ar2) {
+    let resArray = [];
+
+    while (true) {
+        if (ar1[0] > ar2[0]) {
+            resArray.push(ar2.shift())
+        } else if (ar1[0] < ar2[0]) {
+            resArray.push(ar1.shift())
+        } else if (ar1[0] === ar2[0]){
+            resArray.push(ar2.shift())
+            resArray.push(ar1.shift())
+        }
+
+        if (!ar2.length) {
+            return resArray.concat(ar1)     
+        } else if (!ar1.length){
+            return resArray.concat(ar2)            
+        }
+    }
+}
+
+console.log('joinArrayInSortedWay',  joinArrayInSortedWay([1,2,4,5,6,7,8], [2,5,6,7,9,10]) )

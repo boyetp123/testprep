@@ -239,9 +239,6 @@ function BinaryTree(){
         }
         traverseLRD(that.root);
     }
-    
-
-
     return that;
 }
 

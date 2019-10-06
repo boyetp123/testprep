@@ -1,0 +1,31 @@
+.main-container1 {
+    display: grid;
+    grid-template-areas: 
+    'header header header header header'
+    'left-nav left-nav content content content'
+    'left-nav left-nav footer footer footer'    
+}
+.main-container1 > div{
+    text-align: center;
+    padding: 20px 0;
+    font-size: 30px;
+}
+ .header { grid-area: header; background-color: green;}
+ .left-nav { grid-area: left-nav; background-color: blue;}
+.content { grid-area: content; background-color: white;}
+.footer { grid-area: footer; background-color: red;}
+
+.main-container2 .header {
+    
+}
+.main-container2 .left-nav {
+
+}
+.main-container2 .content {
+
+}
+.main-container2 .footer {
+
+}
+    
+    

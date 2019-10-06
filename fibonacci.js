@@ -1,5 +1,5 @@
 var startTime, endTime;
-var fibNumber = 4;
+var fibNumber = 5;
 
 console.info('fibonacci input ',fibNumber )
 
@@ -52,6 +52,20 @@ console.info('fibonacci input ',fibNumber )
 //   return fib1(input)
 // }
 
+function fibonacciLoop(n) {
+    let f1=1
+    let f2=0
+    let f3=0
+
+    if (n === 0 || n === 1) return n
+
+    for(let i=0; i <=n; i++) {
+        f1 += f3
+    }
+
+    return f1
+}
+
 function fibonacci(n){
     var fib={};
     var f=0;
@@ -69,6 +83,7 @@ function fibonacci(n){
 function fibonacci2(n){
     var f= 0, f2 = 0, f3;
     for(var i = 0; i <= n ; i++){
+        console.log('f', f)
         if (i < 2) {
             f= 1;
         } else {            
@@ -81,7 +96,9 @@ function fibonacci2(n){
 }
 
 function fibonacci3(num){
-  var a = 1, b = 0, temp;
+  let a = 1; 
+  let b = 0;
+  let temp;
 
   while (num >= 0){
     temp = a;
@@ -95,9 +112,9 @@ function fibonacci3(num){
 
 
 startTime = (new Date()).getTime();
-console.info('fibonacci',fibonacci( fibNumber ));
+// console.info('fibonacci',fibonacci( fibNumber ));
 console.info('fibonacci2',fibonacci2( fibNumber ));
-console.info('fibonacci3',fibonacci3( fibNumber ));
+// console.info('fibonacci3',fibonacci3( fibNumber ));
 endTime= (new Date()).getTime();
 console.info('fibonacci elapseTime', (endTime - startTime)  );
 
