@@ -239,6 +239,32 @@ function BinaryTree(){
         }
         traverseLRD(that.root);
     }
+    that.distanceFromRoot = (root = that.root, val) =>{
+        if (root.data === val) {
+            return 0
+        }
+        if (root.data > val) {
+            return that.distanceFromRoot(root.left, val) + 1
+        }
+        return that.distanceFromRoot(root.right, val) + 1
+    }
+    that.distanceBetween2 = (root = that.root, val1, val2) =>{
+        // if (root === null) {
+        //     console.log('root was null')
+        //     return 0
+        // }
+        // console.log('hello')
+        if (root.data < val1 && root.data < val2) {
+            return that.distanceBetween2(root.right, val1, val2)
+        } else if (root.data > val1 && root.data > val2) {
+            return that.distanceBetween2(root.left, val1, val2)
+        } else if (root.data >= val1 && root.data <= val2) {
+            return that.distanceFromRoot(root.left, val1) + 
+                that.distanceFromRoot(root.right, val2)
+        }
+        return 0;
+
+    }
     return that;
 }
 
@@ -266,8 +292,8 @@ bt.add(300);
 bt.add(310);
 bt.add(2);
 
-console.info('max', bt.findMax() )
-console.info('min', bt.findMin() )
+// console.info('max', bt.findMax() )
+// console.info('min', bt.findMin() )
 
 
 // console.info('BinaryTree',JSON.stringify(bt.root))
@@ -275,27 +301,30 @@ console.info('min', bt.findMin() )
 // console.info('delete 2', bt.delete(2) )
 // console.info('delete 5', bt.delete(5) )
 
-let node150 = bt.find(150)
-console.info('find 150', node150)
-console.info('height 150', bt.getHeight( node150 ));
-console.info('BinaryTree',bt.root);
+// let node150 = bt.find(150)
+// console.info('find 150', node150)
+// console.info('height 150', bt.getHeight( node150 ));
+// console.info('BinaryTree',bt.root);
 
-console.info('printByLevel',bt.printByLevel());
-console.info('--space-- for traverseBFS');
+// console.info('printByLevel \n',bt.printByLevel());
+// console.info('--space-- for traverseBFS');
 
 function printData(node){
     console.info(node.data);
 }
-console.info('traverseBFS',bt.traverseBFS( printData ) );
+// console.info('traverseBFS',bt.traverseBFS( printData ) );
 
-console.info('--space-- for traverseDFSPreOrder');
-bt.traverseDFSPreOrder( printData );
+// console.info('--space-- for traverseDFSPreOrder');
+// bt.traverseDFSPreOrder( printData );
 
-console.info('--space-- for traverseDFSInOrder');
-bt.traverseDFSInOrder( printData );
+// console.info('--space-- for traverseDFSInOrder');
+// bt.traverseDFSInOrder( printData );
 
-console.info('--space-- for traverseDFSPostOrder');
-bt.traverseDFSPostOrder( printData );
+// console.info('--space-- for traverseDFSPostOrder');
+// bt.traverseDFSPostOrder( printData );
+console.info('printByLevel \n',bt.printByLevel());
+// console.log('root', bt.root)
+console.log('distance', bt.distanceBetween2(bt.root, 25,200))
 
 
 

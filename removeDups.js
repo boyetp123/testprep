@@ -22,12 +22,21 @@ var data = [
 ];
 // this will be very slow  On^2
 var unique = data.filter((d,i)=> data.findIndex((d2,i2)=>d.occupation === d2.occupation) === i)
+let inrrayMap = {}
+let unique2 = data.filter( (d,i) => {
+	if (inrrayMap[d.occupation]) {
+		return false;
+	}
+	inrrayMap[d.occupation] = 1;
+	return true;
+} )
 console.log(unique)
+console.log(unique2)
 
-var unique2 = []
-for (let i of data) {
+// var unique2 = []
+// for (let i of data) {
 	
-}
+// }
 
 
 // var jobsUnique = jobs.filter(function(item, index){
