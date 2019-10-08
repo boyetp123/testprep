@@ -134,7 +134,34 @@ function BinaryTree(){
         }
         return str;
     }
+    that.printByLevel2 = () => {  // bread-first traversal
+        const endLine = new Node('EOL');
+        let queue = [ that.root, endLine ];
+        let row = []
+        let res = []
 
+        while (queue.length){
+            let node = queue.shift();
+            if (node.data === 'EOL') {
+                res.push( row.join(' ') )
+                row = []
+            } else {
+                row.push( node.data )
+            }
+
+            if (node === endLine && queue.length){
+                queue.push(endLine);
+            }
+
+            if (node.left){
+                queue.push(node.left);
+            }
+            if (node.right){
+                queue.push(node.right);
+            }
+        }
+        return res.join('\n');
+    }
     that.delete = data => {
 
         function deleteNode(node, data){
@@ -323,8 +350,9 @@ function printData(node){
 // console.info('--space-- for traverseDFSPostOrder');
 // bt.traverseDFSPostOrder( printData );
 console.info('printByLevel \n',bt.printByLevel());
+console.info('printByLevel2 \n',bt.printByLevel2());
 // console.log('root', bt.root)
-console.log('distance', bt.distanceBetween2(bt.root, 25,200))
+// console.log('distance', bt.distanceBetween2(bt.root, 25,200))
 
 
 
