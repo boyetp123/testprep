@@ -2018,7 +2018,7 @@ function coins(num){
     }
     return out;
 }
-console.info('coins', coins( 8 ) );
+console.info('****** coins', coins( 8 ) );
 
 // how many possible steps can a child does where max step for 1 hop is 3 steps in stairs
 
@@ -2519,20 +2519,79 @@ function getChange(chg) {
     let change = chg * 100 // 2047
     let rem;
     let nums = []
+    let noOfBills = 0;
 
     for (let i = 0; i < hieracy.length; i++) {
         let m = hieracy[i]
         // console.log(m, change)
         if (change > values[m]) {
             rem = change % values[m]
-            nums.push({[m]: (change - rem) / values[m] })
-            change = rem
+            noOfBills = (change - rem) / values[m] 
+            if (noOfBills <= cashReg[m]) { // if the count of bill is enough in cash reg
+                nums.push({[m]: noOfBills })                
+                change = rem
+            } else {
+                nums.push({[m]: cashReg[m] })   
+                change = change - (cashReg[m] * 100)
+            }
         }
             
     }
     return nums
 }
-console.log('getChange',getChange(20.47))
+console.log('getChange 31.47' ,getChange(31.47))
+
+// getChange soln 2
+
+const cashReg2 = [
+    {billName: 'dime', count: 2, value: 10},
+    {billName: 'nickel', count: 10, value: 5},
+    {billName: 'penny', count: 12, value: 1},
+    {billName: 'dollar', count: 30, value: 100},
+    {billName: 'quarter', count: 12, value: 25}
+]
+
+
+function getChange2(chg) {
+    const cashRegSorted = cashReg2.sort((a, b) => b.value - a.value) // sort in reverse
+    let change = chg * 100 // 2047
+    let rem;
+    let nums = []
+    let noOfBills = 0;
+
+    // for (let cash of cashRegSorted) {
+    //     if (change > cash.value ) {
+    //         rem = change % cash.value
+    //         noOfBills = (change - rem) / cash.value
+    //         if (noOfBills <= cash.count) { // if the count of bill is enough in cash reg
+    //             nums.push({[m]: noOfBills })                
+    //             change = rem
+    //         } else {
+    //             nums.push({[m]: cash.count })   
+    //             change = change - (cash.count * 100)
+    //         }
+    //     }   
+    // }
+    // return nums
+    return cashRegSorted.reduce((acc, cash)=>{
+        if (change > cash.value ) {
+            rem = change % cash.value
+            noOfBills = (change - rem) / cash.value
+            if (noOfBills <= cash.count) { // if the count of bill is enough in cash reg
+                acc.push({[m]: noOfBills })                
+                change = rem
+            } else {
+                acc.push({[m]: cash.count })   
+                change = change - (cash.count * 100)
+            }
+        } 
+        return acc;
+    },[])
+
+}
+
+console.log('getChange2 31.47' ,getChange(31.47))
+
 
 // joing 2 arrays and sorted without sorting aasuming each array is sorted
 
