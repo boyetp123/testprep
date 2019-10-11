@@ -2002,23 +2002,30 @@ function lineIntercept( linePt1, linePt2 ){
 console.info('lineIntercept', lineIntercept( {x1: 1, y1 : 1, x2 : 7, y2: 7}, { x1: 2, y1: 5, x2: 5, y2: 1} ) );
 
 function coins(num){
-    var coinsList = [1,3,5].reverse();
-    var ctr =0;
-    var rem = num;
-    var out = [];
+    let coinsList = [1,3,5,25,10].sort((a,b) => b-a);
+    let ctr =0;
+    let rem = num;
+    // var out = [];
 
-    while (ctr < coinsList.length){
-        if (rem <= 0) break;
-        if (rem >= coinsList[ctr] ){
-            rem = rem - coinsList[ctr];
-            out.push( coinsList[ctr] )
-        } else {
-            ctr ++;
+    // while (ctr < coinsList.length){
+    //     if (rem <= 0) break;
+    //     if (rem >= coinsList[ctr] ){
+    //         rem = rem - coinsList[ctr];
+    //         out.push( coinsList[ctr] )
+    //     } else {
+    //         ctr ++;
+    //     }
+    // }
+    // return out;
+    return coinsList.reduce( (acc, v) => {
+        if (rem >= v) {
+            rem -= v
+            acc.push(v)
         }
-    }
-    return out;
+        return acc
+    },[])
 }
-console.info('****** coins', coins( 8 ) );
+console.info('****** coins', coins( 30 ) );
 
 // how many possible steps can a child does where max step for 1 hop is 3 steps in stairs
 
@@ -2032,6 +2039,8 @@ console.info('steps 1', steps( 1 ) );
 console.info('steps 2', steps( 2 ) );
 console.info('steps 3', steps( 3 ) );
 console.info('steps 4', steps( 4 ) );
+
+
 
 function testPromise (){
 
@@ -2174,12 +2183,12 @@ function isEasyPhoneNumber1 (phoneNumberStr1) {
     return isEasyNumberToDial(phoneNumberStr1);
 }
 var startTime = Date.now();
-console.log('isEasyPhoneNumber1 254-7096 should be true', isEasyPhoneNumber1('254-7096') === true ? 'success' : 'fail' )
-console.log('isEasyPhoneNumber1 554-7521 should be true', isEasyPhoneNumber1('554-7521') === true ? 'success' : 'fail');
-console.log('isEasyPhoneNumber1 280-6547 should be false', isEasyPhoneNumber1('280-6547') === false ? 'success' : 'fail');
-console.log('isEasyPhoneNumber1 355-8123 should be false', isEasyPhoneNumber1('355-8123') === false ? 'success' : 'fail');
-console.log('isEasyPhoneNumber1 425-BEEF should be false', isEasyPhoneNumber1('425-BEEF') === false ? 'success' : 'fail');
-console.info('isEasyPhoneNumber1 timeelapse ', Date.now() - startTime, 'millis');
+// console.log('isEasyPhoneNumber1 254-7096 should be true', isEasyPhoneNumber1('254-7096') === true ? 'success' : 'fail' )
+// console.log('isEasyPhoneNumber1 554-7521 should be true', isEasyPhoneNumber1('554-7521') === true ? 'success' : 'fail');
+// console.log('isEasyPhoneNumber1 280-6547 should be false', isEasyPhoneNumber1('280-6547') === false ? 'success' : 'fail');
+// console.log('isEasyPhoneNumber1 355-8123 should be false', isEasyPhoneNumber1('355-8123') === false ? 'success' : 'fail');
+// console.log('isEasyPhoneNumber1 425-BEEF should be false', isEasyPhoneNumber1('425-BEEF') === false ? 'success' : 'fail');
+// console.info('isEasyPhoneNumber1 timeelapse ', Date.now() - startTime, 'millis');
 // this is ideal if called in a loop
 function isEasyPhoneNumber2 () {
     var phoneDialPad = [
@@ -2233,12 +2242,12 @@ function isEasyPhoneNumber2 () {
 }
 var startTime = Date.now();
 var isEasy2 = isEasyPhoneNumber2();
-console.log('isEasyPhoneNumber2 254-7096 should be true', isEasy2.isEasyNumberToDial('254-7096') === true ? 'success' : 'fail');
-console.log('isEasyPhoneNumber2 554-7521 should be true', isEasy2.isEasyNumberToDial('554-7521') === true ? 'success' : 'fail');
-console.log('isEasyPhoneNumber2 280-6547 should be false', isEasy2.isEasyNumberToDial('280-6547') === false ? 'success' : 'fail');
-console.log('isEasyPhoneNumber2 355-8123 should be false', isEasy2.isEasyNumberToDial('355-8123') === false ? 'success' : 'fail');
-// console.log('isEasyPhoneNumber2 254-7096 should be false', isEasy2.isEasyNumberToDial('254-7091') === false ? 'success' : 'fail' );
-console.info('isEasyPhoneNumber2 timeelapse ', Date.now() - startTime, 'millis');
+// console.log('isEasyPhoneNumber2 254-7096 should be true', isEasy2.isEasyNumberToDial('254-7096') === true ? 'success' : 'fail');
+// console.log('isEasyPhoneNumber2 554-7521 should be true', isEasy2.isEasyNumberToDial('554-7521') === true ? 'success' : 'fail');
+// console.log('isEasyPhoneNumber2 280-6547 should be false', isEasy2.isEasyNumberToDial('280-6547') === false ? 'success' : 'fail');
+// console.log('isEasyPhoneNumber2 355-8123 should be false', isEasy2.isEasyNumberToDial('355-8123') === false ? 'success' : 'fail');
+// // console.log('isEasyPhoneNumber2 254-7096 should be false', isEasy2.isEasyNumberToDial('254-7091') === false ? 'success' : 'fail' );
+// console.info('isEasyPhoneNumber2 timeelapse ', Date.now() - startTime, 'millis');
 
 class IsEasyPhoneNumber3 {
 
@@ -2290,12 +2299,12 @@ var startTime = Date.now();
 var customDialPad = '123\n456\n789\n 0 ';
 // var isEasy3 = new IsEasyPhoneNumber3(customDialPad);
 var isEasy3 = new IsEasyPhoneNumber3();
-console.log('IsEasyPhoneNumber3 254-7096 should be true', isEasy3.isEasyNumberToDial('254-7096') === true ? 'success' : 'fail');
-console.log('IsEasyPhoneNumber3 554-7521 should be true', isEasy3.isEasyNumberToDial('554-7521') === true ? 'success' : 'fail');
-console.log('IsEasyPhoneNumber3 280-6547 should be false', isEasy3.isEasyNumberToDial('280-6547') === false ? 'success' : 'fail');
-console.log('IsEasyPhoneNumber3 355-8123 should be false', isEasy3.isEasyNumberToDial('355-8123') === false ? 'success' : 'fail');
-// console.log('isEasyPhoneNumber2 254-7096 should be false', isEasy2.isEasyNumberToDial('254-7091') === false ? 'success' : 'fail' );
-console.info('IsEasyPhoneNumber3 timeelapse ', Date.now() - startTime, 'millis');
+// console.log('IsEasyPhoneNumber3 254-7096 should be true', isEasy3.isEasyNumberToDial('254-7096') === true ? 'success' : 'fail');
+// console.log('IsEasyPhoneNumber3 554-7521 should be true', isEasy3.isEasyNumberToDial('554-7521') === true ? 'success' : 'fail');
+// console.log('IsEasyPhoneNumber3 280-6547 should be false', isEasy3.isEasyNumberToDial('280-6547') === false ? 'success' : 'fail');
+// console.log('IsEasyPhoneNumber3 355-8123 should be false', isEasy3.isEasyNumberToDial('355-8123') === false ? 'success' : 'fail');
+// // console.log('isEasyPhoneNumber2 254-7096 should be false', isEasy2.isEasyNumberToDial('254-7091') === false ? 'success' : 'fail' );
+// console.info('IsEasyPhoneNumber3 timeelapse ', Date.now() - startTime, 'millis');
 
 
 function binaryToGrayCode(binInStr) {
@@ -2345,9 +2354,8 @@ function countZero(n){
     var orig = n;
     var count = 0;
     while(n>9){
-//      console.info(n)
       count += Math.floor(n/10);
-      console.info(n, count, n/10)
+    //   console.info(n, count, n/10)
       n = n / 10;
     }
     var m = orig % ( (count - 1) * 10 );
@@ -2392,7 +2400,7 @@ function sol2(array) {
 
 
 /// find the length of the number without converting to string
-var num = 123456.789
+var num = 123456
 function numberLength(number) {
 	// split into 2 parts
 	let numberWhole = Math.floor(number)
@@ -2406,7 +2414,7 @@ function numberLength(number) {
 	}
 	console.log('number length', count)
 }
-// numberLength(num)
+numberLength(num)
 
 //factory pattern
 const Animal = function(name){
@@ -2483,7 +2491,7 @@ function findMissingNumber() {
 
 function findMissingNumber2() {
     const len = arry.length + 1
-    const total1 = len * (len + 1)/2
+    const total1 = len * (len + 1)/2 // to get total = lenght x ( length + 1) / 2
     const total2 = arry.reduce((t, i) => t + i)
     return Math.abs( total1 - total2)
 }
