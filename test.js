@@ -2559,6 +2559,11 @@ const cashReg2 = [
     {billName: 'quarter', count: 12, value: 25}
 ]
 
+console.log('++++++++++js sort', cashReg2.sort((a,b)=> {
+    if (a.value < b.value) return -1
+    else if (a.value > b.value) return 1
+    else return 0
+}))
 
 function getChange2(chg) {
     const cashRegSorted = cashReg2.sort((a, b) => b.value - a.value) // sort in reverse
@@ -2625,3 +2630,57 @@ function joinArrayInSortedWay(ar1, ar2) {
 }
 
 console.log('joinArrayInSortedWay',  joinArrayInSortedWay([1,2,4,5,6,7,8], [2,5,6,7,9,10]) )
+
+
+
+// let ix = Number.MIN_VALUE
+// console.log('test ', ix * ix) // 0
+// console.log('test ', ix + 1) // 1
+// console.log('test ', ix - 1) // -1
+// console.log('test ', ix / ix) // 1
+
+
+// reverse the number without converting to string
+
+function reverseNumber(num) {
+    let val = 0;
+    let dec
+    while(num > 0) {
+        num /= 10;
+        num = Number( Number(num).toFixed(1) )
+        dec = num - Math.floor(num)
+        num -= dec
+        dec = Number( Number(dec).toFixed(1))        
+        val = (val * 10) + dec * 10;
+    }
+    return val;
+}
+
+console.log('reverseNumber', reverseNumber(123456))
+// if 2 string is anagram
+// abba and baba is anogram
+// honest and nestho is anagram
+// abcd and dbcg is not
+
+function anagram(str1, str2) {
+    if (str1.length !== str2.length) return false
+    let mapStr1={};
+    let mapStr2={}
+    let arr1 = Object.keys(str1)
+    let arr2 = Object.keys(str2)
+    let v2
+    arr1.forEach((v,i)=>{
+        mapStr1[v] = mapStr1[v] ? mapStr1[v] + 1 : 1
+        v2 = arr2[i]
+        mapStr2[v2] = mapStr2[v2] ? mapStr2[v2] + 1 : 1
+    })
+
+    for(let i in mapStr1) {
+        if (mapStr1[i] !== mapStr2[i]) {
+            return false
+        }
+    }
+    return true
+}
+
+console.log('anagram', anagram('realfix', 'fixreals'))
