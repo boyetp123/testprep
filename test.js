@@ -2684,3 +2684,41 @@ function anagram(str1, str2) {
 }
 
 console.log('anagram', anagram('realfix', 'fixreals'))
+
+// Check if the input is the same horizontally and vertically
+
+// · Example input:
+
+// CAT
+// ATE
+// TEC
+
+// CAT
+// TEC
+// ATE
+
+function checkRowColValues(arrStr) {
+  
+ let len = arrStr.length;
+ let prevLen = arrStr[0].length
+ let prevVal = arrStr[0]
+
+ if (prevLen < 2) {
+     if (prevVal !== arrStr[1]) return false
+     else return true
+ }
+ let vertWords = (new Array(len)).fill('');
+ arrStr.forEach( v => {
+    v.split('').forEach( (v2, idx) => {
+      vertWords[idx] += v2;
+    })
+ });  
+ for (let i=0; i < len; i++){
+   if (arrStr[i] !== vertWords[i]) 
+      return false
+ }
+ return true
+}
+
+console.log('checkRowColValues',checkRowColValues(['','']))
+
