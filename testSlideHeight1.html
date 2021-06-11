@@ -1,0 +1,141 @@
+<html>
+    <style>
+
+// This stuff matters!
+.container {
+  
+  .section {
+    overflow:hidden;
+    transition:transform 0.3s ease-out;
+    height:auto;
+  }
+}
+
+
+// This stuff doesn't matter!
+* {
+  box-sizing:border-box;
+}
+body {
+  margin:0;
+  padding:10vh 10vw;
+  font-family:arial;
+}
+p {
+  margin:10px;
+}
+.container {
+  border: 3px solid #FFEB3B;
+  margin:0 auto;
+  max-width:300px;
+  border-radius:3px;
+  
+  .section {
+    border:3px solid #4CAF50;
+  }
+}
+button {
+  display:block;
+  --webkit-appearance:none;
+  font-size:18px;
+  border:none;
+  border-radius:3px;
+  background:#2196F3;
+  color:white;
+  margin:15px auto;
+  padding:15px;
+  cursor:pointer;
+  
+  transition:box-shadow 0.2s ease-out;
+  
+  &:hover {
+    box-shadow:0px 0px 15px lightgrey;
+  }
+  &:active {
+    box-shadow:0px 0px 10px lightgrey;
+  }
+  &:focus {
+    outline:none;
+  }
+}
+    </style>
+    <script>
+// This is the important part!
+window.onload = function() {
+
+        function collapseSection(element) {
+        // get the height of the element's inner content, regardless of its actual size
+        var sectionHeight = element.scrollHeight;
+        
+        // temporarily disable all css transitions
+        var elementTransition = element.style.transition;
+        element.style.transition = '';
+        
+        // on the next frame (as soon as the previous style change has taken effect),
+        // explicitly set the element's height to its current pixel height, so we 
+        // aren't transitioning out of 'auto'
+        requestAnimationFrame(function() {
+            element.style.height = sectionHeight + 'px';
+            element.style.transition = elementTransition;
+            
+            // on the next frame (as soon as the previous style change has taken effect),
+            // have the element transition to height: 0
+            requestAnimationFrame(function() {
+            element.style.height = 0 + 'px';
+            });
+        });
+        
+        // mark the section as "currently collapsed"
+        element.setAttribute('data-collapsed', 'true');
+        }
+
+        function expandSection(element) {
+        // get the height of the element's inner content, regardless of its actual size
+        var sectionHeight = element.scrollHeight;
+        
+        // have the element transition to the height of its inner content
+        element.style.height = sectionHeight + 'px';
+
+        // when the next css transition finishes (which should be the one we just triggered)
+        element.addEventListener('transitionend', function(e) {
+            // remove this event listener so it only gets triggered once
+            element.removeEventListener('transitionend', arguments.callee);
+            
+            // remove "height" from the element's inline styles, so it can return to its initial value
+            element.style.height = null;
+        });
+        
+        // mark the section as "currently not collapsed"
+        element.setAttribute('data-collapsed', 'false');
+        }
+
+        document.querySelector('#toggle-button').addEventListener('click', function(e) {
+        var section = document.querySelector('.section.collapsible');
+        var isCollapsed = section.getAttribute('data-collapsed') === 'true';
+            
+        if(isCollapsed) {
+            expandSection(section)
+            section.setAttribute('data-collapsed', 'false')
+        } else {
+            collapseSection(section)
+        }
+        });        
+}
+    </script>
+    <body>
+            <div class="container">
+                    <div class="section">
+                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    </div>
+                    <div class="section collapsible">
+                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    </div>
+                    <div class="section">
+                     <p>Ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    </div>
+                  </div>
+                  
+                  <button id="toggle-button">Toggle collapse</button>
+                  
+    </body>
+</html>

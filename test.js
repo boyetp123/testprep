@@ -2027,7 +2027,7 @@ function coins(num){
 }
 console.info('****** coins', coins( 30 ) );
 
-// how many possible steps can a child does where max step for 1 hop is 3 steps in stairs
+// find out how many possible steps can a child does where max step for 1 hop is 3 steps in stairs
 
 function steps (n) {
     if (n < 0) return 0;
@@ -2039,6 +2039,17 @@ console.info('steps 1', steps( 1 ) );
 console.info('steps 2', steps( 2 ) );
 console.info('steps 3', steps( 3 ) );
 console.info('steps 4', steps( 4 ) );
+
+function steps2(n) {
+    var totalStep = n;
+    var count = 0;
+    for (var i = 0; i < totalStep; i++) {
+        if (totalStep > 3) {
+            count++;
+            totalStep =- e
+        }
+    }
+}
 
 
 
@@ -2441,64 +2452,8 @@ function testThis(name) {
 
 
 
-//  generators 
-// function delayedDisplay(str, delay = 1000) {
-// 	 return new Promise(resolve=>{
-// 		setTimeout(()=>{
-// 			resolve(str)
-// 		},1000)
-// 	})
-// }
 
-// function* foo(){
-// 	try{
-// 	  yield delayedDisplay('1',500);
-// 	  yield delayedDisplay('2',300);
-// 	  yield delayedDisplay('3',100);
-
-// 	} catch(e) {
-// 		console.error('error', e)
-// 	}
-//   return 
-// }
-
-// for (let o of foo()) {
-// 	o.then((val)=>{
-// 		console.log(val);
-// 	})
   
-//   // expected output: 1
-//   // break; // closes iterator, triggers return
-// }
-
-// var f = foo()
-// console.log(f.next())
-// console.log(f.next())
-// console.log(f.next())
-
-// find the missing number maybe not sorted
-const arry = [1,2,3,4,5,7,8,9,10]
-// soln 1
-
-function findMissingNumber() {
-    const sortedArr = arry.sort((a,b)=> a-b)
-    for(let i = 0; i <= sortedArr.length; i++) {
-        if (sortedArr[i] !== i + 1) {
-            return sortedArr[i] - 1
-        }
-    }
-}
-
-function findMissingNumber2() {
-    const len = arry.length + 1
-    const total1 = len * (len + 1)/2 // to get total = lenght x ( length + 1) / 2
-    const total2 = arry.reduce((t, i) => t + i)
-    return Math.abs( total1 - total2)
-}
-
-
-console.log('findMissingNumber', findMissingNumber(), findMissingNumber2() )
-    
 // desing a function to give change as less coins as posiblee
 const cashReg = {
     penny: 12,
@@ -2646,8 +2601,7 @@ function reverseNumber(num) {
     let val = 0;
     let dec
     while(num > 0) {
-        num /= 10;
-        num = Number( Number(num).toFixed(1) )
+        num = Number( Number(num/10).toFixed(1) )
         dec = num - Math.floor(num)
         num -= dec
         dec = Number( Number(dec).toFixed(1))        
@@ -2662,12 +2616,16 @@ console.log('reverseNumber', reverseNumber(123456))
 // honest and nestho is anagram
 // abcd and dbcg is not
 
+// quick solution to this problen is to convert both strings into array and sort both,
+// id aray1.join('') is eqqual to array2.join('')
+
 function anagram(str1, str2) {
+    // if not equal then this string is not the same
     if (str1.length !== str2.length) return false
     let mapStr1={};
     let mapStr2={}
-    let arr1 = Object.keys(str1)
-    let arr2 = Object.keys(str2)
+    let arr1 = str1.split('');
+    let arr2 = str2.split('');
     let v2
     arr1.forEach((v,i)=>{
         mapStr1[v] = mapStr1[v] ? mapStr1[v] + 1 : 1
@@ -2699,26 +2657,79 @@ console.log('anagram', anagram('realfix', 'fixreals'))
 
 function checkRowColValues(arrStr) {
   
- let len = arrStr.length;
- let prevLen = arrStr[0].length
- let prevVal = arrStr[0]
+    let len = arrStr.length;
+    let prevLen = arrStr[0].length
+    let prevVal = arrStr[0]
 
- if (prevLen < 2) {
-     if (prevVal !== arrStr[1]) return false
-     else return true
- }
- let vertWords = (new Array(len)).fill('');
- arrStr.forEach( v => {
-    v.split('').forEach( (v2, idx) => {
-      vertWords[idx] += v2;
-    })
- });  
- for (let i=0; i < len; i++){
-   if (arrStr[i] !== vertWords[i]) 
-      return false
- }
- return true
+    if (prevLen < 2) {
+        if (prevVal !== arrStr[1]) return false
+        else return true
+    }
+    let vertWords = (new Array(len)).fill('');
+    arrStr.forEach( v => {
+        v.split('').forEach( (v2, idx) => {
+            vertWords[idx] += v2;
+        })
+    });  
+    for (let i=0; i < len; i++){
+        if (arrStr[i] !== vertWords[i]) {
+            return false
+        }
+    }
+    return true
 }
 
 console.log('checkRowColValues',checkRowColValues(['','']))
 
+/*
+MissingInteger
+
+Write a function:
+
+class Solution { public int solution(int[] A); }
+
+that, given an array A of N integers, returns the smallest positive integer (greater than 0) that does not occur in A.
+
+For example, given A = [1, 3, 6, 4, 1, 2], the function should return 5.
+
+Given A = [1, 2, 3], the function should return 4.
+
+Given A = [−1, −3], the function should return 1.
+
+Write an efficient algorithm for the following assumptions:
+
+N is an integer within the range [1..100,000];
+each element of array A is an integer within the range [−1,000,000..1,000,000].
+def solution(A):
+    seen = [False] * len(A)
+    for value in A:
+        if 0 < value <= len(A):
+            seen[value-1] = True
+ 
+    for idx in xrange(len(seen)):
+        if seen[idx] == False:
+            return idx + 1
+ 
+    return len(A)+1
+*/
+// const missingIntegerArray = [1, 3, 6, 4, 1, 2]
+const missingIntegerArray = [10,3, 4]
+debugger
+function findMissingNumber(arr) {
+    const seen = new Array(arr.length).fill(false);
+
+    arr.forEach((el, idx) => {
+        if (el > 0 && el <= arr.length) {
+            seen[el - 1] = true;
+        }
+    });
+    console.log('seen', seen)
+    for (let i = 0; i < seen.length; i++) {
+        if (!seen[i]) {
+            return i + 1;
+        }
+    }
+    return arr.length + 1;
+}
+
+console.log('findMissingNumber ', findMissingNumber(missingIntegerArray) )

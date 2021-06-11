@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <title>
+           multiple background image url
+        </title>
+        <style>
+            #test {
+                width: 100%;
+                height: 100%;
+                background-image:  url(./img2.png), url("./img1.jpg");
+            }
+        </style>
+        <script>
+            window.onload = function() {
+                var test = document.querySelector('#test');
+                var styleProps = window.getComputedStyle(test);
+                var backgroundImage = styleProps.backgroundImage;
+                console.log("background image", backgroundImage)
+            }
+        </script>
+
+    </head>
+    <body>
+        <div id="test"></div>
+    </body>
+</html>
+
